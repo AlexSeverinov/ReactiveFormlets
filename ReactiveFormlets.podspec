@@ -17,6 +17,6 @@ Pod::Spec.new do |s|
     sp.ios.source_files = FileList['ReactiveFormlets/*.{h,m}']
     sp.header_dir = 'ReactiveFormlets'
 
-    sp.dependency 'ReactiveCocoa', '~> 1.3.1'
+    sp.dependency 'ReactiveCocoa', '~> 1.5.0'
   end
 end
