@@ -23,7 +23,8 @@ NSString *const RAFNumberStringValueTransformerName = @"RAFNumberStringValueTran
 }
 
 - (id)transformedValue:(id)value {
-	return value ? [NSDecimalNumber decimalNumberWithString:value] : nil;
+	NSDecimalNumber *transformedValue = [NSDecimalNumber decimalNumberWithString:(value ? value : @"")];
+	return [transformedValue isEqual:[NSDecimalNumber notANumber]] ? nil : transformedValue;
 }
 
 - (id)reverseTransformedValue:(id)value {
