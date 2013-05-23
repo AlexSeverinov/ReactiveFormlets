@@ -21,7 +21,13 @@
 
 - (instancetype)title:(NSString *)title {
 	RAFTableSection *copy = [self copy];
-	copy->_title = title;
+	copy->_title = [title copy];
+	return copy;
+}
+
+- (instancetype)footerTitle:(NSString *)footer {
+	RAFTableSection *copy = [self copy];
+	copy->_footerTitle = [footer copy];
 	return copy;
 }
 

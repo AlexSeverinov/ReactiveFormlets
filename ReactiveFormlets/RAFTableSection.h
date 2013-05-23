@@ -12,7 +12,9 @@
 
 @interface RAFTableSection : RAFCompoundFormlet
 @property (copy, readonly) NSString *title;
+@property (copy, readonly) NSString *footerTitle;
 
+- (instancetype)footerTitle:(NSString *)footer;
 - (instancetype)title:(NSString *)title;
 
 - (NSUInteger)numberOfRows;

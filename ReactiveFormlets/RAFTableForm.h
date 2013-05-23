@@ -16,4 +16,6 @@
 
 // Many RAFTableRow
 @interface RAFSingleSectionTableForm : RAFTableForm
+@property (copy, nonatomic) NSString *title;
+@property (copy, nonatomic) NSString *footerTitle;
 @end
