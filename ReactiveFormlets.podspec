@@ -1,6 +1,6 @@
 Pod::Spec.new do |s|
   s.name         = "ReactiveFormlets"
-  s.version      = "0.90"
+  s.version      = "0.91"
   s.summary      = "A framework for building iOS forms compositionally and reactively."
   s.homepage     = "https://github.com/jonsterling/ReactiveFormlets"
   s.author       = { "Jon Sterling" => "jonsterling@me.com" }
@@ -17,6 +17,6 @@ Pod::Spec.new do |s|
     sp.ios.source_files = FileList['ReactiveFormlets/*.{h,m}']
     sp.header_dir = 'ReactiveFormlets'
 
-    sp.dependency 'ReactiveCocoa', '~> 1.5.0'
+    sp.dependency 'ReactiveCocoa', '~> 1.8.0'
   end
 end
