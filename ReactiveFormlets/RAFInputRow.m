@@ -87,10 +87,8 @@
 }
 
 - (RACSignal *)raf_signal {
-	return [[self.textField.rac_textSignal map:^(NSString *text) {
-		return [self.valueTransformer transformedValue:text];
-	}] filter:^BOOL(id x) {
-		return x != nil;
+	return [self.textField.rac_textSignal map:^(NSString *text) {
+		return [self.valueTransformer transformedValue:text ?: @""];
 	}];
 }
 
