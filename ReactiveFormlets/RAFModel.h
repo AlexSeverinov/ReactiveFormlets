@@ -8,15 +8,10 @@
 
 #import "RAFLens.h"
 
-// A suitable model protocol
-@protocol RAFModel
+@protocol RAFText
 @end
 
-// Some primitive models are provided.
-@protocol RAFText <RAFModel>
-@end
-
-@protocol RAFNumber <RAFModel>
+@protocol RAFNumber
 @end
 
 @interface NSString (RAFText) <RAFText>
