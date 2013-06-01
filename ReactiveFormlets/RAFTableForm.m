@@ -21,83 +21,71 @@
 	return tableView;
 }
 
-#pragma mark - UITableViewDataSource
-
-- (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath {
-	return [[self.allValues[indexPath.section] allValues][indexPath.row] height];
-}
-
-- (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView {
+- (NSUInteger)numberOfSections
+{
 	return self.count;
 }
 
+- (RAFTableSection *)sectionAtIndex:(NSUInteger)index
+{
+	return self.allValues[index];
+}
+
+- (RAFInputRow *)rowAtIndexPath:(NSIndexPath *)indexPath
+{
+	return [self sectionAtIndex:indexPath.section].allValues[indexPath.row];
+}
+
+#pragma mark - UITableViewDataSource
+
+- (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath {
+	return [self rowAtIndexPath:indexPath].height;
+}
+
+- (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView {
+	return [self numberOfSections];
+}
+
 - (NSString *)tableView:(UITableView *)tableView titleForHeaderInSection:(NSInteger)section {
-	return [self.allValues[section] title];
+	return [self sectionAtIndex:section].title;
 }
 
 - (NSString *)tableView:(UITableView *)tableView titleForFooterInSection:(NSInteger)section {
-	return [self.allValues[section] footerTitle];
+	return [self sectionAtIndex:section].footerTitle;
 }
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
-	return [self.allValues[section] numberOfRows];
+	return [self sectionAtIndex:section].numberOfRows;
 }
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
-	return [self.allValues[indexPath.section] cellForRow:indexPath.row];
+	return [[self sectionAtIndex:indexPath.section] cellForRow:indexPath.row];
 }
 
 #pragma mark - UITableViewDelegate
 
 - (void)tableView:(UITableView *)tableView willDisplayCell:(UITableViewCell *)cell forRowAtIndexPath:(NSIndexPath *)indexPath {
-	[[self.allValues[indexPath.section] allValues][indexPath.row] willDisplayCell:cell];
+	[[self rowAtIndexPath:indexPath] willDisplayCell:cell];
 }
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
-	RAFInputRow *row = [self.allValues[indexPath.section] allValues][indexPath.row];
+	RAFInputRow *row = [self rowAtIndexPath:indexPath];
 	[row.rowWasSelected execute:row];
 }
 
 @end
 
 
-@implementation RAFSingleSectionTableForm
-
-- (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath {
-	return [self.allValues[indexPath.row] height];
+@implementation RAFSingleSectionTableForm {
+	RAFTableSection *_section;
 }
 
-- (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView {
-	return 1;
-}
+- (RAFTableSection *)sectionAtIndex:(NSUInteger)index {
+	if (!_section) {
+		_section = [[[[[RAFTableSection model:self.class.model] alloc] initWithOrderedDictionary:self] title:self.title] footerTitle:self.footerTitle];
+	}
 
-- (NSString *)tableView:(UITableView *)tableView titleForHeaderInSection:(NSInteger)section {
-	return self.title;
-}
-
-- (NSString *)tableView:(UITableView *)tableView titleForFooterInSection:(NSInteger)section {
-	return self.footerTitle;
-}
-
-- (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
-	return self.allValues.count;
-}
-
-- (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
-	RAFInputRow *row = self.allValues[indexPath.row];
-	UITableViewCell *cell = row.cell;
-	[row willDisplayCell:row.cell];
-	return cell;
-}
-
-- (void)tableView:(UITableView *)tableView willDisplayCell:(UITableViewCell *)cell forRowAtIndexPath:(NSIndexPath *)indexPath {
-	RAFInputRow *row = self.allValues[indexPath.row];
-	[row willDisplayCell:cell];
-}
-
-- (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
-	RAFInputRow *row = self.allValues[indexPath.row];
-	[row.rowWasSelected execute:row];
+	return _section;
 }
 
 @end

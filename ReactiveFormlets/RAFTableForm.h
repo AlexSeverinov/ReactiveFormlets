@@ -9,9 +9,14 @@
 #import <UIKit/UIKit.h>
 #import "RAFFormlet.h"
 
+@class RAFTableSection, RAFInputRow;
+
 // Many RAFTableSection
 @interface RAFTableForm : RAFCompoundFormlet <UITableViewDataSource, UITableViewDelegate>
 - (UITableView *)buildView;
+- (NSUInteger)numberOfSections;
+- (RAFTableSection *)sectionAtIndex:(NSUInteger)index;
+- (RAFInputRow *)rowAtIndexPath:(NSIndexPath *)indexPath;
 @end
 
 // Many RAFTableRow
