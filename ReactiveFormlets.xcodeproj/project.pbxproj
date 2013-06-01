@@ -14,7 +14,6 @@
 		FCD30F5216F64B4B00473BB8 /* libReactiveFormlets.a in Frameworks */ = {isa = PBXBuildFile; fileRef = FCD30F3916F64B4A00473BB8 /* libReactiveFormlets.a */; };
 		FCD30F5816F64B4B00473BB8 /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = FCD30F5616F64B4B00473BB8 /* InfoPlist.strings */; };
 		FCD30F5B16F64B4B00473BB8 /* ReactiveFormletsTests.m in Sources */ = {isa = PBXBuildFile; fileRef = FCD30F5A16F64B4B00473BB8 /* ReactiveFormletsTests.m */; };
-		FCD30F7216F64C4E00473BB8 /* libReactiveCocoa-iOS.a in Frameworks */ = {isa = PBXBuildFile; fileRef = FCD30F6F16F64C1500473BB8 /* libReactiveCocoa-iOS.a */; };
 		FCD30F7C16F64D0300473BB8 /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = FCD30F7B16F64D0300473BB8 /* UIKit.framework */; };
 		FCD30F9B16F64D9D00473BB8 /* RAFFormlet.m in Sources */ = {isa = PBXBuildFile; fileRef = FCD30F8016F64D9D00473BB8 /* RAFFormlet.m */; };
 		FCD30F9C16F64D9D00473BB8 /* RAFLens.m in Sources */ = {isa = PBXBuildFile; fileRef = FCD30F8216F64D9D00473BB8 /* RAFLens.m */; };
@@ -49,8 +48,11 @@
 		FCD30FC116F6505200473BB8 /* RAFValidator.h in Headers */ = {isa = PBXBuildFile; fileRef = FCD30F9916F64D9D00473BB8 /* RAFValidator.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		FCDDDDDC175A7A6D00953722 /* EXTScope.m in Sources */ = {isa = PBXBuildFile; fileRef = FCD30FAD16F64E2700473BB8 /* EXTScope.m */; };
 		FCDDDDDD175A7A6D00953722 /* EXTConcreteProtocol.m in Sources */ = {isa = PBXBuildFile; fileRef = FCD30FB016F64E3000473BB8 /* EXTConcreteProtocol.m */; };
-		FCDDDDE2175A7AAA00953722 /* EXTRuntimeExtensions.h in Headers */ = {isa = PBXBuildFile; fileRef = FCDDDDE0175A7AAA00953722 /* EXTRuntimeExtensions.h */; };
+		FCDDDDE2175A7AAA00953722 /* EXTRuntimeExtensions.h in Headers */ = {isa = PBXBuildFile; fileRef = FCDDDDE0175A7AAA00953722 /* EXTRuntimeExtensions.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		FCDDDDE3175A7AAA00953722 /* EXTRuntimeExtensions.m in Sources */ = {isa = PBXBuildFile; fileRef = FCDDDDE1175A7AAA00953722 /* EXTRuntimeExtensions.m */; };
+		FCDDDE10175A7EBF00953722 /* EXTScope.h in Headers */ = {isa = PBXBuildFile; fileRef = FCD30FAC16F64E1C00473BB8 /* EXTScope.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		FCDDDE11175A7EC000953722 /* EXTConcreteProtocol.h in Headers */ = {isa = PBXBuildFile; fileRef = FCD30FAF16F64E3000473BB8 /* EXTConcreteProtocol.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		FCDDDE14175A7F1300953722 /* metamacros.h in Headers */ = {isa = PBXBuildFile; fileRef = FCD30FAA16F64E1000473BB8 /* metamacros.h */; settings = {ATTRIBUTES = (Public, ); }; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -61,30 +63,30 @@
 			remoteGlobalIDString = FCD30F3816F64B4A00473BB8;
 			remoteInfo = ReactiveFormlets;
 		};
-		FCD30F6C16F64C1500473BB8 /* PBXContainerItemProxy */ = {
+		FCDDDE04175A7E2E00953722 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
-			containerPortal = FCD30F6416F64C1500473BB8 /* ReactiveCocoa.xcodeproj */;
+			containerPortal = FCDDDDFC175A7E2D00953722 /* ReactiveCocoa.xcodeproj */;
 			proxyType = 2;
 			remoteGlobalIDString = 88037F8315056328001A5B19;
 			remoteInfo = ReactiveCocoa;
 		};
-		FCD30F6E16F64C1500473BB8 /* PBXContainerItemProxy */ = {
+		FCDDDE06175A7E2E00953722 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
-			containerPortal = FCD30F6416F64C1500473BB8 /* ReactiveCocoa.xcodeproj */;
+			containerPortal = FCDDDDFC175A7E2D00953722 /* ReactiveCocoa.xcodeproj */;
 			proxyType = 2;
 			remoteGlobalIDString = 88F440AB153DAC820097B4C3;
 			remoteInfo = "ReactiveCocoa-iOS";
 		};
-		FCD30F7016F64C1500473BB8 /* PBXContainerItemProxy */ = {
+		FCDDDE08175A7E2E00953722 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
-			containerPortal = FCD30F6416F64C1500473BB8 /* ReactiveCocoa.xcodeproj */;
+			containerPortal = FCDDDDFC175A7E2D00953722 /* ReactiveCocoa.xcodeproj */;
 			proxyType = 2;
 			remoteGlobalIDString = 88CDF7DC15000FCF00163A9F;
 			remoteInfo = ReactiveCocoaTests;
 		};
-		FCD30F7316F64C5D00473BB8 /* PBXContainerItemProxy */ = {
+		FCDDDE0A175A7E4100953722 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
-			containerPortal = FCD30F6416F64C1500473BB8 /* ReactiveCocoa.xcodeproj */;
+			containerPortal = FCDDDDFC175A7E2D00953722 /* ReactiveCocoa.xcodeproj */;
 			proxyType = 1;
 			remoteGlobalIDString = 88F440AA153DAC820097B4C3;
 			remoteInfo = "ReactiveCocoa-iOS";
@@ -103,7 +105,6 @@
 		FCD30F5716F64B4B00473BB8 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/InfoPlist.strings; sourceTree = "<group>"; };
 		FCD30F5916F64B4B00473BB8 /* ReactiveFormletsTests.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ReactiveFormletsTests.h; sourceTree = "<group>"; };
 		FCD30F5A16F64B4B00473BB8 /* ReactiveFormletsTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ReactiveFormletsTests.m; sourceTree = "<group>"; };
-		FCD30F6416F64C1500473BB8 /* ReactiveCocoa.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = ReactiveCocoa.xcodeproj; path = external/ReactiveCocoa/ReactiveCocoaFramework/ReactiveCocoa.xcodeproj; sourceTree = "<group>"; };
 		FCD30F7B16F64D0300473BB8 /* UIKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = UIKit.framework; path = System/Library/Frameworks/UIKit.framework; sourceTree = SDKROOT; };
 		FCD30F7F16F64D9D00473BB8 /* RAFFormlet.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RAFFormlet.h; sourceTree = "<group>"; };
 		FCD30F8016F64D9D00473BB8 /* RAFFormlet.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RAFFormlet.m; sourceTree = "<group>"; };
@@ -140,6 +141,7 @@
 		FCD30FB016F64E3000473BB8 /* EXTConcreteProtocol.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = EXTConcreteProtocol.m; path = external/libextobjc/extobjc/EXTConcreteProtocol.m; sourceTree = "<group>"; };
 		FCDDDDE0175A7AAA00953722 /* EXTRuntimeExtensions.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = EXTRuntimeExtensions.h; path = external/libextobjc/extobjc/EXTRuntimeExtensions.h; sourceTree = "<group>"; };
 		FCDDDDE1175A7AAA00953722 /* EXTRuntimeExtensions.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = EXTRuntimeExtensions.m; path = external/libextobjc/extobjc/EXTRuntimeExtensions.m; sourceTree = "<group>"; };
+		FCDDDDFC175A7E2D00953722 /* ReactiveCocoa.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = ReactiveCocoa.xcodeproj; path = external/ReactiveCocoa/ReactiveCocoaFramework/ReactiveCocoa.xcodeproj; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -148,7 +150,6 @@
 			buildActionMask = 2147483647;
 			files = (
 				FCD30F7C16F64D0300473BB8 /* UIKit.framework in Frameworks */,
-				FCD30F7216F64C4E00473BB8 /* libReactiveCocoa-iOS.a in Frameworks */,
 				FCD30F3D16F64B4A00473BB8 /* Foundation.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -191,7 +192,7 @@
 			isa = PBXGroup;
 			children = (
 				FCD30FA916F64DF500473BB8 /* libextobjc */,
-				FCD30F6416F64C1500473BB8 /* ReactiveCocoa.xcodeproj */,
+				FCDDDDFC175A7E2D00953722 /* ReactiveCocoa.xcodeproj */,
 				FCD30F3C16F64B4A00473BB8 /* Foundation.framework */,
 				FCD30F7B16F64D0300473BB8 /* UIKit.framework */,
 				FCD30F4B16F64B4B00473BB8 /* SenTestingKit.framework */,
@@ -241,16 +242,6 @@
 			name = "Supporting Files";
 			sourceTree = "<group>";
 		};
-		FCD30F6516F64C1500473BB8 /* Products */ = {
-			isa = PBXGroup;
-			children = (
-				FCD30F6D16F64C1500473BB8 /* ReactiveCocoa.framework */,
-				FCD30F6F16F64C1500473BB8 /* libReactiveCocoa-iOS.a */,
-				FCD30F7116F64C1500473BB8 /* ReactiveCocoaTests.octest */,
-			);
-			name = Products;
-			sourceTree = "<group>";
-		};
 		FCD30FA916F64DF500473BB8 /* libextobjc */ = {
 			isa = PBXGroup;
 			children = (
@@ -263,6 +254,16 @@
 				FCD30FAA16F64E1000473BB8 /* metamacros.h */,
 			);
 			name = libextobjc;
+			sourceTree = "<group>";
+		};
+		FCDDDDFD175A7E2D00953722 /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				FCDDDE05175A7E2E00953722 /* ReactiveCocoa.framework */,
+				FCDDDE07175A7E2E00953722 /* libReactiveCocoa-iOS.a */,
+				FCDDDE09175A7E2E00953722 /* ReactiveCocoaTests.octest */,
+			);
+			name = Products;
 			sourceTree = "<group>";
 		};
 		FCF19B8A16F6D30500111678 /* Formlets */ = {
@@ -349,8 +350,11 @@
 				FCD30FBE16F6505200473BB8 /* RAFTableForm.h in Headers */,
 				FCD30FBF16F6505200473BB8 /* RAFTableSection.h in Headers */,
 				FCD30FC016F6505200473BB8 /* RAFInputRow.h in Headers */,
-				FCD30FC116F6505200473BB8 /* RAFValidator.h in Headers */,
+				FCDDDE14175A7F1300953722 /* metamacros.h in Headers */,
+				FCDDDE10175A7EBF00953722 /* EXTScope.h in Headers */,
+				FCDDDE11175A7EC000953722 /* EXTConcreteProtocol.h in Headers */,
 				FCDDDDE2175A7AAA00953722 /* EXTRuntimeExtensions.h in Headers */,
+				FCD30FC116F6505200473BB8 /* RAFValidator.h in Headers */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -368,7 +372,7 @@
 			buildRules = (
 			);
 			dependencies = (
-				FCD30F7416F64C5D00473BB8 /* PBXTargetDependency */,
+				FCDDDE0B175A7E4100953722 /* PBXTargetDependency */,
 			);
 			name = ReactiveFormlets;
 			productName = ReactiveFormlets;
@@ -416,8 +420,8 @@
 			projectDirPath = "";
 			projectReferences = (
 				{
-					ProductGroup = FCD30F6516F64C1500473BB8 /* Products */;
-					ProjectRef = FCD30F6416F64C1500473BB8 /* ReactiveCocoa.xcodeproj */;
+					ProductGroup = FCDDDDFD175A7E2D00953722 /* Products */;
+					ProjectRef = FCDDDDFC175A7E2D00953722 /* ReactiveCocoa.xcodeproj */;
 				},
 			);
 			projectRoot = "";
@@ -429,25 +433,25 @@
 /* End PBXProject section */
 
 /* Begin PBXReferenceProxy section */
-		FCD30F6D16F64C1500473BB8 /* ReactiveCocoa.framework */ = {
+		FCDDDE05175A7E2E00953722 /* ReactiveCocoa.framework */ = {
 			isa = PBXReferenceProxy;
 			fileType = wrapper.framework;
 			path = ReactiveCocoa.framework;
-			remoteRef = FCD30F6C16F64C1500473BB8 /* PBXContainerItemProxy */;
+			remoteRef = FCDDDE04175A7E2E00953722 /* PBXContainerItemProxy */;
 			sourceTree = BUILT_PRODUCTS_DIR;
 		};
-		FCD30F6F16F64C1500473BB8 /* libReactiveCocoa-iOS.a */ = {
+		FCDDDE07175A7E2E00953722 /* libReactiveCocoa-iOS.a */ = {
 			isa = PBXReferenceProxy;
 			fileType = archive.ar;
 			path = "libReactiveCocoa-iOS.a";
-			remoteRef = FCD30F6E16F64C1500473BB8 /* PBXContainerItemProxy */;
+			remoteRef = FCDDDE06175A7E2E00953722 /* PBXContainerItemProxy */;
 			sourceTree = BUILT_PRODUCTS_DIR;
 		};
-		FCD30F7116F64C1500473BB8 /* ReactiveCocoaTests.octest */ = {
+		FCDDDE09175A7E2E00953722 /* ReactiveCocoaTests.octest */ = {
 			isa = PBXReferenceProxy;
 			fileType = wrapper.cfbundle;
 			path = ReactiveCocoaTests.octest;
-			remoteRef = FCD30F7016F64C1500473BB8 /* PBXContainerItemProxy */;
+			remoteRef = FCDDDE08175A7E2E00953722 /* PBXContainerItemProxy */;
 			sourceTree = BUILT_PRODUCTS_DIR;
 		};
 /* End PBXReferenceProxy section */
@@ -522,10 +526,10 @@
 			target = FCD30F3816F64B4A00473BB8 /* ReactiveFormlets */;
 			targetProxy = FCD30F5016F64B4B00473BB8 /* PBXContainerItemProxy */;
 		};
-		FCD30F7416F64C5D00473BB8 /* PBXTargetDependency */ = {
+		FCDDDE0B175A7E4100953722 /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
 			name = "ReactiveCocoa-iOS";
-			targetProxy = FCD30F7316F64C5D00473BB8 /* PBXContainerItemProxy */;
+			targetProxy = FCDDDE0A175A7E4100953722 /* PBXContainerItemProxy */;
 		};
 /* End PBXTargetDependency section */
 
