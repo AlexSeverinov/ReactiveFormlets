@@ -20,8 +20,6 @@ typedef BOOL (^RAFInputRowValidator)(id value);
 + (Class)cellClass;
 
 - (instancetype)placeholder:(NSString *)placeholder;
-
-- (void)willDisplayCell:(UITableViewCell *)cell;
 - (CGFloat)height;
 
 - (UIView *)accessoryView;

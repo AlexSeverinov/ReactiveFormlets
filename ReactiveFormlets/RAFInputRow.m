@@ -50,10 +50,6 @@
 	return nil;
 }
 
-- (void)willDisplayCell:(UITableViewCell *)cell {
-
-}
-
 - (CGFloat)height {
 	return 44.f;
 }

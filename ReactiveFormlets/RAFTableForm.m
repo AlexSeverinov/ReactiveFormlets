@@ -131,10 +131,6 @@
 	return UITableViewAutomaticDimension;
 }
 
-- (void)tableView:(UITableView *)tableView willDisplayCell:(UITableViewCell *)cell forRowAtIndexPath:(NSIndexPath *)indexPath {
-	[[self rowAtIndexPath:indexPath] willDisplayCell:cell];
-}
-
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
 	RAFInputRow *row = [self rowAtIndexPath:indexPath];
 	[row.rowWasSelected execute:row];
