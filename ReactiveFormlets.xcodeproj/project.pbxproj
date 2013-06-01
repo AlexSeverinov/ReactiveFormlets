@@ -20,7 +20,6 @@
 		FCD30F9D16F64D9D00473BB8 /* RAFModel.m in Sources */ = {isa = PBXBuildFile; fileRef = FCD30F8416F64D9D00473BB8 /* RAFModel.m */; };
 		FCD30F9E16F64D9D00473BB8 /* RAFOrderedDictionary.m in Sources */ = {isa = PBXBuildFile; fileRef = FCD30F8616F64D9D00473BB8 /* RAFOrderedDictionary.m */; };
 		FCD30F9F16F64D9D00473BB8 /* RAFReifiedProtocol.m in Sources */ = {isa = PBXBuildFile; fileRef = FCD30F8816F64D9D00473BB8 /* RAFReifiedProtocol.m */; };
-		FCD30FA016F64D9D00473BB8 /* RAFSignalSource.m in Sources */ = {isa = PBXBuildFile; fileRef = FCD30F8A16F64D9D00473BB8 /* RAFSignalSource.m */; };
 		FCD30FA116F64D9D00473BB8 /* RAFObjCRuntime.m in Sources */ = {isa = PBXBuildFile; fileRef = FCD30F8C16F64D9D00473BB8 /* RAFObjCRuntime.m */; };
 		FCD30FA216F64D9D00473BB8 /* NSInvocation+RAFExtensions.m in Sources */ = {isa = PBXBuildFile; fileRef = FCD30F8E16F64D9D00473BB8 /* NSInvocation+RAFExtensions.m */; };
 		FCD30FA316F64D9D00473BB8 /* RAFIdentityValueTransformer.m in Sources */ = {isa = PBXBuildFile; fileRef = FCD30F9016F64D9D00473BB8 /* RAFIdentityValueTransformer.m */; };
@@ -37,7 +36,6 @@
 		FCD30FB616F6505200473BB8 /* RAFModel.h in Headers */ = {isa = PBXBuildFile; fileRef = FCD30F8316F64D9D00473BB8 /* RAFModel.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		FCD30FB716F6505200473BB8 /* RAFOrderedDictionary.h in Headers */ = {isa = PBXBuildFile; fileRef = FCD30F8516F64D9D00473BB8 /* RAFOrderedDictionary.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		FCD30FB816F6505200473BB8 /* RAFReifiedProtocol.h in Headers */ = {isa = PBXBuildFile; fileRef = FCD30F8716F64D9D00473BB8 /* RAFReifiedProtocol.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		FCD30FB916F6505200473BB8 /* RAFSignalSource.h in Headers */ = {isa = PBXBuildFile; fileRef = FCD30F8916F64D9D00473BB8 /* RAFSignalSource.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		FCD30FBA16F6505200473BB8 /* RAFObjCRuntime.h in Headers */ = {isa = PBXBuildFile; fileRef = FCD30F8B16F64D9D00473BB8 /* RAFObjCRuntime.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		FCD30FBB16F6505200473BB8 /* NSInvocation+RAFExtensions.h in Headers */ = {isa = PBXBuildFile; fileRef = FCD30F8D16F64D9D00473BB8 /* NSInvocation+RAFExtensions.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		FCD30FBC16F6505200473BB8 /* RAFIdentityValueTransformer.h in Headers */ = {isa = PBXBuildFile; fileRef = FCD30F8F16F64D9D00473BB8 /* RAFIdentityValueTransformer.h */; settings = {ATTRIBUTES = (Public, ); }; };
@@ -116,8 +114,6 @@
 		FCD30F8616F64D9D00473BB8 /* RAFOrderedDictionary.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RAFOrderedDictionary.m; sourceTree = "<group>"; };
 		FCD30F8716F64D9D00473BB8 /* RAFReifiedProtocol.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RAFReifiedProtocol.h; sourceTree = "<group>"; };
 		FCD30F8816F64D9D00473BB8 /* RAFReifiedProtocol.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RAFReifiedProtocol.m; sourceTree = "<group>"; };
-		FCD30F8916F64D9D00473BB8 /* RAFSignalSource.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RAFSignalSource.h; sourceTree = "<group>"; };
-		FCD30F8A16F64D9D00473BB8 /* RAFSignalSource.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RAFSignalSource.m; sourceTree = "<group>"; };
 		FCD30F8B16F64D9D00473BB8 /* RAFObjCRuntime.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RAFObjCRuntime.h; sourceTree = "<group>"; };
 		FCD30F8C16F64D9D00473BB8 /* RAFObjCRuntime.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RAFObjCRuntime.m; sourceTree = "<group>"; };
 		FCD30F8D16F64D9D00473BB8 /* NSInvocation+RAFExtensions.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSInvocation+RAFExtensions.h"; sourceTree = "<group>"; };
@@ -321,8 +317,6 @@
 				FCD30F8216F64D9D00473BB8 /* RAFLens.m */,
 				FCD30F8316F64D9D00473BB8 /* RAFModel.h */,
 				FCD30F8416F64D9D00473BB8 /* RAFModel.m */,
-				FCD30F8916F64D9D00473BB8 /* RAFSignalSource.h */,
-				FCD30F8A16F64D9D00473BB8 /* RAFSignalSource.m */,
 				FCD30F9916F64D9D00473BB8 /* RAFValidator.h */,
 				FCD30F9A16F64D9D00473BB8 /* RAFValidator.m */,
 			);
@@ -342,7 +336,6 @@
 				FCD30FB616F6505200473BB8 /* RAFModel.h in Headers */,
 				FCD30FB716F6505200473BB8 /* RAFOrderedDictionary.h in Headers */,
 				FCD30FB816F6505200473BB8 /* RAFReifiedProtocol.h in Headers */,
-				FCD30FB916F6505200473BB8 /* RAFSignalSource.h in Headers */,
 				FCD30FBA16F6505200473BB8 /* RAFObjCRuntime.h in Headers */,
 				FCD30FBB16F6505200473BB8 /* NSInvocation+RAFExtensions.h in Headers */,
 				FCD30FBC16F6505200473BB8 /* RAFIdentityValueTransformer.h in Headers */,
@@ -495,7 +488,6 @@
 				FCD30F9D16F64D9D00473BB8 /* RAFModel.m in Sources */,
 				FCD30F9E16F64D9D00473BB8 /* RAFOrderedDictionary.m in Sources */,
 				FCD30F9F16F64D9D00473BB8 /* RAFReifiedProtocol.m in Sources */,
-				FCD30FA016F64D9D00473BB8 /* RAFSignalSource.m in Sources */,
 				FCD30FA116F64D9D00473BB8 /* RAFObjCRuntime.m in Sources */,
 				FCD30FA216F64D9D00473BB8 /* NSInvocation+RAFExtensions.m in Sources */,
 				FCD30FA316F64D9D00473BB8 /* RAFIdentityValueTransformer.m in Sources */,

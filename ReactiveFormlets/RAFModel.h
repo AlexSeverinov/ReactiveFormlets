@@ -7,21 +7,16 @@
 //
 
 #import "RAFLens.h"
-#import "RAFSignalSource.h"
 
-// A suitable model protocol emits a signal.
-@protocol RAFModel <RAFSignalSource, RAFExtract>
+// A suitable model protocol
+@protocol RAFModel
 @end
 
 // Some primitive models are provided.
 @protocol RAFText <RAFModel>
-@concrete
-- (NSString *)extract;
 @end
 
 @protocol RAFNumber <RAFModel>
-@concrete
-- (NSNumber *)extract;
 @end
 
 @interface NSString (RAFText) <RAFText>

@@ -11,16 +11,9 @@
 #import <ReactiveCocoa/ReactiveCocoa.h>
 #import "EXTConcreteProtocol.h"
 
-@protocol RAFExtract
-@concrete
-// The extraction operation of some copointed functor. If no implementation
-// is provided, -extract is an identity.
-- (id)extract;
-@end
-
 // A concrete protocol representing a lens into an object through a value
 // transformer.
-@protocol RAFLens <NSCopying, RAFExtract>
+@protocol RAFLens <NSCopying>
 @required
 
 // The keypath destination of the lens.

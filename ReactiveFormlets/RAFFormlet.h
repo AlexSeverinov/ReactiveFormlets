@@ -15,13 +15,15 @@
 // A formlet emits a signal and provides a lens through which values are mapped
 // in and out. A formlet may either bind directly to an interface, or may be
 // composed of other formlets.
-@protocol RAFFormlet <RAFValidator, RAFValidatedSignalSource, RAFValidatedLens>
+@protocol RAFFormlet <RAFValidator, RAFValidatedLens>
+- (RACSignal *)dataSignal;
+- (RACSignal *)validation;
 @end
 
 typedef BOOL (^RAFValidator)(id value);
 
 // A primitive formlet is one which binds directly to an interface.
-// `RAFPrimitiveFormlet` subclasses must provide their own `-raf_signal` and
+// `RAFPrimitiveFormlet` subclasses must provide their own `-dataSignal` and
 // `-keyPathForLens` implementations.
 @interface RAFPrimitiveFormlet : NSObject <RAFFormlet>
 @property (copy, readonly) NSArray *customValidators;

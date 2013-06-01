@@ -26,13 +26,21 @@
 	return copy;
 }
 
-#pragma mark - RAFSignalSource
+#pragma mark - RAFFormlet
 
-- (RACSignal *)raf_signal {
+- (RACSignal *)dataSignal {
 	@throw [NSException exceptionWithName:NSGenericException
-								   reason:@"Subclasses of RAFPrimitiveFormlet must override -raf_signal"
+								   reason:@"Subclasses of RAFPrimitiveFormlet must override -dataSignal"
 								 userInfo:nil];
 	return nil;
+}
+
+- (RACSignal *)validation {
+	@weakify(self);
+	return [[RACSignal merge:@[ self.dataSignal, self.hardUpdateSignal ]] map:^id(id value) {
+		@strongify(self);
+		return @([self raf_isValid:value]);
+	}];
 }
 
 #pragma mark - RAFLens
@@ -46,14 +54,6 @@
 
 #pragma Validation
 
-- (RACSignal *)raf_validation {
-	@weakify(self);
-	return [[RACSignal merge:@[ self.raf_signal, self.hardUpdateSignal ]] map:^id(id value) {
-		@strongify(self);
-		return @([self raf_isValid:value]);
-	}];
-}
-
 - (BOOL)raf_isValid:(id)value {
 	BOOL isValid = YES;
 	for (RAFValidator validator in self.customValidators) {
@@ -66,11 +66,11 @@
 #pragma mark - Message Forwarding
 
 - (NSMethodSignature *)methodSignatureForSelector:(SEL)aSelector {
-	return [(id)self.raf_signal methodSignatureForSelector:aSelector];
+	return [(id)self.dataSignal methodSignatureForSelector:aSelector];
 }
 
 - (void)forwardInvocation:(NSInvocation *)anInvocation {
-	[anInvocation invokeWithTarget:self.raf_signal];
+	[anInvocation invokeWithTarget:self.dataSignal];
 }
 
 @end
@@ -110,6 +110,15 @@
 	return isValid;
 }
 
+- (RACSignal *)validation
+{
+	@weakify(self);
+	return [self.dataSignal map:^id(id value) {
+		@strongify(self);
+		return @([self raf_isValid:value]);
+	}];
+}
+
 #pragma mark - NSCopying
 
 - (id)copyWithZone:(NSZone *)zone {
@@ -124,7 +133,7 @@
 
 #pragma mark - RAFValidatedSignalSource
 
-- (RACSignal *)raf_signal {
+- (RACSignal *)dataSignal {
 	if (!_signal) {
 		_signal = [RACSignal createSignal:^RACDisposable *(id<RACSubscriber> subscriber) {
 			NSMutableSet *disposables = [NSMutableSet setWithCapacity:self.count];
@@ -162,20 +171,6 @@
 
 - (NSString *)keyPathForLens {
 	return @keypath(self.compoundValue);
-}
-
-#pragma mark - Message Forwarding
-
-- (NSMethodSignature *)methodSignatureForSelector:(SEL)aSelector {
-	return [super methodSignatureForSelector:aSelector] ?: [(id)self.raf_signal methodSignatureForSelector:aSelector];
-}
-
-- (void)forwardInvocation:(NSInvocation *)anInvocation {
-	if ([self respondsToSelector:anInvocation.selector]) {
-		[super forwardInvocation:anInvocation];
-	} else {
-		[anInvocation invokeWithTarget:self.raf_signal];
-	}
 }
 
 @end

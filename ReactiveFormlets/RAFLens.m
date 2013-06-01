@@ -9,14 +9,6 @@
 #import "RAFLens.h"
 #import "RAFIdentityValueTransformer.h"
 
-@concreteprotocol(RAFExtract)
-
-- (id)extract {
-	return self;
-}
-
-@end
-
 @concreteprotocol(RAFLens)
 
 #pragma mark - Inherited
