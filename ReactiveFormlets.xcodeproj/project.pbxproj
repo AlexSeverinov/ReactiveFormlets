@@ -47,6 +47,10 @@
 		FCD30FBF16F6505200473BB8 /* RAFTableSection.h in Headers */ = {isa = PBXBuildFile; fileRef = FCD30F9516F64D9D00473BB8 /* RAFTableSection.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		FCD30FC016F6505200473BB8 /* RAFInputRow.h in Headers */ = {isa = PBXBuildFile; fileRef = FCD30F9716F64D9D00473BB8 /* RAFInputRow.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		FCD30FC116F6505200473BB8 /* RAFValidator.h in Headers */ = {isa = PBXBuildFile; fileRef = FCD30F9916F64D9D00473BB8 /* RAFValidator.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		FCDDDDDC175A7A6D00953722 /* EXTScope.m in Sources */ = {isa = PBXBuildFile; fileRef = FCD30FAD16F64E2700473BB8 /* EXTScope.m */; };
+		FCDDDDDD175A7A6D00953722 /* EXTConcreteProtocol.m in Sources */ = {isa = PBXBuildFile; fileRef = FCD30FB016F64E3000473BB8 /* EXTConcreteProtocol.m */; };
+		FCDDDDE2175A7AAA00953722 /* EXTRuntimeExtensions.h in Headers */ = {isa = PBXBuildFile; fileRef = FCDDDDE0175A7AAA00953722 /* EXTRuntimeExtensions.h */; };
+		FCDDDDE3175A7AAA00953722 /* EXTRuntimeExtensions.m in Sources */ = {isa = PBXBuildFile; fileRef = FCDDDDE1175A7AAA00953722 /* EXTRuntimeExtensions.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -134,6 +138,8 @@
 		FCD30FAD16F64E2700473BB8 /* EXTScope.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = EXTScope.m; path = external/libextobjc/extobjc/EXTScope.m; sourceTree = "<group>"; };
 		FCD30FAF16F64E3000473BB8 /* EXTConcreteProtocol.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = EXTConcreteProtocol.h; path = external/libextobjc/extobjc/EXTConcreteProtocol.h; sourceTree = "<group>"; };
 		FCD30FB016F64E3000473BB8 /* EXTConcreteProtocol.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = EXTConcreteProtocol.m; path = external/libextobjc/extobjc/EXTConcreteProtocol.m; sourceTree = "<group>"; };
+		FCDDDDE0175A7AAA00953722 /* EXTRuntimeExtensions.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = EXTRuntimeExtensions.h; path = external/libextobjc/extobjc/EXTRuntimeExtensions.h; sourceTree = "<group>"; };
+		FCDDDDE1175A7AAA00953722 /* EXTRuntimeExtensions.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = EXTRuntimeExtensions.m; path = external/libextobjc/extobjc/EXTRuntimeExtensions.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -248,6 +254,8 @@
 		FCD30FA916F64DF500473BB8 /* libextobjc */ = {
 			isa = PBXGroup;
 			children = (
+				FCDDDDE0175A7AAA00953722 /* EXTRuntimeExtensions.h */,
+				FCDDDDE1175A7AAA00953722 /* EXTRuntimeExtensions.m */,
 				FCD30FAC16F64E1C00473BB8 /* EXTScope.h */,
 				FCD30FAD16F64E2700473BB8 /* EXTScope.m */,
 				FCD30FAF16F64E3000473BB8 /* EXTConcreteProtocol.h */,
@@ -342,6 +350,7 @@
 				FCD30FBF16F6505200473BB8 /* RAFTableSection.h in Headers */,
 				FCD30FC016F6505200473BB8 /* RAFInputRow.h in Headers */,
 				FCD30FC116F6505200473BB8 /* RAFValidator.h in Headers */,
+				FCDDDDE2175A7AAA00953722 /* EXTRuntimeExtensions.h in Headers */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -475,6 +484,8 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				FCDDDDDC175A7A6D00953722 /* EXTScope.m in Sources */,
+				FCDDDDDD175A7A6D00953722 /* EXTConcreteProtocol.m in Sources */,
 				FCD30F9B16F64D9D00473BB8 /* RAFFormlet.m in Sources */,
 				FCD30F9C16F64D9D00473BB8 /* RAFLens.m in Sources */,
 				FCD30F9D16F64D9D00473BB8 /* RAFModel.m in Sources */,
@@ -489,6 +500,7 @@
 				FCD30FA616F64D9D00473BB8 /* RAFTableSection.m in Sources */,
 				FCD30FA716F64D9D00473BB8 /* RAFInputRow.m in Sources */,
 				FCD30FA816F64D9D00473BB8 /* RAFValidator.m in Sources */,
+				FCDDDDE3175A7AAA00953722 /* EXTRuntimeExtensions.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
