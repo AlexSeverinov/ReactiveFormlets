@@ -10,13 +10,12 @@
 
 @class UITableViewCell;
 
-@interface RAFTableSection : RAFCompoundFormlet
-@property (copy, readonly) NSString *title;
-@property (copy, readonly) NSString *footerTitle;
+@protocol RAFTableSection
+@property (copy) NSString *headerTitle;
+@property (copy) NSString *footerTitle;
+@end
 
-- (instancetype)footerTitle:(NSString *)footer;
-- (instancetype)title:(NSString *)title;
-
+@interface RAFTableSection : RAFCompoundFormlet <RAFTableSection>
 - (NSUInteger)numberOfRows;
 - (UITableViewCell *)cellForRow:(NSUInteger)row;
 @end

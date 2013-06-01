@@ -33,19 +33,15 @@ typedef enum {
 
 #pragma mark - Initializers
 
-- (id)init {
-	if (self = [super init]) {
-		_keys = [NSMutableArray new];
-		_dictionary = [NSMutableDictionary new];
-	}
-
-	return self;
+- (id)init
+{
+	return [self initWithOrderedDictionary:nil];
 }
 
 - (id)initWithOrderedDictionary:(RAFOrderedDictionary *)dictionary {
 	if (self = [super init]) {
-		_keys = [dictionary.allKeys mutableCopy];
-		_dictionary = [NSMutableDictionary dictionaryWithObjects:dictionary.allValues forKeys:dictionary.allKeys];
+		_keys = [dictionary.allKeys ?: @[] mutableCopy];
+		_dictionary = [NSMutableDictionary dictionaryWithObjects:dictionary.allValues ?: @[] forKeys:dictionary.allKeys ?: @[]];
 	}
 
 	return self;

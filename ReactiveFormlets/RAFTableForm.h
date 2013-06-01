@@ -9,18 +9,16 @@
 #import <UIKit/UIKit.h>
 #import "RAFFormlet.h"
 
-@class RAFTableSection, RAFInputRow;
+@class RAFInputRow;
 
 // Many RAFTableSection
 @interface RAFTableForm : RAFCompoundFormlet <UITableViewDataSource, UITableViewDelegate>
 - (UITableView *)buildView;
-- (NSUInteger)numberOfSections;
+- (NSArray *)sections;
 - (RAFTableSection *)sectionAtIndex:(NSUInteger)index;
 - (RAFInputRow *)rowAtIndexPath:(NSIndexPath *)indexPath;
 @end
 
 // Many RAFTableRow
-@interface RAFSingleSectionTableForm : RAFTableForm
-@property (copy, nonatomic) NSString *title;
-@property (copy, nonatomic) NSString *footerTitle;
+@interface RAFSingleSectionTableForm : RAFTableForm <RAFTableSection>
 @end

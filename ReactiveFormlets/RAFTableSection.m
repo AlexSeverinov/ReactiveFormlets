@@ -12,22 +12,13 @@
 #import "RAFFormlet.h"
 
 @implementation RAFTableSection
+@synthesize headerTitle = _headerTitle;
+@synthesize footerTitle = _footerTitle;
 
 - (id)copyWithZone:(NSZone *)zone {
 	RAFTableSection *copy = [super copyWithZone:zone];
-	copy->_title = _title;
-	return copy;
-}
-
-- (instancetype)title:(NSString *)title {
-	RAFTableSection *copy = [self copy];
-	copy->_title = [title copy];
-	return copy;
-}
-
-- (instancetype)footerTitle:(NSString *)footer {
-	RAFTableSection *copy = [self copy];
-	copy->_footerTitle = [footer copy];
+	copy.headerTitle = _headerTitle;
+	copy.footerTitle = _footerTitle;
 	return copy;
 }
 

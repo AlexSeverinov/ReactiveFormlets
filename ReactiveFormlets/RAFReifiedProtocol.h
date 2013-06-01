@@ -30,7 +30,7 @@
 //
 // An example model protocol might look like this:
 //
-//     @protocol Boy <RAFModel>
+//     @protocol Boy
 //     - (id<Text>)name;
 //     - (id<Number>)age;
 //     - (id<Boy>)buddy;
