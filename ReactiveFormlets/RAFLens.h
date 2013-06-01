@@ -50,9 +50,3 @@
 
 @end
 
-// A lens that provides validation
-@protocol RAFValidatedLens <RAFLens, RAFValidator>
-@concrete
-// Reads the lens and passes it through the validator.
-- (BOOL)raf_isValid;
-@end

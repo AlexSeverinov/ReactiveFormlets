@@ -50,18 +50,3 @@
 }
 
 @end
-
-@concreteprotocol(RAFValidatedLens)
-
-#pragma mark - Inherited
-
-- (id)copyWithZone:(NSZone *)zone { return nil; }
-- (NSString *)keyPathForLens { return nil; }
-
-#pragma mark - Concrete
-
-- (BOOL)raf_isValid {
-	return [self raf_isValid:self.extract];
-}
-
-@end

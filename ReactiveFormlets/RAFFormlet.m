@@ -10,7 +10,9 @@
 #import <ReactiveCocoa/ReactiveCocoa.h>
 #import "EXTScope.h"
 
-@implementation RAFPrimitiveFormlet
+@implementation RAFPrimitiveFormlet {
+	RACSignal *_validation;
+}
 
 - (instancetype)validators:(NSArray *)validators {
 	RAFPrimitiveFormlet *copy = [self copy];
@@ -36,11 +38,20 @@
 }
 
 - (RACSignal *)validation {
-	@weakify(self);
-	return [[RACSignal merge:@[ self.dataSignal, self.hardUpdateSignal ]] map:^id(id value) {
-		@strongify(self);
-		return @([self raf_isValid:value]);
-	}];
+	if (!_validation) {
+		@weakify(self);
+		_validation = [self.dataSignal map:^id(id data) {
+			@strongify(self);
+			BOOL isValid = YES;
+			for (RAFValidator validator in self.customValidators) {
+				isValid = isValid && validator(data);
+			}
+			
+			return @(isValid);
+		}];
+	}
+
+	return _validation;
 }
 
 #pragma mark - RAFLens
@@ -52,27 +63,6 @@
 	return nil;
 }
 
-#pragma Validation
-
-- (BOOL)raf_isValid:(id)value {
-	BOOL isValid = YES;
-	for (RAFValidator validator in self.customValidators) {
-		isValid = isValid && validator(value);
-	}
-
-	return isValid;
-}
-
-#pragma mark - Message Forwarding
-
-- (NSMethodSignature *)methodSignatureForSelector:(SEL)aSelector {
-	return [(id)self.dataSignal methodSignatureForSelector:aSelector];
-}
-
-- (void)forwardInvocation:(NSInvocation *)anInvocation {
-	[anInvocation invokeWithTarget:self.dataSignal];
-}
-
 @end
 
 @interface RAFCompoundFormlet ()
@@ -80,7 +70,8 @@
 @end
 
 @implementation RAFCompoundFormlet {
-	RACSignal *_signal;
+	RACSignal *_dataSignal;
+	RACSignal *_validation;
 }
 
 @dynamic compoundValue;
@@ -101,22 +92,20 @@
 	}
 }
 
-- (BOOL)raf_isValid:(id)value {
-	BOOL isValid = YES;
-	for (id key in self) {
-		isValid = isValid && ([self[key] raf_isValid:value[key]]);
+- (RACSignal *)validation {
+	if (!_validation) {
+		RACSequence *subValidations = [self.allValues.rac_sequence map:^(id<RAFFormlet> formlet) {
+			return formlet.validation;
+		}];
+
+		_validation = [[RACSignal combineLatest:subValidations] map:^(RACTuple *validations) {
+			return [validations.rac_sequence foldLeftWithStart:@(YES) combine:^(NSNumber *accumulator, NSNumber *isValid) {
+				return @(accumulator.boolValue && isValid.boolValue);
+			}];
+		}];
 	}
 
-	return isValid;
-}
-
-- (RACSignal *)validation
-{
-	@weakify(self);
-	return [self.dataSignal map:^id(id value) {
-		@strongify(self);
-		return @([self raf_isValid:value]);
-	}];
+	return _validation;
 }
 
 #pragma mark - NSCopying
@@ -134,13 +123,13 @@
 #pragma mark - RAFValidatedSignalSource
 
 - (RACSignal *)dataSignal {
-	if (!_signal) {
-		_signal = [RACSignal createSignal:^RACDisposable *(id<RACSubscriber> subscriber) {
+	if (!_dataSignal) {
+		_dataSignal = [RACSignal createSignal:^RACDisposable *(id<RACSubscriber> subscriber) {
 			NSMutableSet *disposables = [NSMutableSet setWithCapacity:self.count];
 			NSMutableSet *extantSignals = [NSMutableSet setWithArray:self.allValues];
 
 			for (id key in self) {
-				RACSignal *signal = self[key];
+				RACSignal *signal = [self[key] dataSignal];
 				RACDisposable *disposable = [signal subscribeNext:^(id value) {
 					[subscriber sendNext:self.extract];
 				} error:^(NSError *error) {
@@ -164,7 +153,7 @@
 			}];
 		}];
 	}
-	return [RACSignal merge:@[ [_signal startWith:self.extract], self.hardUpdateSignal ]];
+	return [RACSignal merge:@[ [_dataSignal startWith:self.extract], self.hardUpdateSignal ]];
 }
 
 #pragma mark - RAFLens

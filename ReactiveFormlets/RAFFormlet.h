@@ -15,7 +15,7 @@
 // A formlet emits a signal and provides a lens through which values are mapped
 // in and out. A formlet may either bind directly to an interface, or may be
 // composed of other formlets.
-@protocol RAFFormlet <RAFValidator, RAFValidatedLens>
+@protocol RAFFormlet <RAFLens>
 - (RACSignal *)dataSignal;
 - (RACSignal *)validation;
 @end
