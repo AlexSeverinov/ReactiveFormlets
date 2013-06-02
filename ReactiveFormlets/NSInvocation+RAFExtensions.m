@@ -11,20 +11,21 @@
 #import <ReactiveCocoa/RACSequence.h>
 #import <ReactiveCocoa/RACTuple.h>
 #import <ReactiveCocoa/NSArray+RACSequenceAdditions.h>
+#import <ReactiveCocoa/EXTScope.h>
 
 @implementation NSInvocation (RAFExtensions)
 
-- (RACSequence *)raf_keywords {
+- (NSArray *)raf_keywords {
 	NSPredicate *notEmpty = [NSPredicate predicateWithBlock:^BOOL (NSString *string, id _) {
 		return string.length > 0;
 	}];
 
 	NSString *selector = NSStringFromSelector(self.selector);
 	NSArray *components = [selector componentsSeparatedByString:@":"];
-	return [components filteredArrayUsingPredicate:notEmpty].rac_sequence;
+	return [components filteredArrayUsingPredicate:notEmpty];
 }
 
-- (RACSequence *)raf_arguments {
+- (NSArray *)raf_arguments {
 	NSUInteger count = self.methodSignature.numberOfArguments;
 	NSMutableArray *arguments = [NSMutableArray arrayWithCapacity:count];
 
@@ -34,18 +35,16 @@
 		[arguments addObject:argument ?: [NSNull null]];
 	}
 
-	return arguments.rac_sequence;
-}
-
-
-- (RACSequence *)raf_keywordPairs {
-	return [RACSequence zip:@[ self.raf_keywords, self.raf_arguments ]];
+	return arguments;
 }
 
 - (RAFOrderedDictionary *)raf_argumentDictionary {
+	NSArray *keywords = self.raf_keywords;
+	NSArray *values = self.raf_arguments;
+
 	return [[RAFOrderedDictionary new] modify:^(id<RAFMutableOrderedDictionary> dict) {
-		for (RACTuple *pair in self.raf_keywordPairs) {
-			dict[pair.first] = pair.second;
+		for (NSInteger i = 0; i < keywords.count; ++i) {
+			dict[keywords[i]] = values[i];
 		}
 	}];
 }
