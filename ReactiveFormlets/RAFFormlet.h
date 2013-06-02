@@ -16,18 +16,17 @@
 // in and out. A formlet may either bind directly to an interface, or may be
 // composed of other formlets.
 @protocol RAFFormlet <RAFLens>
-- (RACSignal *)dataSignal;
-- (RACSignal *)validation;
+- (RACSignal *)rawDataSignal;
+- (RACSignal *)validationSignal;
 @end
 
-typedef BOOL (^RAFValidator)(id value);
-
+@class RAFValidator;
 // A primitive formlet is one which binds directly to an interface.
-// `RAFPrimitiveFormlet` subclasses must provide their own `-dataSignal` and
+// `RAFPrimitiveFormlet` subclasses must provide their own `-rawDataSignal` and
 // `-keyPathForLens` implementations.
 @interface RAFPrimitiveFormlet : NSObject <RAFFormlet>
-@property (copy, readonly) NSArray *customValidators;
-- (instancetype)validators:(NSArray *)validators;
+@property (strong, readonly) RAFValidator *validator;
+- (instancetype)validator:(RAFValidator *)validator;
 @end
 
 // A compound formlet is one which is composed of smaller formlets, as specified

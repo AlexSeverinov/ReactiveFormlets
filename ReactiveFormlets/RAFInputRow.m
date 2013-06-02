@@ -82,7 +82,7 @@
 	return @keypath(self.textField.text);
 }
 
-- (RACSignal *)dataSignal {
+- (RACSignal *)rawDataSignal {
 	return [self.textField.rac_textSignal map:^(NSString *text) {
 		return [self.valueTransformer transformedValue:text ?: @""];
 	}];

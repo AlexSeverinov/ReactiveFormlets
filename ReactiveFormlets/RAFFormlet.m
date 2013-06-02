@@ -8,15 +8,17 @@
 
 #import "RAFFormlet.h"
 #import <ReactiveCocoa/ReactiveCocoa.h>
-#import "EXTScope.h"
+#import <ReactiveFormlets/EXTScope.h>
+#import <ReactiveFormlets/EXTConcreteProtocol.h>
 
 @implementation RAFPrimitiveFormlet {
 	RACSignal *_validation;
 }
+@synthesize validator = _validator;
 
-- (instancetype)validators:(NSArray *)validators {
+- (instancetype)validator:(RAFValidator *)validator {
 	RAFPrimitiveFormlet *copy = [self copy];
-	copy->_customValidators = [validators copy];
+	copy->_validator = validator;
 	return copy;
 }
 
@@ -24,34 +26,29 @@
 
 - (id)copyWithZone:(NSZone *)zone {
 	RAFPrimitiveFormlet *copy = [self.class new];
-	copy->_customValidators = self.customValidators;
+	copy->_validator = self.validator;
 	return copy;
 }
 
 #pragma mark - RAFFormlet
 
-- (RACSignal *)dataSignal {
+- (RACSignal *)rawDataSignal {
 	@throw [NSException exceptionWithName:NSGenericException
-								   reason:@"Subclasses of RAFPrimitiveFormlet must override -dataSignal"
+								   reason:@"Subclasses of RAFPrimitiveFormlet must override -rawDataSignal"
 								 userInfo:nil];
 	return nil;
 }
 
-- (RACSignal *)validation {
+- (RACSignal *)validationSignal {
 	if (!_validation) {
-		@weakify(self);
-		_validation = [self.dataSignal map:^id(id data) {
-			@strongify(self);
-			BOOL isValid = YES;
-			for (RAFValidator validator in self.customValidators) {
-				isValid = isValid && validator(data);
-			}
-			
-			return @(isValid);
-		}];
+		_validation = [self.validator.rac_lift raf_apply:self.rawDataSignal];
 	}
 
 	return _validation;
+}
+
+- (RAFValidator *)validator {
+	return _validator ? _validator : [RAFValidator raf_zero];
 }
 
 #pragma mark - RAFLens
@@ -70,7 +67,7 @@
 @end
 
 @implementation RAFCompoundFormlet {
-	RACSignal *_dataSignal;
+	RACSignal *_rawDataSignal;
 	RACSignal *_validation;
 }
 
@@ -92,22 +89,6 @@
 	}
 }
 
-- (RACSignal *)validation {
-	if (!_validation) {
-		RACSequence *subValidations = [self.allValues.rac_sequence map:^(id<RAFFormlet> formlet) {
-			return formlet.validation;
-		}];
-
-		_validation = [[RACSignal combineLatest:subValidations] map:^(RACTuple *validations) {
-			return [validations.rac_sequence foldLeftWithStart:@(YES) combine:^(NSNumber *accumulator, NSNumber *isValid) {
-				return @(accumulator.boolValue && isValid.boolValue);
-			}];
-		}];
-	}
-
-	return _validation;
-}
-
 #pragma mark - NSCopying
 
 - (id)copyWithZone:(NSZone *)zone {
@@ -120,41 +101,56 @@
 	return copy;
 }
 
-#pragma mark - RAFValidatedSignalSource
+#pragma mark - Signals
 
-- (RACSignal *)dataSignal {
-	if (!_dataSignal) {
-		_dataSignal = [RACSignal createSignal:^RACDisposable *(id<RACSubscriber> subscriber) {
-			NSMutableSet *disposables = [NSMutableSet setWithCapacity:self.count];
-			NSMutableSet *extantSignals = [NSMutableSet setWithArray:self.allValues];
 
-			for (id key in self) {
-				RACSignal *signal = [self[key] dataSignal];
-				RACDisposable *disposable = [signal subscribeNext:^(id value) {
-					[subscriber sendNext:self.extract];
-				} error:^(NSError *error) {
-					[subscriber sendError:error];
-				} completed:^{
-					[extantSignals removeObject:signal];
-					if (!extantSignals.count) {
-						[subscriber sendCompleted];
-					}
-				}];
+- (RACSignal *)signalWithReducer:(id(^)(RACTuple *valuesForKeys))reduce {
+	return [RACSignal createSignal:^RACDisposable *(id<RACSubscriber> subscriber) {
+		NSMutableArray *signals = [NSMutableSet setWithCapacity:self.count];
+		__block NSInteger count = self.count;
 
-				if (disposable != nil) {
-					[disposables addObject:disposable];
-				}
-			}
+		for (id key in self) {
+			id<RAFFormlet> subform = self[key];
+			RACSignal *signal = subform.validationSignal;
+			[signals addObject:[signal map:^id(id value) {
+				return RACTuplePack(key, value);
+			}]];
+		}
 
-			return [RACDisposable disposableWithBlock:^{
-				for (RACDisposable *disposable in disposables) {
-					[disposable dispose];
-				}
+		return [[RACSignal combineLatest:signals] subscribeNext:^(RACTuple *tuple) {
+			[subscriber sendNext:reduce(tuple)];
+		} error:^(NSError *error) {
+			[subscriber sendError:error];
+		} completed:^{
+			--count;
+			if (count == 0) [subscriber sendCompleted];
+		}];
+	}];
+}
+
+- (RACSignal *)rawDataSignal {
+	if (!_rawDataSignal) {
+		_rawDataSignal = [self signalWithReducer:^(RACTuple *valuesForKeys) {
+			return self.extract;
+		}];
+	}
+
+	return [RACSignal merge:@[ [_rawDataSignal startWith:self.extract], self.hardUpdateSignal ]];
+}
+
+- (RACSignal *)validationSignal {
+	if (!_validation) {
+		_validation = [self signalWithReducer:^id(RACTuple *valuesForKeys) {
+			RAFValidation *start = [RAFValidation success:self.extract];
+			return [valuesForKeys.rac_sequence foldLeftWithStart:start combine:^id(RAFValidation *acc, RACTuple *valueForKey) {
+				return [acc raf_append:[valueForKey second]];
 			}];
 		}];
 	}
-	return [RACSignal merge:@[ [_dataSignal startWith:self.extract], self.hardUpdateSignal ]];
+
+	return _validation;
 }
+
 
 #pragma mark - RAFLens
 

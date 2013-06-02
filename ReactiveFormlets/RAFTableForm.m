@@ -36,8 +36,8 @@
 		label.font = [UIFont boldSystemFontOfSize:17.f];
 		label.shadowColor = [UIColor whiteColor];
 		label.shadowOffset = CGSizeMake(0.f, 1.f);
-		RAC(label, text) = RACAbleWithStart(section, headerTitle);
 
+		RAC(label, text) = RACAbleWithStart(section, headerTitle);
 		[view addSubview:label];
 
 		return view;
