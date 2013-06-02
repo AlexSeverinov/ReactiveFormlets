@@ -16,7 +16,12 @@
 // in and out. A formlet may either bind directly to an interface, or may be
 // composed of other formlets.
 @protocol RAFFormlet <RAFLens>
+// Returns a signal of the raw data of the form over every change. This may
+// be nil.
 - (RACSignal *)rawDataSignal;
+
+// Returns a signal of RAFValidation objects, with errors for all subordinate
+// form elements accumulated.
 - (RACSignal *)validationSignal;
 @end
 

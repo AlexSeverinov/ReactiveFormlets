@@ -14,6 +14,8 @@
 
 typedef RAFValidation *(^RAFValidationPredicate)(id object);
 
+// RAFValidator models a function that analyzes a function and returns
+// an RAFValidation.
 @interface RAFValidator : NSObject <RAFApply, RAFMonoid>
 @property (copy, readonly) RAFValidationPredicate predicate;
 
