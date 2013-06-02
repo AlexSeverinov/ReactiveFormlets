@@ -7,5 +7,12 @@
 //
 
 @protocol RAFApply
+// Corresponds to `(<*>)` in Haskell's Control.Applicative. Apply a function
+// `F (a -> b)` (where `F` is a class adopting <RAFApply>) to a value `F a`.
+//
+// [receiver] - a function in a context :: F (a -> b).
+// operand - a value in a context :: F a.
+//
+// Returns a value in the context :: F b.
 - (id)raf_apply:(id)operand;
 @end

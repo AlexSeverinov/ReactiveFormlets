@@ -9,5 +9,11 @@
 #import <ReactiveFormlets/RAFApply.h>
 
 @protocol RAFApplicative <RAFApply>
+
+// The identity to -[<RAFApply> raf_apply:].
+//
+// value - a value :: a.
+//
+// Returns a value in a context :: F a.
 + (instancetype)raf_point:(id)value;
 @end
