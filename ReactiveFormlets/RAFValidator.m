@@ -34,7 +34,7 @@
 
 - (instancetype)raf_append:(RAFValidator *)validator {
 	return [self.class predicate:^RAFValidation *(id value) {
-		return [[self raf_apply:value] raf_append:[validator raf_append:value]];
+		return [[self raf_apply:value] raf_append:[validator raf_apply:value]];
 	}];
 }
 
