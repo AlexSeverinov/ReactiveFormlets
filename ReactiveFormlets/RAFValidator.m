@@ -6,8 +6,8 @@
 //  Copyright (c) 2013 Jon Sterling. All rights reserved.
 //
 
-#import <ReactiveFormlets/RAFValidator.h>
-#import <ReactiveFormlets/RAFValidation.h>
+#import "RAFValidator.h"
+#import "RAFValidation.h"
 
 @implementation RAFValidator
 

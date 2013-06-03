@@ -6,7 +6,7 @@
 //  Copyright (c) 2013 Jon Sterling. All rights reserved.
 //
 
-#import <ReactiveFormlets/RAFValidation.h>
+#import "RAFValidation.h"
 
 @interface RAFSuccess : RAFValidation
 @property (strong, readonly) id value;

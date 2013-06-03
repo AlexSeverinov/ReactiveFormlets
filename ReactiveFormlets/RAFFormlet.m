@@ -7,9 +7,10 @@
 //
 
 #import "RAFFormlet.h"
+#import "RAFValidation.h"
 #import <ReactiveCocoa/ReactiveCocoa.h>
-#import <ReactiveFormlets/EXTScope.h>
-#import <ReactiveFormlets/EXTConcreteProtocol.h>
+#import "EXTScope.h"
+#import "EXTConcreteProtocol.h"
 
 @implementation RAFPrimitiveFormlet {
 	RACSignal *_validation;

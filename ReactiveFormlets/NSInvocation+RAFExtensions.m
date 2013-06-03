@@ -11,7 +11,7 @@
 #import <ReactiveCocoa/RACSequence.h>
 #import <ReactiveCocoa/RACTuple.h>
 #import <ReactiveCocoa/NSArray+RACSequenceAdditions.h>
-#import <ReactiveCocoa/EXTScope.h>
+#import "EXTScope.h"
 
 @implementation NSInvocation (RAFExtensions)
 

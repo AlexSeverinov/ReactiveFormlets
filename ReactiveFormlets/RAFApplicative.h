@@ -6,7 +6,7 @@
 //  Copyright (c) 2013 Jon Sterling. All rights reserved.
 //
 
-#import <ReactiveFormlets/RAFApply.h>
+#import "RAFApply.h"
 
 @protocol RAFApplicative <RAFApply>
 

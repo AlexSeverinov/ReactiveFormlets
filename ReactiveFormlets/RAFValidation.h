@@ -8,8 +8,8 @@
 
 #import <Foundation/Foundation.h>
 #import <ReactiveCocoa/ReactiveCocoa.h>
-#import <ReactiveFormlets/RAFApplicative.h>
-#import <ReactiveFormlets/RAFSemigroup.h>
+#import "RAFApplicative.h"
+#import "RAFSemigroup.h"
 
 @protocol RAFValidationCase;
 @class RAFSuccess, RAFFailure;

@@ -10,6 +10,8 @@
 		FC4582CB175AC38C00253EF2 /* NSArray+RAFMonoid.h in Headers */ = {isa = PBXBuildFile; fileRef = FC4582C9175AC38B00253EF2 /* NSArray+RAFMonoid.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		FC4582CC175AC38C00253EF2 /* NSArray+RAFMonoid.m in Sources */ = {isa = PBXBuildFile; fileRef = FC4582CA175AC38B00253EF2 /* NSArray+RAFMonoid.m */; };
 		FC4582D2175AD92200253EF2 /* RAFApplicative.h in Headers */ = {isa = PBXBuildFile; fileRef = FC4582D1175AD92200253EF2 /* RAFApplicative.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		FC54EBD8175FE09E00314601 /* EXTRuntimeExtensions.h in Headers */ = {isa = PBXBuildFile; fileRef = FC54EBD6175FE09E00314601 /* EXTRuntimeExtensions.h */; };
+		FC54EBD9175FE09E00314601 /* EXTRuntimeExtensions.m in Sources */ = {isa = PBXBuildFile; fileRef = FC54EBD7175FE09E00314601 /* EXTRuntimeExtensions.m */; };
 		FCD30F3D16F64B4A00473BB8 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = FCD30F3C16F64B4A00473BB8 /* Foundation.framework */; };
 		FCD30F4C16F64B4B00473BB8 /* SenTestingKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = FCD30F4B16F64B4B00473BB8 /* SenTestingKit.framework */; };
 		FCD30F4E16F64B4B00473BB8 /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = FCD30F4D16F64B4B00473BB8 /* UIKit.framework */; };
@@ -30,8 +32,6 @@
 		FCD30FA516F64D9D00473BB8 /* RAFTableForm.m in Sources */ = {isa = PBXBuildFile; fileRef = FCD30F9416F64D9D00473BB8 /* RAFTableForm.m */; };
 		FCD30FA616F64D9D00473BB8 /* RAFTableSection.m in Sources */ = {isa = PBXBuildFile; fileRef = FCD30F9616F64D9D00473BB8 /* RAFTableSection.m */; };
 		FCD30FA716F64D9D00473BB8 /* RAFInputRow.m in Sources */ = {isa = PBXBuildFile; fileRef = FCD30F9816F64D9D00473BB8 /* RAFInputRow.m */; };
-		FCD30FAE16F64E2700473BB8 /* EXTScope.m in Sources */ = {isa = PBXBuildFile; fileRef = FCD30FAD16F64E2700473BB8 /* EXTScope.m */; };
-		FCD30FB116F64E3000473BB8 /* EXTConcreteProtocol.m in Sources */ = {isa = PBXBuildFile; fileRef = FCD30FB016F64E3000473BB8 /* EXTConcreteProtocol.m */; };
 		FCD30FB316F6505200473BB8 /* ReactiveFormlets.h in Headers */ = {isa = PBXBuildFile; fileRef = FCD30F4116F64B4A00473BB8 /* ReactiveFormlets.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		FCD30FB416F6505200473BB8 /* RAFFormlet.h in Headers */ = {isa = PBXBuildFile; fileRef = FCD30F7F16F64D9D00473BB8 /* RAFFormlet.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		FCD30FB516F6505200473BB8 /* RAFLens.h in Headers */ = {isa = PBXBuildFile; fileRef = FCD30F8116F64D9D00473BB8 /* RAFLens.h */; settings = {ATTRIBUTES = (Public, ); }; };
@@ -45,13 +45,6 @@
 		FCD30FBE16F6505200473BB8 /* RAFTableForm.h in Headers */ = {isa = PBXBuildFile; fileRef = FCD30F9316F64D9D00473BB8 /* RAFTableForm.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		FCD30FBF16F6505200473BB8 /* RAFTableSection.h in Headers */ = {isa = PBXBuildFile; fileRef = FCD30F9516F64D9D00473BB8 /* RAFTableSection.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		FCD30FC016F6505200473BB8 /* RAFInputRow.h in Headers */ = {isa = PBXBuildFile; fileRef = FCD30F9716F64D9D00473BB8 /* RAFInputRow.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		FCDDDDDC175A7A6D00953722 /* EXTScope.m in Sources */ = {isa = PBXBuildFile; fileRef = FCD30FAD16F64E2700473BB8 /* EXTScope.m */; };
-		FCDDDDDD175A7A6D00953722 /* EXTConcreteProtocol.m in Sources */ = {isa = PBXBuildFile; fileRef = FCD30FB016F64E3000473BB8 /* EXTConcreteProtocol.m */; };
-		FCDDDDE2175A7AAA00953722 /* EXTRuntimeExtensions.h in Headers */ = {isa = PBXBuildFile; fileRef = FCDDDDE0175A7AAA00953722 /* EXTRuntimeExtensions.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		FCDDDDE3175A7AAA00953722 /* EXTRuntimeExtensions.m in Sources */ = {isa = PBXBuildFile; fileRef = FCDDDDE1175A7AAA00953722 /* EXTRuntimeExtensions.m */; };
-		FCDDDE10175A7EBF00953722 /* EXTScope.h in Headers */ = {isa = PBXBuildFile; fileRef = FCD30FAC16F64E1C00473BB8 /* EXTScope.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		FCDDDE11175A7EC000953722 /* EXTConcreteProtocol.h in Headers */ = {isa = PBXBuildFile; fileRef = FCD30FAF16F64E3000473BB8 /* EXTConcreteProtocol.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		FCDDDE14175A7F1300953722 /* metamacros.h in Headers */ = {isa = PBXBuildFile; fileRef = FCD30FAA16F64E1000473BB8 /* metamacros.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		FCDDDE2F175AA35700953722 /* RAFValidation.h in Headers */ = {isa = PBXBuildFile; fileRef = FCDDDE2D175AA35700953722 /* RAFValidation.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		FCDDDE30175AA35700953722 /* RAFValidation.m in Sources */ = {isa = PBXBuildFile; fileRef = FCDDDE2E175AA35700953722 /* RAFValidation.m */; };
 		FCDDDE33175AA74300953722 /* RAFValidator.h in Headers */ = {isa = PBXBuildFile; fileRef = FCDDDE31175AA74300953722 /* RAFValidator.h */; settings = {ATTRIBUTES = (Public, ); }; };
@@ -59,6 +52,13 @@
 		FCDDDE36175AA83800953722 /* RAFApply.h in Headers */ = {isa = PBXBuildFile; fileRef = FCDDDE35175AA82400953722 /* RAFApply.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		FCDDDE39175AAA2600953722 /* RAFSemigroup.h in Headers */ = {isa = PBXBuildFile; fileRef = FCDDDE38175AAA2600953722 /* RAFSemigroup.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		FCDDDE3B175AAA2F00953722 /* RAFMonoid.h in Headers */ = {isa = PBXBuildFile; fileRef = FCDDDE3A175AAA2F00953722 /* RAFMonoid.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		FCE7261D175D531F008876C5 /* EXTConcreteProtocol.h in Headers */ = {isa = PBXBuildFile; fileRef = FCE725E4175D531F008876C5 /* EXTConcreteProtocol.h */; };
+		FCE7261E175D531F008876C5 /* EXTConcreteProtocol.m in Sources */ = {isa = PBXBuildFile; fileRef = FCE725E5175D531F008876C5 /* EXTConcreteProtocol.m */; };
+		FCE7261F175D531F008876C5 /* EXTConcreteProtocol.m in Sources */ = {isa = PBXBuildFile; fileRef = FCE725E5175D531F008876C5 /* EXTConcreteProtocol.m */; };
+		FCE72644175D531F008876C5 /* EXTScope.h in Headers */ = {isa = PBXBuildFile; fileRef = FCE72600175D531F008876C5 /* EXTScope.h */; };
+		FCE72645175D531F008876C5 /* EXTScope.m in Sources */ = {isa = PBXBuildFile; fileRef = FCE72601175D531F008876C5 /* EXTScope.m */; };
+		FCE72646175D531F008876C5 /* EXTScope.m in Sources */ = {isa = PBXBuildFile; fileRef = FCE72601175D531F008876C5 /* EXTScope.m */; };
+		FCE72650175D531F008876C5 /* metamacros.h in Headers */ = {isa = PBXBuildFile; fileRef = FCE72609175D531F008876C5 /* metamacros.h */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -103,6 +103,8 @@
 		FC4582C9175AC38B00253EF2 /* NSArray+RAFMonoid.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSArray+RAFMonoid.h"; sourceTree = "<group>"; };
 		FC4582CA175AC38B00253EF2 /* NSArray+RAFMonoid.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSArray+RAFMonoid.m"; sourceTree = "<group>"; };
 		FC4582D1175AD92200253EF2 /* RAFApplicative.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RAFApplicative.h; sourceTree = "<group>"; };
+		FC54EBD6175FE09E00314601 /* EXTRuntimeExtensions.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = EXTRuntimeExtensions.h; sourceTree = "<group>"; };
+		FC54EBD7175FE09E00314601 /* EXTRuntimeExtensions.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = EXTRuntimeExtensions.m; sourceTree = "<group>"; };
 		FCD30F3916F64B4A00473BB8 /* libReactiveFormlets.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libReactiveFormlets.a; sourceTree = BUILT_PRODUCTS_DIR; };
 		FCD30F3C16F64B4A00473BB8 /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
 		FCD30F4016F64B4A00473BB8 /* ReactiveFormlets-Prefix.pch */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "ReactiveFormlets-Prefix.pch"; sourceTree = "<group>"; };
@@ -139,13 +141,6 @@
 		FCD30F9616F64D9D00473BB8 /* RAFTableSection.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RAFTableSection.m; sourceTree = "<group>"; };
 		FCD30F9716F64D9D00473BB8 /* RAFInputRow.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RAFInputRow.h; sourceTree = "<group>"; };
 		FCD30F9816F64D9D00473BB8 /* RAFInputRow.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RAFInputRow.m; sourceTree = "<group>"; };
-		FCD30FAA16F64E1000473BB8 /* metamacros.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = metamacros.h; path = external/libextobjc/extobjc/metamacros.h; sourceTree = "<group>"; };
-		FCD30FAC16F64E1C00473BB8 /* EXTScope.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = EXTScope.h; path = external/libextobjc/extobjc/EXTScope.h; sourceTree = "<group>"; };
-		FCD30FAD16F64E2700473BB8 /* EXTScope.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = EXTScope.m; path = external/libextobjc/extobjc/EXTScope.m; sourceTree = "<group>"; };
-		FCD30FAF16F64E3000473BB8 /* EXTConcreteProtocol.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = EXTConcreteProtocol.h; path = external/libextobjc/extobjc/EXTConcreteProtocol.h; sourceTree = "<group>"; };
-		FCD30FB016F64E3000473BB8 /* EXTConcreteProtocol.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = EXTConcreteProtocol.m; path = external/libextobjc/extobjc/EXTConcreteProtocol.m; sourceTree = "<group>"; };
-		FCDDDDE0175A7AAA00953722 /* EXTRuntimeExtensions.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = EXTRuntimeExtensions.h; path = external/libextobjc/extobjc/EXTRuntimeExtensions.h; sourceTree = "<group>"; };
-		FCDDDDE1175A7AAA00953722 /* EXTRuntimeExtensions.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = EXTRuntimeExtensions.m; path = external/libextobjc/extobjc/EXTRuntimeExtensions.m; sourceTree = "<group>"; };
 		FCDDDDFC175A7E2D00953722 /* ReactiveCocoa.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = ReactiveCocoa.xcodeproj; path = external/ReactiveCocoa/ReactiveCocoaFramework/ReactiveCocoa.xcodeproj; sourceTree = "<group>"; };
 		FCDDDE2D175AA35700953722 /* RAFValidation.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RAFValidation.h; sourceTree = "<group>"; };
 		FCDDDE2E175AA35700953722 /* RAFValidation.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RAFValidation.m; sourceTree = "<group>"; };
@@ -154,6 +149,11 @@
 		FCDDDE35175AA82400953722 /* RAFApply.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = RAFApply.h; sourceTree = "<group>"; };
 		FCDDDE38175AAA2600953722 /* RAFSemigroup.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RAFSemigroup.h; sourceTree = "<group>"; };
 		FCDDDE3A175AAA2F00953722 /* RAFMonoid.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RAFMonoid.h; sourceTree = "<group>"; };
+		FCE725E4175D531F008876C5 /* EXTConcreteProtocol.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = EXTConcreteProtocol.h; sourceTree = "<group>"; };
+		FCE725E5175D531F008876C5 /* EXTConcreteProtocol.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = EXTConcreteProtocol.m; sourceTree = "<group>"; };
+		FCE72600175D531F008876C5 /* EXTScope.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = EXTScope.h; sourceTree = "<group>"; };
+		FCE72601175D531F008876C5 /* EXTScope.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = EXTScope.m; sourceTree = "<group>"; };
+		FCE72609175D531F008876C5 /* metamacros.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = metamacros.h; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -203,7 +203,7 @@
 		FCD30F3B16F64B4A00473BB8 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
-				FCD30FA916F64DF500473BB8 /* libextobjc */,
+				FCE725D9175D531F008876C5 /* extobjc */,
 				FCDDDDFC175A7E2D00953722 /* ReactiveCocoa.xcodeproj */,
 				FCD30F3C16F64B4A00473BB8 /* Foundation.framework */,
 				FCD30F7B16F64D0300473BB8 /* UIKit.framework */,
@@ -256,20 +256,6 @@
 			name = "Supporting Files";
 			sourceTree = "<group>";
 		};
-		FCD30FA916F64DF500473BB8 /* libextobjc */ = {
-			isa = PBXGroup;
-			children = (
-				FCDDDDE0175A7AAA00953722 /* EXTRuntimeExtensions.h */,
-				FCDDDDE1175A7AAA00953722 /* EXTRuntimeExtensions.m */,
-				FCD30FAC16F64E1C00473BB8 /* EXTScope.h */,
-				FCD30FAD16F64E2700473BB8 /* EXTScope.m */,
-				FCD30FAF16F64E3000473BB8 /* EXTConcreteProtocol.h */,
-				FCD30FB016F64E3000473BB8 /* EXTConcreteProtocol.m */,
-				FCD30FAA16F64E1000473BB8 /* metamacros.h */,
-			);
-			name = libextobjc;
-			sourceTree = "<group>";
-		};
 		FCDDDDFD175A7E2D00953722 /* Products */ = {
 			isa = PBXGroup;
 			children = (
@@ -300,6 +286,21 @@
 				FCDDDE3A175AAA2F00953722 /* RAFMonoid.h */,
 			);
 			name = Algebra;
+			sourceTree = "<group>";
+		};
+		FCE725D9175D531F008876C5 /* extobjc */ = {
+			isa = PBXGroup;
+			children = (
+				FC54EBD6175FE09E00314601 /* EXTRuntimeExtensions.h */,
+				FC54EBD7175FE09E00314601 /* EXTRuntimeExtensions.m */,
+				FCE725E4175D531F008876C5 /* EXTConcreteProtocol.h */,
+				FCE725E5175D531F008876C5 /* EXTConcreteProtocol.m */,
+				FCE72600175D531F008876C5 /* EXTScope.h */,
+				FCE72601175D531F008876C5 /* EXTScope.m */,
+				FCE72609175D531F008876C5 /* metamacros.h */,
+			);
+			name = extobjc;
+			path = external/ReactiveCocoa/ReactiveCocoaFramework/ReactiveCocoa/libextobjc/extobjc;
 			sourceTree = "<group>";
 		};
 		FCF19B8A16F6D30500111678 /* Formlets */ = {
@@ -387,13 +388,13 @@
 				FCDDDE36175AA83800953722 /* RAFApply.h in Headers */,
 				FCD30FC016F6505200473BB8 /* RAFInputRow.h in Headers */,
 				FC4582D2175AD92200253EF2 /* RAFApplicative.h in Headers */,
-				FCDDDE14175A7F1300953722 /* metamacros.h in Headers */,
-				FCDDDE10175A7EBF00953722 /* EXTScope.h in Headers */,
-				FCDDDE11175A7EC000953722 /* EXTConcreteProtocol.h in Headers */,
 				FCDDDE2F175AA35700953722 /* RAFValidation.h in Headers */,
 				FC4582CB175AC38C00253EF2 /* NSArray+RAFMonoid.h in Headers */,
 				FCDDDE33175AA74300953722 /* RAFValidator.h in Headers */,
-				FCDDDDE2175A7AAA00953722 /* EXTRuntimeExtensions.h in Headers */,
+				FCE7261D175D531F008876C5 /* EXTConcreteProtocol.h in Headers */,
+				FCE72644175D531F008876C5 /* EXTScope.h in Headers */,
+				FCE72650175D531F008876C5 /* metamacros.h in Headers */,
+				FC54EBD8175FE09E00314601 /* EXTRuntimeExtensions.h in Headers */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -527,8 +528,6 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				FCDDDDDC175A7A6D00953722 /* EXTScope.m in Sources */,
-				FCDDDDDD175A7A6D00953722 /* EXTConcreteProtocol.m in Sources */,
 				FCD30F9B16F64D9D00473BB8 /* RAFFormlet.m in Sources */,
 				FCD30F9C16F64D9D00473BB8 /* RAFLens.m in Sources */,
 				FCD30F9D16F64D9D00473BB8 /* RAFModel.m in Sources */,
@@ -541,10 +540,12 @@
 				FCD30FA516F64D9D00473BB8 /* RAFTableForm.m in Sources */,
 				FCD30FA616F64D9D00473BB8 /* RAFTableSection.m in Sources */,
 				FCD30FA716F64D9D00473BB8 /* RAFInputRow.m in Sources */,
-				FCDDDDE3175A7AAA00953722 /* EXTRuntimeExtensions.m in Sources */,
 				FCDDDE30175AA35700953722 /* RAFValidation.m in Sources */,
 				FCDDDE34175AA74300953722 /* RAFValidator.m in Sources */,
 				FC4582CC175AC38C00253EF2 /* NSArray+RAFMonoid.m in Sources */,
+				FCE7261E175D531F008876C5 /* EXTConcreteProtocol.m in Sources */,
+				FCE72645175D531F008876C5 /* EXTScope.m in Sources */,
+				FC54EBD9175FE09E00314601 /* EXTRuntimeExtensions.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -553,8 +554,8 @@
 			buildActionMask = 2147483647;
 			files = (
 				FCD30F5B16F64B4B00473BB8 /* ReactiveFormletsTests.m in Sources */,
-				FCD30FAE16F64E2700473BB8 /* EXTScope.m in Sources */,
-				FCD30FB116F64E3000473BB8 /* EXTConcreteProtocol.m in Sources */,
+				FCE7261F175D531F008876C5 /* EXTConcreteProtocol.m in Sources */,
+				FCE72646175D531F008876C5 /* EXTScope.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -641,9 +642,11 @@
 		FCD30F5F16F64B4B00473BB8 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = YES;
 				DSTROOT = /tmp/ReactiveFormlets.dst;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "ReactiveFormlets/ReactiveFormlets-Prefix.pch";
+				HEADER_SEARCH_PATHS = external/libextobjc/;
 				OTHER_LDFLAGS = "-ObjC";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PUBLIC_HEADERS_FOLDER_PATH = include/ReactiveFormlets;
@@ -654,9 +657,11 @@
 		FCD30F6016F64B4B00473BB8 /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = YES;
 				DSTROOT = /tmp/ReactiveFormlets.dst;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "ReactiveFormlets/ReactiveFormlets-Prefix.pch";
+				HEADER_SEARCH_PATHS = external/libextobjc/;
 				OTHER_LDFLAGS = "-ObjC";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PUBLIC_HEADERS_FOLDER_PATH = include/ReactiveFormlets;

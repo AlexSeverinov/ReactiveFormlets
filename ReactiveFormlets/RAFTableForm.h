@@ -8,6 +8,7 @@
 
 #import <UIKit/UIKit.h>
 #import "RAFFormlet.h"
+#import "RAFTableSection.h"
 
 @class RAFInputRow;
 

@@ -6,7 +6,7 @@
 //  Copyright (c) 2013 Jon Sterling. All rights reserved.
 //
 
-#import <ReactiveFormlets/RAFSemigroup.h>
+#import "RAFSemigroup.h"
 
 @protocol RAFMonoid <RAFSemigroup>
 // The identity to -[<RAFSemigroup> raf_append:].

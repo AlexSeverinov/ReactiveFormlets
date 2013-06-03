@@ -7,7 +7,7 @@
 //
 
 #import <Foundation/Foundation.h>
-#import <ReactiveFormlets/RAFMonoid.h>
+#import "RAFMonoid.h"
 
 @interface NSArray (RAFMonoid) <RAFMonoid>
 @end

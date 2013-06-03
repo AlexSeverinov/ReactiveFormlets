@@ -6,7 +6,7 @@
 //  Copyright (c) 2013 Jon Sterling. All rights reserved.
 //
 
-#import <ReactiveFormlets/NSArray+RAFMonoid.h>
+#import "NSArray+RAFMonoid.h"
 
 @implementation NSArray (RAFMonoid)
 

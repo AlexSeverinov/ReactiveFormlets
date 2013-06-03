@@ -7,8 +7,8 @@
 //
 
 #import <Foundation/Foundation.h>
-#import <ReactiveFormlets/RAFApply.h>
-#import <ReactiveFormlets/RAFMonoid.h>
+#import "RAFApply.h"
+#import "RAFMonoid.h"
 
 @class RAFValidation;
 
