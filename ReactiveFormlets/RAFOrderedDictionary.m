@@ -6,7 +6,7 @@
 //  Copyright (c) 2012 Jon Sterling. All rights reserved.
 //
 
-#import <ReactiveFormlets/RAFOrderedDictionary.h>
+#import "RAFOrderedDictionary.h"
 #import <ReactiveCocoa/RACSubject.h>
 #import <ReactiveCocoa/RACSequence.h>
 #import <ReactiveCocoa/RACTuple.h>

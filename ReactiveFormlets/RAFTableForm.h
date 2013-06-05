@@ -7,7 +7,7 @@
 //
 
 #import <UIKit/UIKit.h>
-#import <ReactiveFormlets/RAFFormlet.h>
+#import "RAFFormlet.h"
 
 // Many RAFTableSection
 @interface RAFTableForm : RAFCompoundFormlet <UITableViewDataSource, UITableViewDelegate>

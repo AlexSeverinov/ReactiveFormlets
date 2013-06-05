@@ -6,8 +6,8 @@
 //  Copyright (c) 2012 Jon Sterling. All rights reserved.
 //
 
-#import <ReactiveFormlets/NSInvocation+RAFExtensions.h>
-#import <ReactiveFormlets/RAFOrderedDictionary.h>
+#import "NSInvocation+RAFExtensions.h"
+#import "RAFOrderedDictionary.h"
 #import <ReactiveCocoa/RACSequence.h>
 #import <ReactiveCocoa/RACTuple.h>
 #import <ReactiveCocoa/NSArray+RACSequenceAdditions.h>

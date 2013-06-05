@@ -6,7 +6,7 @@
 //  Copyright (c) 2012 Jon Sterling. All rights reserved.
 //
 
-#import <ReactiveFormlets/RAFSignalSource.h>
+#import "RAFSignalSource.h"
 #import <ReactiveCocoa/RACSignal.h>
 #import "EXTScope.h"
 

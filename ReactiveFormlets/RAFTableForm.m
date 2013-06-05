@@ -6,9 +6,9 @@
 //  Copyright (c) 2012 Jon Sterling. All rights reserved.
 //
 
-#import <ReactiveFormlets/RAFTableForm.h>
-#import <ReactiveFormlets/RAFTableSection.h>
-#import <ReactiveFormlets/RAFInputRow.h>
+#import "RAFTableForm.h"
+#import "RAFTableSection.h"
+#import "RAFInputRow.h"
 
 @implementation RAFTableForm
 

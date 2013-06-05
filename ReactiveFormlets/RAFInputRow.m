@@ -6,8 +6,8 @@
 //  Copyright (c) 2012 Jon Sterling. All rights reserved.
 //
 
-#import <ReactiveFormlets/RAFInputRow.h>
-#import <ReactiveFormlets/RAFNumberStringValueTransformer.h>
+#import "RAFInputRow.h"
+#import "RAFNumberStringValueTransformer.h"
 #import <ReactiveCocoa/ReactiveCocoa.h>
 
 @implementation RAFInputRow

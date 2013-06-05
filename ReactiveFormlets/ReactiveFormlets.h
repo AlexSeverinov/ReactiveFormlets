@@ -7,7 +7,7 @@
 //
 
 #import <Foundation/Foundation.h>
-#import <ReactiveFormlets/RAFFormlet.h>
-#import <ReactiveFormlets/RAFModel.h>
-#import <ReactiveFormlets/RAFValidator.h>
-#import <ReactiveFormlets/RAFReifiedProtocol.h>
+#import "RAFFormlet.h"
+#import "RAFModel.h"
+#import "RAFValidator.h"
+#import "RAFReifiedProtocol.h"

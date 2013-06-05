@@ -7,7 +7,7 @@
 //
 
 #import <Foundation/Foundation.h>
-#import <ReactiveFormlets/RAFOrderedDictionary.h>
+#import "RAFOrderedDictionary.h"
 
 // `RAFReifiedProtocol` is a way to generate model classes from protocols,
 // to do away with following kinds of boilerplate:

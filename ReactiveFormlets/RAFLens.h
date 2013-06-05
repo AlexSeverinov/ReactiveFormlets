@@ -6,8 +6,8 @@
 //  Copyright (c) 2012 Jon Sterling. All rights reserved.
 //
 
-#import <ReactiveFormlets/RAFLens.h>
-#import <ReactiveFormlets/RAFValidator.h>
+#import "RAFLens.h"
+#import "RAFValidator.h"
 #import <ReactiveCocoa/ReactiveCocoa.h>
 #import "EXTConcreteProtocol.h"
 

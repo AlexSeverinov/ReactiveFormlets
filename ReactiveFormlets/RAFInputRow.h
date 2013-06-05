@@ -6,7 +6,7 @@
 //  Copyright (c) 2012 Jon Sterling. All rights reserved.
 //
 
-#import <ReactiveFormlets/RAFFormlet.h>
+#import "RAFFormlet.h"
 
 @class UIView, UITableViewCell;
 

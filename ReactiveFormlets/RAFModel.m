@@ -6,7 +6,7 @@
 //  Copyright (c) 2013 Jon Sterling. All rights reserved.
 //
 
-#import <ReactiveFormlets/RAFModel.h>
+#import "RAFModel.h"
 
 @implementation NSString (RAFText)
 @end

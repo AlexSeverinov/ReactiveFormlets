@@ -7,10 +7,10 @@
 //
 
 #import <Foundation/Foundation.h>
-#import <ReactiveFormlets/ReactiveFormlets.h>
-#import <ReactiveFormlets/RAFReifiedProtocol.h>
-#import <ReactiveFormlets/RAFModel.h>
-#import <ReactiveFormlets/RAFModel.h>
+#import "ReactiveFormlets.h"
+#import "RAFReifiedProtocol.h"
+#import "RAFModel.h"
+#import "RAFModel.h"
 
 // A formlet emits a signal and provides a lens through which values are mapped
 // in and out. A formlet may either bind directly to an interface, or may be

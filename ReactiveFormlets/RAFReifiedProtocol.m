@@ -6,10 +6,10 @@
 //  Copyright (c) 2012 Jon Sterling. All rights reserved.
 //
 
-#import <ReactiveFormlets/RAFReifiedProtocol.h>
-#import <ReactiveFormlets/RAFOrderedDictionary.h>
-#import <ReactiveFormlets/NSInvocation+RAFExtensions.h>
-#import <ReactiveFormlets/RAFObjCRuntime.h>
+#import "RAFReifiedProtocol.h"
+#import "RAFOrderedDictionary.h"
+#import "NSInvocation+RAFExtensions.h"
+#import "RAFObjCRuntime.h"
 #import <ReactiveCocoa/RACTuple.h>
 #import <ReactiveCocoa/RACSequence.h>
 

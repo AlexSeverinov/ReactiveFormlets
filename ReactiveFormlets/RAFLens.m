@@ -6,8 +6,8 @@
 //  Copyright (c) 2012 Jon Sterling. All rights reserved.
 //
 
-#import <ReactiveFormlets/RAFLens.h>
-#import <ReactiveFormlets/RAFIdentityValueTransformer.h>
+#import "RAFLens.h"
+#import "RAFIdentityValueTransformer.h"
 
 @concreteprotocol(RAFExtract)
 

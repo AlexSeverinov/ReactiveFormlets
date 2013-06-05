@@ -6,7 +6,7 @@
 //  Copyright (c) 2012 Jon Sterling. All rights reserved.
 //
 
-#import <ReactiveFormlets/RAFIdentityValueTransformer.h>
+#import "RAFIdentityValueTransformer.h"
 
 NSString *const RAFIdentityValueTransformerName = @"RAFIdentityValueTransformerName";
 

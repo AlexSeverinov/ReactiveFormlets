@@ -6,8 +6,8 @@
 //  Copyright (c) 2012 Jon Sterling. All rights reserved.
 //
 
-#import <ReactiveFormlets/RAFLens.h>
-#import <ReactiveFormlets/RAFSignalSource.h>
+#import "RAFLens.h"
+#import "RAFSignalSource.h"
 
 // A suitable model protocol emits a signal.
 @protocol RAFModel <RAFSignalSource, RAFExtract>

@@ -9,14 +9,11 @@ Pod::Spec.new do |s|
   s.description  = "ReactiveFormlets is an API for building forms compositionally with an Applicative-style interface."
 
   s.requires_arc = true
-  s.ios.deployment_target = '6.0'
-  s.osx.deployment_target = '10.8'
+  s.platform = :ios, '6.0'
   s.compiler_flags = '-DOS_OBJECT_USE_OBJC=0'
 
-  s.subspec 'Core' do |sp|
-    sp.ios.source_files = FileList['ReactiveFormlets/*.{h,m}']
-    sp.header_dir = 'ReactiveFormlets'
-
-    sp.dependency 'ReactiveCocoa', '~> 1.8.0'
-  end
+  s.source_files = 'ReactiveFormlets/*.{h,m}'
+  s.public_header_files = 'ReactiveFormlets/*.h'
+  s.frameworks = 'Foundation', 'UIKit'
+  s.dependency 'ReactiveCocoa', '~> 1.8.0'
 end

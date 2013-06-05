@@ -6,7 +6,7 @@
 //  Copyright (c) 2012 Jon Sterling. All rights reserved.
 //
 
-#import <ReactiveFormlets/RAFNumberStringValueTransformer.h>
+#import "RAFNumberStringValueTransformer.h"
 
 NSString *const RAFNumberStringValueTransformerName = @"RAFNumberStringValueTransformerName";
 
