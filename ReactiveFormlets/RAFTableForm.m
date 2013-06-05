@@ -10,61 +10,12 @@
 #import "RAFTableSection.h"
 #import "RAFInputRow.h"
 
-@implementation RAFTableForm {
-	NSArray *_sectionHeaderViews;
-	NSArray *_sectionFooterViews;
-}
+@implementation RAFTableForm
 
 - (UITableView *)buildView {
 	UITableView *tableView = [[UITableView alloc] initWithFrame:CGRectZero style:UITableViewStyleGrouped];
 	tableView.autoresizingMask = UIViewAutoresizingFlexibleHeight | UIViewAutoresizingFlexibleWidth | UIViewAutoresizingFlexibleBottomMargin | UIViewAutoresizingFlexibleTopMargin | UIViewAutoresizingFlexibleLeftMargin | UIViewAutoresizingFlexibleRightMargin;
 	tableView.backgroundColor = [UIColor colorWithWhite:0.94f alpha:1.f];
-
-	_sectionHeaderViews = [self.sections.rac_sequence map:^id(RAFTableSection *section) {
-		UIViewAutoresizing mask = UIViewAutoresizingFlexibleWidth | UIViewAutoresizingFlexibleHeight;
-
-		CGRect frame = CGRectMake(0.f, 0.f, 320.f, 20.f);
-		UIView *view = [[UIView alloc] initWithFrame:frame];
-		view.autoresizingMask = mask;
-
-		UILabel *label = [[UILabel alloc] initWithFrame:CGRectInset(frame, 10.f, 10.f)];
-		label.autoresizingMask = mask;
-
-		label.textAlignment = NSTextAlignmentCenter;
-		label.textColor = [UIColor colorWithRed:76.0/255 green:86.0/255 blue:108.0/255 alpha:1];
-		label.backgroundColor = [UIColor clearColor];
-		label.font = [UIFont boldSystemFontOfSize:17.f];
-		label.shadowColor = [UIColor whiteColor];
-		label.shadowOffset = CGSizeMake(0.f, 1.f);
-
-		RAC(label, text) = RACAbleWithStart(section, headerTitle);
-		[view addSubview:label];
-
-		return view;
-	}].array;
-
-	_sectionFooterViews = [self.sections.rac_sequence map:^id(RAFTableSection *section) {
-		UIViewAutoresizing mask = UIViewAutoresizingFlexibleWidth | UIViewAutoresizingFlexibleHeight;
-
-		CGRect frame = CGRectMake(0.f, 0.f, 320.f, 20.f);
-		UIView *view = [[UIView alloc] initWithFrame:frame];
-		view.autoresizingMask = mask;
-		
-		UILabel *label = [[UILabel alloc] initWithFrame:CGRectInset(frame, 10.f, 10.f)];
-		label.autoresizingMask = mask;
-
-		label.textAlignment = NSTextAlignmentCenter;
-		label.textColor = [UIColor colorWithRed:76.0/255 green:86.0/255 blue:108.0/255 alpha:1];
-		label.backgroundColor = [UIColor clearColor];
-		label.font = [UIFont systemFontOfSize:17.f];
-		label.shadowColor = [UIColor whiteColor];
-		label.shadowOffset = CGSizeMake(0.f, 1.f);
-
-		RAC(label, text) = RACAbleWithStart(section, footerTitle);
-		[view addSubview:label];
-
-		return view;
-	}].array;
 
 	tableView.dataSource = self;
 	tableView.delegate = self;
@@ -114,14 +65,6 @@
 }
 
 #pragma mark - UITableViewDelegate
-
-- (UIView *)tableView:(UITableView *)tableView viewForHeaderInSection:(NSInteger)section {
-	return _sectionHeaderViews[section];
-}
-
-- (UIView *)tableView:(UITableView *)tableView viewForFooterInSection:(NSInteger)section {
-	return _sectionFooterViews[section];
-}
 
 - (CGFloat)tableView:(UITableView *)tableView heightForHeaderInSection:(NSInteger)section {
 	return UITableViewAutomaticDimension;
