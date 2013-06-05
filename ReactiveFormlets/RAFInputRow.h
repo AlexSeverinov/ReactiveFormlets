@@ -10,8 +10,6 @@
 
 @class UIView, UITableViewCell;
 
-typedef BOOL (^RAFInputRowValidator)(id value);
-
 // RAFInputRow is a table row with a text field.
 @interface RAFInputRow : RAFPrimitiveFormlet
 @property (strong, readonly) UITableViewCell *cell;
