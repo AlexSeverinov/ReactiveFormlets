@@ -38,7 +38,7 @@
 
 - (id)copyWithZone:(NSZone *)zone {
 	RAFInputRow *row = [super copyWithZone:zone];
-	[row updateInPlace:self.extract];
+	[row updateInPlace:self.raf_extract];
 	return row;
 }
 

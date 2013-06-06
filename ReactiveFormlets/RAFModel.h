@@ -8,10 +8,14 @@
 
 #import "RAFLens.h"
 
-@protocol RAFText
+@protocol RAFText <RAFExtract>
+@concrete
+- (NSString *)raf_extract;
 @end
 
-@protocol RAFNumber
+@protocol RAFNumber <RAFExtract>
+@concrete
+- (NSNumber *)raf_extract;
 @end
 
 @interface NSString (RAFText) <RAFText>

@@ -78,7 +78,7 @@
 	RAFReifiedProtocol *modelData = [[RAFReifiedProtocol model:self.class.model] new];
 	return [modelData modify:^(id<RAFMutableOrderedDictionary> dict) {
 		for (id key in self) {
-			id data = self[key].extract;
+			id data = self[key].raf_extract;
 			if (data) dict[key] = data;
 		}
 	}];
@@ -98,7 +98,7 @@
 
 - (instancetype)deepCopyWithZone:(NSZone *)zone {
 	id copy = [super deepCopyWithZone:zone];
-	[copy updateInPlace:self.extract];
+	[copy updateInPlace:self.raf_extract];
 	return copy;
 }
 
@@ -146,7 +146,7 @@
             }
 
             return [[RACSignal combineLatest:signals] subscribeNext:^(RACTuple *tuple) {
-                [subscriber sendNext:self.extract];
+                [subscriber sendNext:self.raf_extract];
             } error:^(NSError *error) {
                 [subscriber sendError:error];
             } completed:^{
@@ -156,7 +156,7 @@
         }];
 	}
 
-	return [RACSignal merge:@[ [_rawDataSignal startWith:self.extract], self.hardUpdateSignal ]];
+	return [RACSignal merge:@[ [_rawDataSignal startWith:self.raf_extract], self.hardUpdateSignal ]];
 }
 
 - (RACSignal *)validationSignal {
@@ -176,7 +176,7 @@
             }
 
             return [[RACSignal combineLatest:signals] subscribeNext:^(RACTuple *tuple) {
-                RAFValidation *start = [RAFValidation success:self.extract];
+                RAFValidation *start = [RAFValidation success:self.raf_extract];
                 [subscriber sendNext:[tuple.rac_sequence foldLeftWithStart:start combine:^id(RAFValidation *acc, RACTuple *valueForKey) {
                     return [acc raf_append:[valueForKey second]];
                 }]];

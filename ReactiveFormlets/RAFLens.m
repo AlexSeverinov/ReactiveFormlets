@@ -9,6 +9,14 @@
 #import "RAFLens.h"
 #import "RAFIdentityValueTransformer.h"
 
+@concreteprotocol(RAFExtract)
+
+- (id)raf_extract {
+	return self;
+}
+
+@end
+
 @concreteprotocol(RAFLens)
 
 #pragma mark - Inherited
@@ -22,7 +30,7 @@
 	return [NSValueTransformer valueTransformerForName:RAFIdentityValueTransformerName];
 }
 
-- (id)extract {
+- (id)raf_extract {
 	id value = [self valueForKeyPath:self.keyPathForLens];
 	return (value && ![value isKindOfClass:[NSNull class]]) ? [self.valueTransformer transformedValue:value] : nil;
 }
@@ -30,7 +38,7 @@
 - (RACBehaviorSubject *)hardUpdateSignal {
 	static void *kHardUpdateSignalKey = &kHardUpdateSignalKey;
 	if (objc_getAssociatedObject(self, kHardUpdateSignalKey) == nil) {
-		objc_setAssociatedObject(self, kHardUpdateSignalKey, [RACBehaviorSubject behaviorSubjectWithDefaultValue:self.extract], OBJC_ASSOCIATION_RETAIN);
+		objc_setAssociatedObject(self, kHardUpdateSignalKey, [RACBehaviorSubject behaviorSubjectWithDefaultValue:self.raf_extract], OBJC_ASSOCIATION_RETAIN);
 	}
 
 	return objc_getAssociatedObject(self, kHardUpdateSignalKey);
@@ -40,7 +48,7 @@
 	BOOL valueNotNull = value && ![value isKindOfClass:[NSNull class]];
 	id transformed = valueNotNull ? [self.valueTransformer reverseTransformedValue:value] : nil;
 	[self setValue:transformed forKeyPath:self.keyPathForLens];
-	[(RACBehaviorSubject *)self.hardUpdateSignal sendNext:self.extract];
+	[(RACBehaviorSubject *)self.hardUpdateSignal sendNext:self.raf_extract];
 }
 
 - (instancetype)update:(id)value {

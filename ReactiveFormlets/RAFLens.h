@@ -11,9 +11,17 @@
 #import <ReactiveCocoa/ReactiveCocoa.h>
 #import "EXTConcreteProtocol.h"
 
+// A concrete protocol designed to support typesafe extraction of values from
+// objects of protocol type. By default, -raf_extract is the identity function,
+// and serves as a type-safe cast.
+@protocol RAFExtract
+@concrete
+- (id)raf_extract;
+@end
+
 // A concrete protocol representing a lens into an object through a value
 // transformer.
-@protocol RAFLens <NSCopying>
+@protocol RAFLens <NSCopying, RAFExtract>
 @required
 
 // The keypath destination of the lens.
@@ -27,7 +35,7 @@
 
 // Returns the value at the keypath provided in -keyPathForLens fed through the
 // above value transformer.
-- (id)extract;
+- (id)raf_extract;
 
 // Destructively updates at the provided keypath with a value fed in reverse
 // through the above value transformer.
