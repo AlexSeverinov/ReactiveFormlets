@@ -9,5 +9,9 @@
 #import <Foundation/Foundation.h>
 #import "RAFFormlet.h"
 #import "RAFModel.h"
+#import "RAFValidation.h"
 #import "RAFValidator.h"
 #import "RAFReifiedProtocol.h"
+#import "RAFApply.h"
+#import "RAFApplicative.h"
+#import "NSArray+RAFMonoid.h"

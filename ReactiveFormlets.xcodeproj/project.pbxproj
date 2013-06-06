@@ -10,7 +10,7 @@
 		FC4582CB175AC38C00253EF2 /* NSArray+RAFMonoid.h in Headers */ = {isa = PBXBuildFile; fileRef = FC4582C9175AC38B00253EF2 /* NSArray+RAFMonoid.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		FC4582CC175AC38C00253EF2 /* NSArray+RAFMonoid.m in Sources */ = {isa = PBXBuildFile; fileRef = FC4582CA175AC38B00253EF2 /* NSArray+RAFMonoid.m */; };
 		FC4582D2175AD92200253EF2 /* RAFApplicative.h in Headers */ = {isa = PBXBuildFile; fileRef = FC4582D1175AD92200253EF2 /* RAFApplicative.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		FC54EBD8175FE09E00314601 /* EXTRuntimeExtensions.h in Headers */ = {isa = PBXBuildFile; fileRef = FC54EBD6175FE09E00314601 /* EXTRuntimeExtensions.h */; };
+		FC54EBD8175FE09E00314601 /* EXTRuntimeExtensions.h in Headers */ = {isa = PBXBuildFile; fileRef = FC54EBD6175FE09E00314601 /* EXTRuntimeExtensions.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		FC54EBD9175FE09E00314601 /* EXTRuntimeExtensions.m in Sources */ = {isa = PBXBuildFile; fileRef = FC54EBD7175FE09E00314601 /* EXTRuntimeExtensions.m */; };
 		FCD30F3D16F64B4A00473BB8 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = FCD30F3C16F64B4A00473BB8 /* Foundation.framework */; };
 		FCD30F4C16F64B4B00473BB8 /* SenTestingKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = FCD30F4B16F64B4B00473BB8 /* SenTestingKit.framework */; };
@@ -52,13 +52,13 @@
 		FCDDDE36175AA83800953722 /* RAFApply.h in Headers */ = {isa = PBXBuildFile; fileRef = FCDDDE35175AA82400953722 /* RAFApply.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		FCDDDE39175AAA2600953722 /* RAFSemigroup.h in Headers */ = {isa = PBXBuildFile; fileRef = FCDDDE38175AAA2600953722 /* RAFSemigroup.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		FCDDDE3B175AAA2F00953722 /* RAFMonoid.h in Headers */ = {isa = PBXBuildFile; fileRef = FCDDDE3A175AAA2F00953722 /* RAFMonoid.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		FCE7261D175D531F008876C5 /* EXTConcreteProtocol.h in Headers */ = {isa = PBXBuildFile; fileRef = FCE725E4175D531F008876C5 /* EXTConcreteProtocol.h */; };
+		FCE7261D175D531F008876C5 /* EXTConcreteProtocol.h in Headers */ = {isa = PBXBuildFile; fileRef = FCE725E4175D531F008876C5 /* EXTConcreteProtocol.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		FCE7261E175D531F008876C5 /* EXTConcreteProtocol.m in Sources */ = {isa = PBXBuildFile; fileRef = FCE725E5175D531F008876C5 /* EXTConcreteProtocol.m */; };
 		FCE7261F175D531F008876C5 /* EXTConcreteProtocol.m in Sources */ = {isa = PBXBuildFile; fileRef = FCE725E5175D531F008876C5 /* EXTConcreteProtocol.m */; };
-		FCE72644175D531F008876C5 /* EXTScope.h in Headers */ = {isa = PBXBuildFile; fileRef = FCE72600175D531F008876C5 /* EXTScope.h */; };
+		FCE72644175D531F008876C5 /* EXTScope.h in Headers */ = {isa = PBXBuildFile; fileRef = FCE72600175D531F008876C5 /* EXTScope.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		FCE72645175D531F008876C5 /* EXTScope.m in Sources */ = {isa = PBXBuildFile; fileRef = FCE72601175D531F008876C5 /* EXTScope.m */; };
 		FCE72646175D531F008876C5 /* EXTScope.m in Sources */ = {isa = PBXBuildFile; fileRef = FCE72601175D531F008876C5 /* EXTScope.m */; };
-		FCE72650175D531F008876C5 /* metamacros.h in Headers */ = {isa = PBXBuildFile; fileRef = FCE72609175D531F008876C5 /* metamacros.h */; };
+		FCE72650175D531F008876C5 /* metamacros.h in Headers */ = {isa = PBXBuildFile; fileRef = FCE72609175D531F008876C5 /* metamacros.h */; settings = {ATTRIBUTES = (Public, ); }; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
