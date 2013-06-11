@@ -8,7 +8,10 @@
 
 #import "RAFTableForm.h"
 #import "RAFTableSection.h"
-#import "RAFInputRow.h"
+
+@interface RAFTableForm ()
+- (RAFTableSection *)sectionAtIndex:(NSUInteger)index;
+@end
 
 @implementation RAFTableForm
 
@@ -23,25 +26,14 @@
 	return tableView;
 }
 
-- (NSArray *)sections
-{
+- (NSArray *)sections {
 	return self.allValues;
-}
-
-- (RAFTableSection *)sectionAtIndex:(NSUInteger)index
-{
-	return self.sections[index];
-}
-
-- (RAFInputRow *)rowAtIndexPath:(NSIndexPath *)indexPath
-{
-	return [self sectionAtIndex:indexPath.section].allValues[indexPath.row];
 }
 
 #pragma mark - UITableViewDataSource
 
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath {
-	return [self rowAtIndexPath:indexPath].height;
+	return [[self sectionAtIndex:indexPath.section] heightForRowAtIndex:indexPath.row];
 }
 
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView {
@@ -49,11 +41,11 @@
 }
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
-	return [self sectionAtIndex:section].numberOfRows;
+	return [self sectionAtIndex:section].rows.count;
 }
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
-	return [[self sectionAtIndex:indexPath.section] cellForRow:indexPath.row];
+	return [[self sectionAtIndex:indexPath.section] cellForRowAtIndex:indexPath.row];
 }
 
 - (NSString *)tableView:(UITableView *)tableView titleForHeaderInSection:(NSInteger)section {
@@ -75,8 +67,7 @@
 }
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
-	RAFInputRow *row = [self rowAtIndexPath:indexPath];
-	[row.rowWasSelected execute:row];
+	[[self sectionAtIndex:indexPath.section] didSelectRowAtIndex:indexPath.row];
 }
 
 @end

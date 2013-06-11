@@ -15,7 +15,10 @@
 @property (copy) NSString *footerTitle;
 @end
 
+@class RAFInputRow;
 @interface RAFTableSection : RAFCompoundFormlet <RAFTableSection>
-- (NSUInteger)numberOfRows;
-- (UITableViewCell *)cellForRow:(NSUInteger)row;
+- (NSArray *)rows;
+- (CGFloat)heightForRowAtIndex:(NSUInteger)index;
+- (void)didSelectRowAtIndex:(NSUInteger)index;
+- (UITableViewCell *)cellForRowAtIndex:(NSUInteger)row;
 @end

@@ -11,6 +11,10 @@
 #import "RAFTableForm.h"
 #import "RAFFormlet.h"
 
+@interface RAFTableSection ()
+- (RAFInputRow *)rowAtIndex:(NSUInteger)index;
+@end
+
 @implementation RAFTableSection
 @synthesize headerTitle = _headerTitle;
 @synthesize footerTitle = _footerTitle;
@@ -22,14 +26,25 @@
 	return copy;
 }
 
-- (NSUInteger)numberOfRows {
-	return self.count;
+- (NSArray *)rows {
+	return self.allValues;
 }
 
-- (UITableViewCell *)cellForRow:(NSUInteger)index {
-	RAFInputRow *row = (self.allValues)[index];
-	UITableViewCell *cell = row.cell;
-	return cell;
+- (RAFInputRow *)rowAtIndex:(NSUInteger)index {
+	return self.rows[index];
+}
+
+- (CGFloat)heightForRowAtIndex:(NSUInteger)index {
+	return [self rowAtIndex:index].height;
+}
+
+- (UITableViewCell *)cellForRowAtIndex:(NSUInteger)index {
+	return [self rowAtIndex:index].cell;
+}
+
+- (void)didSelectRowAtIndex:(NSUInteger)index {
+	RAFInputRow *row = [self rowAtIndex:index];
+	[row.rowWasSelected execute:row];
 }
 
 @end

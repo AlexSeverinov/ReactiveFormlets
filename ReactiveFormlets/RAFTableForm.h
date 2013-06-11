@@ -16,8 +16,6 @@
 @interface RAFTableForm : RAFCompoundFormlet <UITableViewDataSource, UITableViewDelegate>
 - (UITableView *)buildView;
 - (NSArray *)sections;
-- (RAFTableSection *)sectionAtIndex:(NSUInteger)index;
-- (RAFInputRow *)rowAtIndexPath:(NSIndexPath *)indexPath;
 @end
 
 // Many RAFTableRow
