@@ -8,7 +8,7 @@
 
 #import "RAFTableRow.h"
 
-@interface RAFButtonRow : RAFTableRow
+@interface RAFButtonRow : RAFTableRow <RAFUnit>
 @property (strong, nonatomic) RACCommand *command;
 @property (copy, nonatomic) NSString *title;
 @end
