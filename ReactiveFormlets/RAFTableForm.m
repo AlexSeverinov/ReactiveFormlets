@@ -30,6 +30,10 @@
 	return self.allValues;
 }
 
+- (RAFTableSection *)sectionAtIndex:(NSUInteger)index {
+	return self.sections[index];
+}
+
 #pragma mark - UITableViewDataSource
 
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath {
