@@ -7,27 +7,29 @@
 //
 
 #import "RAFTableSection.h"
-#import "RAFInputRow.h"
+#import "RAFTableRow.h"
 #import "RAFTableForm.h"
 #import "RAFFormlet.h"
 
 @interface RAFTableSection ()
-- (RAFInputRow *)rowAtIndex:(NSUInteger)index;
+- (RAFTableRow *)rowAtIndex:(NSUInteger)index;
 @end
 
 @implementation RAFTableSection
 @synthesize headerTitle = _headerTitle;
 @synthesize footerTitle = _footerTitle;
+@synthesize elementOrdering = _elementOrdering;
 
 - (id)copyWithZone:(NSZone *)zone {
 	RAFTableSection *copy = [super copyWithZone:zone];
 	copy.headerTitle = _headerTitle;
 	copy.footerTitle = _footerTitle;
+	copy.elementOrdering = [_elementOrdering copy];
 	return copy;
 }
 
 - (NSArray *)rows {
-	return self.allValues;
+	return _elementOrdering ? _elementOrdering(self) : self.allValues;
 }
 
 - (RAFInputRow *)rowAtIndex:(NSUInteger)index {
@@ -43,8 +45,7 @@
 }
 
 - (void)didSelectRowAtIndex:(NSUInteger)index {
-	RAFInputRow *row = [self rowAtIndex:index];
-	[row.rowWasSelected execute:row];
+	[[self rowAtIndex:index] rowWasSelected];
 }
 
 @end

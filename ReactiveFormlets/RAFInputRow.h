@@ -7,18 +7,13 @@
 //
 
 #import "RAFFormlet.h"
+#import "RAFTableRow.h"
 
 @class UIView, UITableViewCell;
 
 // RAFInputRow is a table row with a text field.
-@interface RAFInputRow : RAFPrimitiveFormlet
-@property (strong, readonly) UITableViewCell *cell;
-@property (strong, readonly) RACCommand *rowWasSelected;
-
-+ (Class)cellClass;
-
+@interface RAFInputRow : RAFTableRow
 - (instancetype)placeholder:(NSString *)placeholder;
-- (CGFloat)height;
 
 - (UIView *)accessoryView;
 @end

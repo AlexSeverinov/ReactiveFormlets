@@ -83,6 +83,7 @@
 
 @synthesize headerTitle = _headerTitle;
 @synthesize footerTitle = _footerTitle;
+@synthesize elementOrdering = _elementOrdering;
 
 - (RAFTableSection *)section {
 	if (!_section) {
@@ -90,6 +91,8 @@
 		RAC(_section, headerTitle) = RACAbleWithStart(self.headerTitle);
 		RAC(_section, footerTitle) = RACAbleWithStart(self.footerTitle);
 	}
+
+	_section.elementOrdering = self.elementOrdering;
 
 	return _section;
 }

@@ -18,8 +18,16 @@
 - (NSNumber *)raf_extract;
 @end
 
+@protocol RAFUnit <RAFExtract>
+@concrete
+- (RACUnit *)raf_extract;
+@end
+
 @interface NSString (RAFText) <RAFText>
 @end
 
 @interface NSNumber (RAFNumber) <RAFNumber>
+@end
+
+@interface RACUnit (RAFUnit) <RAFUnit>
 @end

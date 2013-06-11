@@ -13,9 +13,13 @@
 @protocol RAFTableSection
 @property (copy) NSString *headerTitle;
 @property (copy) NSString *footerTitle;
+
+// Optionally a function that reorders the form elements; this can be
+// used to prevent certain subforms from displaying, or to introduce
+// other subforms which have no bearing on the data model (such as buttons).
+@property (copy) NSArray *(^elementOrdering)(id form);
 @end
 
-@class RAFInputRow;
 @interface RAFTableSection : RAFCompoundFormlet <RAFTableSection>
 - (NSArray *)rows;
 - (CGFloat)heightForRowAtIndex:(NSUInteger)index;

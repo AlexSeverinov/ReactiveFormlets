@@ -13,3 +13,6 @@
 
 @implementation NSNumber (RAFNumber)
 @end
+
+@implementation RACUnit (RAFUnit)
+@end

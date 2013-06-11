@@ -11,35 +11,12 @@
 #import <ReactiveCocoa/ReactiveCocoa.h>
 
 @implementation RAFInputRow
-@synthesize cell = _cell;
-@synthesize rowWasSelected = _rowWasSelected;
 
 - (UITableViewCell *)cell {
-	if (!_cell) {
-		_cell = [[self.class.cellClass alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:NSStringFromClass(self.class)];
-		_cell.selectionStyle = UITableViewCellSelectionStyleNone;
-		_cell.accessoryView = self.accessoryView;
-	}
-
-	return _cell;
-}
-
-- (RACCommand *)rowWasSelected {
-	if (!_rowWasSelected) {
-		_rowWasSelected = [RACCommand command];
-	}
-
-	return _rowWasSelected;
-}
-
-+ (Class)cellClass {
-	return [UITableViewCell class];
-}
-
-- (id)copyWithZone:(NSZone *)zone {
-	RAFInputRow *row = [super copyWithZone:zone];
-	[row updateInPlace:self.raf_extract];
-	return row;
+	UITableViewCell *cell = [super cell];
+	cell.selectionStyle = UITableViewCellSelectionStyleNone;
+	cell.accessoryView = self.accessoryView;
+	return cell;
 }
 
 - (UIView *)accessoryView {
@@ -48,10 +25,6 @@
 
 - (instancetype)placeholder:(NSString *)placeholder {
 	return nil;
-}
-
-- (CGFloat)height {
-	return 44.f;
 }
 
 @end
@@ -69,13 +42,14 @@
 		_textField.contentVerticalAlignment = UIControlContentVerticalAlignmentCenter;
 		_textField.returnKeyType = UIReturnKeyDone;
 		_textField.delegate = self;
-
-		[self.rowWasSelected subscribeNext:^(RAFTextFieldInputRow *row) {
-			[row.textField becomeFirstResponder];
-		}];
 	}
 
 	return self;
+}
+
+- (void)rowWasSelected {
+	[super rowWasSelected];
+	[self.textField becomeFirstResponder];
 }
 
 - (NSString *)keyPathForLens {
@@ -119,7 +93,6 @@
 	textField.keyboardAppearance = self.textField.keyboardAppearance;
 	return row;
 }
-
 
 #pragma mark - UITextFieldDelegate
 
