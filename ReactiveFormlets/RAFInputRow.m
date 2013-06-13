@@ -42,6 +42,8 @@
 		_textField.contentVerticalAlignment = UIControlContentVerticalAlignmentCenter;
 		_textField.returnKeyType = UIReturnKeyDone;
 		_textField.delegate = self;
+
+		RAC(self.textField.enabled) = RACAbleWithStart(self.editable);
 	}
 
 	return self;

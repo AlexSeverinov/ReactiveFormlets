@@ -23,6 +23,9 @@
 // Returns a signal of RAFValidation objects, with errors for all subordinate
 // form elements accumulated.
 - (RACSignal *)validationSignal;
+
+// Whether the formlet is editable or now. Should default to YES.
+@property (assign, nonatomic, getter = isEditable) BOOL editable;
 @end
 
 @class RAFValidator;

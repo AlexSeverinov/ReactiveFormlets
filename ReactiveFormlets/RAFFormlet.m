@@ -16,6 +16,17 @@
 	RACSignal *_validation;
 }
 @synthesize validator = _validator;
+@synthesize editable = _editable;
+
+- (id)init
+{
+	if (self = [super init])
+	{
+		_editable = YES;
+	}
+
+	return self;
+}
 
 - (instancetype)validator:(RAFValidator *)validator {
 	RAFPrimitiveFormlet *copy = [self copy];
@@ -73,6 +84,17 @@
 }
 
 @dynamic compoundValue;
+@synthesize editable = _editable;
+
+- (id)initWithOrderedDictionary:(RAFOrderedDictionary *)dictionary
+{
+	if (self = [super initWithOrderedDictionary:dictionary])
+	{
+		_editable = YES;
+	}
+
+	return self;
+}
 
 - (id)compoundValue {
 	RAFReifiedProtocol *modelData = [[RAFReifiedProtocol model:self.class.model] new];
@@ -90,6 +112,20 @@
 	}
 }
 
+- (void)setEditable:(BOOL)editable
+{
+	[self willChangeValueForKey:@keypath(self.editable)];
+
+	_editable = editable;
+
+	for (id key in self) {
+		id<RAFFormlet> subform = self[key];
+		subform.editable = editable;
+	}
+
+	[self didChangeValueForKey:@keypath(self.editable)];
+}
+
 #pragma mark - NSCopying
 
 - (id)copyWithZone:(NSZone *)zone {
@@ -97,13 +133,13 @@
 }
 
 - (instancetype)deepCopyWithZone:(NSZone *)zone {
-	id copy = [super deepCopyWithZone:zone];
+	RAFCompoundFormlet *copy = [super deepCopyWithZone:zone];
+	copy.editable = self.editable;
 	[copy updateInPlace:self.raf_extract];
 	return copy;
 }
 
 #pragma mark - Signals
-
 
 - (RACSignal *)signalWithReducer:(id(^)(RACTuple *valuesForKeys))reduce {
 	return [RACSignal createSignal:^RACDisposable *(id<RACSubscriber> subscriber) {
