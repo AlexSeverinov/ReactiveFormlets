@@ -1,6 +1,6 @@
 Pod::Spec.new do |s|
   s.name         = "ReactiveFormlets"
-  s.version      = "1.042"
+  s.version      = "1.05"
   s.summary      = "A framework for building iOS forms compositionally and reactively."
   s.homepage     = "https://github.com/jonsterling/ReactiveFormlets"
   s.author       = { "Jon Sterling" => "jonsterling@me.com" }
