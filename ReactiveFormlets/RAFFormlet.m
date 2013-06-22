@@ -54,12 +54,11 @@
 - (RACSignal *)validationSignal {
 	if (!_validation) {
 		@weakify(self);
-		_validation = [RACSignal createSignal:^RACDisposable *(id<RACSubscriber> subscriber) {
+
+		_validation = [[RACSignal merge:@[ self.rawDataSignal, self.hardUpdateSignal ]] map:^id(id value) {
 			@strongify(self);
-			return [[RACSignal merge:@[ self.rawDataSignal, self.hardUpdateSignal ]] subscribeNext:^(id value) {
-				[subscriber sendNext:[self.validator raf_apply:value]];
-			}];
-		}];
+			return [self.validator validate:value];
+		}].switchToLatest;
 	}
 
 	return _validation;
