@@ -63,6 +63,7 @@
 		FCE72645175D531F008876C5 /* EXTScope.m in Sources */ = {isa = PBXBuildFile; fileRef = FCE72601175D531F008876C5 /* EXTScope.m */; };
 		FCE72646175D531F008876C5 /* EXTScope.m in Sources */ = {isa = PBXBuildFile; fileRef = FCE72601175D531F008876C5 /* EXTScope.m */; };
 		FCE72650175D531F008876C5 /* metamacros.h in Headers */ = {isa = PBXBuildFile; fileRef = FCE72609175D531F008876C5 /* metamacros.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		FCFD58761776419000C991A1 /* RAFFunctor.h in Headers */ = {isa = PBXBuildFile; fileRef = FCFD58751776418F00C991A1 /* RAFFunctor.h */; settings = {ATTRIBUTES = (Public, ); }; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -162,6 +163,7 @@
 		FCE72600175D531F008876C5 /* EXTScope.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = EXTScope.h; sourceTree = "<group>"; };
 		FCE72601175D531F008876C5 /* EXTScope.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = EXTScope.m; sourceTree = "<group>"; };
 		FCE72609175D531F008876C5 /* metamacros.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = metamacros.h; sourceTree = "<group>"; };
+		FCFD58751776418F00C991A1 /* RAFFunctor.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RAFFunctor.h; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -288,6 +290,7 @@
 		FCDDDE37175AAA1100953722 /* Algebra */ = {
 			isa = PBXGroup;
 			children = (
+				FCFD58751776418F00C991A1 /* RAFFunctor.h */,
 				FCDDDE35175AA82400953722 /* RAFApply.h */,
 				FC4582D1175AD92200253EF2 /* RAFApplicative.h */,
 				FCDDDE38175AAA2600953722 /* RAFSemigroup.h */,
@@ -408,6 +411,7 @@
 				FCE72650175D531F008876C5 /* metamacros.h in Headers */,
 				FC54EBD8175FE09E00314601 /* EXTRuntimeExtensions.h in Headers */,
 				FC95AD911766B5B000391656 /* RAFTableRow.h in Headers */,
+				FCFD58761776419000C991A1 /* RAFFunctor.h in Headers */,
 				FC95AD971766B77200391656 /* RAFButtonRow.h in Headers */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

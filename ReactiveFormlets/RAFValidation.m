@@ -32,6 +32,11 @@
 	return [self success:value];
 }
 
+- (id)raf_map:(id (^)(id))function {
+	[self doesNotRecognizeSelector:_cmd];
+	return nil;
+}
+
 - (id)raf_apply:(id)operand {
 	[self doesNotRecognizeSelector:_cmd];
 	return nil;
@@ -63,13 +68,14 @@
 	return success(self.value);
 }
 
+- (id)raf_map:(id (^)(id))function {
+	return [RAFValidation success:function(self.value)];
+}
+
 - (RAFValidation *)raf_apply:(RAFValidation *)validation {
-	NSAssert([self.value conformsToProtocol:@protocol(RAFApply)],
-			 @"Receiver of -[RAFSuccess raf_apply:] must be RAFValidation[RAFApply]");
-	return [validation caseSuccess:^(id value) {
-		return [self.value raf_apply:value];
-	} failure:^(NSArray *errors) {
-		return [RAFFailure failure:errors];
+	return [validation raf_map:^(id value) {
+		id (^function)(id) = self.value;
+		return function(value);
 	}];
 }
 
@@ -99,6 +105,10 @@
 
 - (id)caseSuccess:(id (^)(id))success failure:(id (^)(NSArray *))failure {
 	return failure(self.errors);
+}
+
+- (id)raf_map:(id (^)(id))function {
+	return self;
 }
 
 - (RAFValidation *)raf_apply:(RAFValidation *)validation {
