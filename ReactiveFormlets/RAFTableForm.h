@@ -14,7 +14,7 @@
 
 // Many RAFTableSection
 @interface RAFTableForm : RAFCompoundFormlet <UITableViewDataSource, UITableViewDelegate>
-- (UITableView *)buildView;
+@property (strong, readonly) UITableView *tableView;
 - (NSArray *)sections;
 @end
 

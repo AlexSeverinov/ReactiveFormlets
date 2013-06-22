@@ -15,15 +15,18 @@
 
 @implementation RAFTableForm
 
-- (UITableView *)buildView {
-	UITableView *tableView = [[UITableView alloc] initWithFrame:CGRectZero style:UITableViewStyleGrouped];
-	tableView.autoresizingMask = UIViewAutoresizingFlexibleHeight | UIViewAutoresizingFlexibleWidth | UIViewAutoresizingFlexibleBottomMargin | UIViewAutoresizingFlexibleTopMargin | UIViewAutoresizingFlexibleLeftMargin | UIViewAutoresizingFlexibleRightMargin;
-	tableView.backgroundColor = [UIColor colorWithWhite:0.94f alpha:1.f];
+- (id)initWithOrderedDictionary:(RAFOrderedDictionary *)dictionary
+{
+	if (self = [super initWithOrderedDictionary:dictionary])
+	{
+		_tableView = [[UITableView alloc] initWithFrame:CGRectZero style:UITableViewStyleGrouped];
+		_tableView.autoresizingMask = UIViewAutoresizingFlexibleHeight | UIViewAutoresizingFlexibleWidth | UIViewAutoresizingFlexibleBottomMargin | UIViewAutoresizingFlexibleTopMargin | UIViewAutoresizingFlexibleLeftMargin | UIViewAutoresizingFlexibleRightMargin;
+		_tableView.backgroundColor = [UIColor colorWithWhite:0.94f alpha:1.f];
+		_tableView.dataSource = self;
+		_tableView.delegate = self;
+	}
 
-	tableView.dataSource = self;
-	tableView.delegate = self;
-
-	return tableView;
+	return self;
 }
 
 - (NSArray *)sections {
