@@ -12,15 +12,14 @@
 
 @implementation RAFInputRow
 
-- (UITableViewCell *)cell {
-	UITableViewCell *cell = [super cell];
-	cell.selectionStyle = UITableViewCellSelectionStyleNone;
-	cell.accessoryView = self.accessoryView;
-	return cell;
-}
+- (id)init
+{
+	if (self = [super init])
+	{
+		self.cell.selectionStyle = UITableViewCellSelectionStyleNone;
+	}
 
-- (UIView *)accessoryView {
-	return nil;
+	return self;
 }
 
 - (instancetype)placeholder:(NSString *)placeholder {
@@ -43,6 +42,8 @@
 		_textField.returnKeyType = UIReturnKeyDone;
 		_textField.delegate = self;
 
+		self.cell.accessoryView = _textField;
+		
 		RAC(self.textField.enabled) = RACAbleWithStart(self.editable);
 	}
 
@@ -76,10 +77,6 @@
 	return copy;
 }
 
-- (UIView *)accessoryView {
-	return self.textField;
-}
-
 - (id)copyWithZone:(NSZone *)zone {
 	RAFTextFieldInputRow *row = [super copyWithZone:zone];
 	UITextField *textField = row.textField;
@@ -111,14 +108,18 @@
 
 @implementation RAFNumberInputRow
 
-- (NSValueTransformer *)valueTransformer {
-	return [NSValueTransformer valueTransformerForName:RAFNumberStringValueTransformerName];
+- (id)init
+{
+	if (self = [super init])
+	{
+		self.textField.keyboardType = UIKeyboardTypeNumberPad;
+	}
+
+	return self;
 }
 
-- (UITextField *)textField {
-	UITextField *textField = [super textField];
-	textField.keyboardType = UIKeyboardTypeNumberPad;
-	return textField;
+- (NSValueTransformer *)valueTransformer {
+	return [NSValueTransformer valueTransformerForName:RAFNumberStringValueTransformerName];
 }
 
 @end
