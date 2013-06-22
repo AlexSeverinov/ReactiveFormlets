@@ -20,8 +20,7 @@
 
 - (id)init
 {
-	if (self = [super init])
-	{
+	if (self = [super init]) {
 		_editable = YES;
 	}
 
@@ -91,10 +90,8 @@
 @dynamic compoundValue;
 @synthesize editable = _editable;
 
-- (id)initWithOrderedDictionary:(RAFOrderedDictionary *)dictionary
-{
-	if (self = [super initWithOrderedDictionary:dictionary])
-	{
+- (id)initWithOrderedDictionary:(RAFOrderedDictionary *)dictionary {
+	if (self = [super initWithOrderedDictionary:dictionary]) {
 		_editable = YES;
 	}
 
