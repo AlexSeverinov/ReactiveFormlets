@@ -148,29 +148,29 @@
 
 - (RACSignal *)rawDataSignal {
 	if (!_rawDataSignal) {
-        @weakify(self);
-        _rawDataSignal = [RACSignal createSignal:^RACDisposable *(id<RACSubscriber> subscriber) {
-            @strongify(self);
-            NSMutableSet *signals = [NSMutableSet setWithCapacity:self.count];
-            __block NSInteger count = self.count;
+		@weakify(self);
+		_rawDataSignal = [RACSignal createSignal:^RACDisposable *(id<RACSubscriber> subscriber) {
+			@strongify(self);
+			NSMutableSet *signals = [NSMutableSet setWithCapacity:self.count];
+			__block NSInteger count = self.count;
 
-            for (id key in self) {
-                id<RAFFormlet> subform = self[key];
-                RACSignal *signal = subform.rawDataSignal;
-                [signals addObject:[signal map:^id(id value) {
-                    return RACTuplePack(key, value);
-                }]];
-            }
+			for (id key in self) {
+				id<RAFFormlet> subform = self[key];
+				RACSignal *signal = subform.rawDataSignal;
+				[signals addObject:[signal map:^id(id value) {
+					return RACTuplePack(key, value);
+				}]];
+			}
 
-            return [[RACSignal combineLatest:signals] subscribeNext:^(RACTuple *tuple) {
-                [subscriber sendNext:self.raf_extract];
-            } error:^(NSError *error) {
-                [subscriber sendError:error];
-            } completed:^{
-                --count;
-                if (count == 0) [subscriber sendCompleted];
-            }];
-        }];
+			return [[RACSignal combineLatest:signals] subscribeNext:^(RACTuple *tuple) {
+				[subscriber sendNext:self.raf_extract];
+			} error:^(NSError *error) {
+				[subscriber sendError:error];
+			} completed:^{
+				--count;
+				if (count == 0) [subscriber sendCompleted];
+			}];
+		}];
 	}
 
 	return [RACSignal merge:@[ [_rawDataSignal startWith:self.raf_extract], self.hardUpdateSignal ]];
@@ -178,32 +178,28 @@
 
 - (RACSignal *)validationSignal {
 	if (!_validation) {
-        @weakify(self);
-        _validation = [RACSignal createSignal:^RACDisposable *(id<RACSubscriber> subscriber) {
-            @strongify(self);
-            NSMutableSet *signals = [NSMutableSet setWithCapacity:self.count];
-            __block NSInteger count = self.count;
+		@weakify(self);
+		_validation = [RACSignal createSignal:^RACDisposable *(id<RACSubscriber> subscriber) {
+			@strongify(self);
+			NSMutableSet *signals = [NSMutableSet setWithCapacity:self.count];
+			__block NSInteger count = self.count;
 
-            for (id key in self) {
-                id<RAFFormlet> subform = self[key];
-                RACSignal *signal = subform.validationSignal;
-                [signals addObject:[signal map:^id(id value) {
-                    return RACTuplePack(key, value);
-                }]];
-            }
+			for (id key in self) {
+				id<RAFFormlet> subform = self[key];
+				RACSignal *signal = subform.validationSignal;
+				[signals addObject:signal];
+			}
 
-            return [[RACSignal combineLatest:signals] subscribeNext:^(RACTuple *tuple) {
-                RAFValidation *start = [RAFValidation success:self.raf_extract];
-                [subscriber sendNext:[tuple.rac_sequence foldLeftWithStart:start combine:^id(RAFValidation *acc, RACTuple *valueForKey) {
-                    return [acc raf_append:[valueForKey second]];
-                }]];
-            } error:^(NSError *error) {
-                [subscriber sendError:error];
-            } completed:^{
-                --count;
-                if (count == 0) [subscriber sendCompleted];
-            }];
-        }];
+			return [[RACSignal combineLatest:signals] subscribeNext:^(RACTuple *tuple) {
+				RAFValidation *start = [RAFValidation success:self.raf_extract];
+				[subscriber sendNext:[RAFValidation raf_sum:tuple.rac_sequence onto:start]];
+			} error:^(NSError *error) {
+				[subscriber sendError:error];
+			} completed:^{
+				--count;
+				if (count == 0) [subscriber sendCompleted];
+			}];
+		}];
 	}
 
 	return _validation;

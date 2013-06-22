@@ -64,6 +64,8 @@
 		FCE72646175D531F008876C5 /* EXTScope.m in Sources */ = {isa = PBXBuildFile; fileRef = FCE72601175D531F008876C5 /* EXTScope.m */; };
 		FCE72650175D531F008876C5 /* metamacros.h in Headers */ = {isa = PBXBuildFile; fileRef = FCE72609175D531F008876C5 /* metamacros.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		FCFD58761776419000C991A1 /* RAFFunctor.h in Headers */ = {isa = PBXBuildFile; fileRef = FCFD58751776418F00C991A1 /* RAFFunctor.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		FCFD587B1776459300C991A1 /* RAFSemigroup.m in Sources */ = {isa = PBXBuildFile; fileRef = FCFD587A1776459300C991A1 /* RAFSemigroup.m */; };
+		FCFD587D1776472500C991A1 /* RAFMonoid.m in Sources */ = {isa = PBXBuildFile; fileRef = FCFD587C1776472500C991A1 /* RAFMonoid.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -164,6 +166,8 @@
 		FCE72601175D531F008876C5 /* EXTScope.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = EXTScope.m; sourceTree = "<group>"; };
 		FCE72609175D531F008876C5 /* metamacros.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = metamacros.h; sourceTree = "<group>"; };
 		FCFD58751776418F00C991A1 /* RAFFunctor.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RAFFunctor.h; sourceTree = "<group>"; };
+		FCFD587A1776459300C991A1 /* RAFSemigroup.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RAFSemigroup.m; sourceTree = "<group>"; };
+		FCFD587C1776472500C991A1 /* RAFMonoid.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RAFMonoid.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -294,7 +298,9 @@
 				FCDDDE35175AA82400953722 /* RAFApply.h */,
 				FC4582D1175AD92200253EF2 /* RAFApplicative.h */,
 				FCDDDE38175AAA2600953722 /* RAFSemigroup.h */,
+				FCFD587A1776459300C991A1 /* RAFSemigroup.m */,
 				FCDDDE3A175AAA2F00953722 /* RAFMonoid.h */,
+				FCFD587C1776472500C991A1 /* RAFMonoid.m */,
 			);
 			name = Algebra;
 			sourceTree = "<group>";
@@ -550,8 +556,10 @@
 				FCD30F9C16F64D9D00473BB8 /* RAFLens.m in Sources */,
 				FCD30F9D16F64D9D00473BB8 /* RAFModel.m in Sources */,
 				FCD30F9E16F64D9D00473BB8 /* RAFOrderedDictionary.m in Sources */,
+				FCFD587B1776459300C991A1 /* RAFSemigroup.m in Sources */,
 				FCD30F9F16F64D9D00473BB8 /* RAFReifiedProtocol.m in Sources */,
 				FCD30FA116F64D9D00473BB8 /* RAFObjCRuntime.m in Sources */,
+				FCFD587D1776472500C991A1 /* RAFMonoid.m in Sources */,
 				FCD30FA216F64D9D00473BB8 /* NSInvocation+RAFExtensions.m in Sources */,
 				FCD30FA316F64D9D00473BB8 /* RAFIdentityValueTransformer.m in Sources */,
 				FCD30FA416F64D9D00473BB8 /* RAFNumberStringValueTransformer.m in Sources */,

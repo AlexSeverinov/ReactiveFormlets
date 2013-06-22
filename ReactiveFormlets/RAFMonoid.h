@@ -17,4 +17,9 @@
 //           ∧ ([[M raf_zero] raf_append:x] ≡ x)
 //
 + (instancetype)raf_zero;
+
+@concrete
+// objects - a sequence of objects conforming to <RAFMonoid>.
+// Returns the result of folding these objects left onto the receiver's +raf_zero.
++ (instancetype)raf_sum:(RACSequence *)objects;
 @end
