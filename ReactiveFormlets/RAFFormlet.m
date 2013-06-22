@@ -147,36 +147,12 @@
 
 #pragma mark - Signals
 
-- (RACSignal *)signalWithReducer:(id(^)(RACTuple *valuesForKeys))reduce {
-	return [RACSignal createSignal:^RACDisposable *(id<RACSubscriber> subscriber) {
-		NSMutableArray *signals = [NSMutableSet setWithCapacity:self.count];
-		__block NSInteger count = self.count;
-
-		for (id key in self) {
-			id<RAFFormlet> subform = self[key];
-			RACSignal *signal = subform.rawDataSignal;
-			[signals addObject:[signal map:^id(id value) {
-				return RACTuplePack(key, value);
-			}]];
-		}
-
-		return [[RACSignal combineLatest:signals] subscribeNext:^(RACTuple *tuple) {
-			[subscriber sendNext:reduce(tuple)];
-		} error:^(NSError *error) {
-			[subscriber sendError:error];
-		} completed:^{
-			--count;
-			if (count == 0) [subscriber sendCompleted];
-		}];
-	}];
-}
-
 - (RACSignal *)rawDataSignal {
 	if (!_rawDataSignal) {
         @weakify(self);
         _rawDataSignal = [RACSignal createSignal:^RACDisposable *(id<RACSubscriber> subscriber) {
             @strongify(self);
-            NSMutableArray *signals = [NSMutableSet setWithCapacity:self.count];
+            NSMutableSet *signals = [NSMutableSet setWithCapacity:self.count];
             __block NSInteger count = self.count;
 
             for (id key in self) {
@@ -206,7 +182,7 @@
         @weakify(self);
         _validation = [RACSignal createSignal:^RACDisposable *(id<RACSubscriber> subscriber) {
             @strongify(self);
-            NSMutableArray *signals = [NSMutableSet setWithCapacity:self.count];
+            NSMutableSet *signals = [NSMutableSet setWithCapacity:self.count];
             __block NSInteger count = self.count;
 
             for (id key in self) {
