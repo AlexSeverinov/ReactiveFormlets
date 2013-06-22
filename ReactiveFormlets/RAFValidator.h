@@ -12,13 +12,14 @@
 
 @class RAFValidation;
 
-typedef RAFValidation *(^RAFValidationPredicate)(id object);
+typedef RAFValidation *(^RAFValidationBuilder)(id object);
 
 // RAFValidator models a function that analyzes a function and returns
 // an RAFValidation.
 @interface RAFValidator : NSObject <RAFApply, RAFMonoid>
-@property (copy, readonly) RAFValidationPredicate predicate;
+@property (copy, readonly) RAFValidationBuilder builder;
 
-- (id)initWithPredicate:(RAFValidationPredicate)predicate;
-+ (instancetype)predicate:(RAFValidationPredicate)predicate;
+- (id)initWithBuilder:(RAFValidationBuilder)builder;
++ (instancetype)builder:(RAFValidationBuilder)builder;
++ (instancetype)predicate:(BOOL(^)(id object))predicate errors:(NSArray *(^)(id object))errors;
 @end

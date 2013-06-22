@@ -11,29 +11,37 @@
 
 @implementation RAFValidator
 
-- (id)initWithPredicate:(RAFValidationPredicate)predicate {
-	NSParameterAssert(predicate);
+- (id)initWithBuilder:(RAFValidationBuilder)builder {
+	NSParameterAssert(builder);
 	if (self = [self init]) {
-		_predicate = [predicate copy];
+		_builder = [builder copy];
 	}
 
 	return self;
 }
 
-+ (instancetype)predicate:(RAFValidationPredicate)predicate {
-	return [[self alloc] initWithPredicate:predicate];
++ (instancetype)builder:(RAFValidationBuilder)builder {
+	return [[self alloc] initWithBuilder:builder];
+}
+
++ (instancetype)predicate:(BOOL(^)(id object))predicate errors:(NSArray *(^)(id object))errors {
+	NSParameterAssert(predicate);
+	NSParameterAssert(errors);
+	return [self builder:^RAFValidation *(id object) {
+		return predicate(object) ? [RAFValidation success:object] : [RAFValidation failure:errors(object)];
+	}];
 }
 
 #pragma mark - RAFApply
 
 - (id)raf_apply:(id)operand {
-	return self.predicate(operand);
+	return self.builder(operand);
 }
 
 #pragma mark - RAFSemigroup
 
 - (instancetype)raf_append:(RAFValidator *)validator {
-	return [self.class predicate:^RAFValidation *(id value) {
+	return [self.class builder:^RAFValidation *(id value) {
 		return [[self raf_apply:value] raf_append:[validator raf_apply:value]];
 	}];
 }
@@ -41,7 +49,7 @@
 #pragma mark - RAFMonoid
 
 + (instancetype)raf_zero {
-	return [self predicate:^RAFValidation *(id object) {
+	return [self builder:^RAFValidation *(id object) {
 		return [RAFValidation success:object];
 	}];
 }
