@@ -13,8 +13,8 @@
 //
 // Returns a value in a monoid M such that
 //
-//    forall x : M, ([x raf_append:[M raf_zero]] ≡ x)
-//                ∧ ([[M raf_zero] raf_append:x] ≡ x)
+//    ∀ x : M, ([x raf_append:[M raf_zero]] ≡ x)
+//           ∧ ([[M raf_zero] raf_append:x] ≡ x)
 //
 + (instancetype)raf_zero;
 @end
