@@ -127,11 +127,11 @@
 @implementation RACSignal (RAFValidation)
 
 - (RACSignal *)raf_isSuccessSignal {
-	return [self map:^id(RAFValidation *validation) {
+	return [self map:^(RAFValidation *validation) {
 		return [validation caseSuccess:^(id value) {
-			return @(YES);
+			return @YES;
 		} failure:^(NSArray *errors) {
-			return @(NO);
+			return @NO;
 		}];
 	}];
 }
