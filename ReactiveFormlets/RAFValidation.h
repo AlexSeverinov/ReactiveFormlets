@@ -11,9 +11,6 @@
 #import "RAFApplicative.h"
 #import "RAFSemigroup.h"
 
-@protocol RAFValidationCase;
-@class RAFSuccess, RAFFailure;
-
 // RAFValidation represents a reasoned validity-judgement of an object.
 @interface RAFValidation : NSObject <RAFApplicative, RAFSemigroup>
 
