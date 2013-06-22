@@ -14,8 +14,8 @@
 @end
 
 @interface RAFFailure : RAFValidation
-@property (copy, readonly) id<RAFSemigroup> errors;
-- (id)initWithErrors:(id<RAFSemigroup>)errors;
+@property (copy, readonly) NSArray *errors;
+- (id)initWithErrors:(NSArray *)errors;
 @end
 
 @implementation RAFValidation
@@ -24,7 +24,7 @@
 	return [[RAFSuccess alloc] initWithValue:value];
 }
 
-+ (RAFValidation *)failure:(id<RAFSemigroup>)errors {
++ (RAFValidation *)failure:(NSArray *)errors {
 	return [[RAFFailure alloc] initWithErrors:errors];
 }
 
@@ -42,7 +42,7 @@
 	return nil;
 }
 
-- (id)caseSuccess:(id (^)(id))success failure:(id (^)(id<RAFSemigroup>))failure {
+- (id)caseSuccess:(id (^)(id))success failure:(id (^)(NSArray *))failure {
 	[self doesNotRecognizeSelector:_cmd];
 	return nil;
 }
@@ -59,7 +59,7 @@
 	return self;
 }
 
-- (id)caseSuccess:(id (^)(id))success failure:(id (^)(id<RAFSemigroup>))failure {
+- (id)caseSuccess:(id (^)(id))success failure:(id (^)(NSArray *))failure {
 	return success(self.value);
 }
 
@@ -68,7 +68,7 @@
 			 @"Receiver of -[RAFSuccess raf_apply:] must be RAFValidation[RAFApply]");
 	return [validation caseSuccess:^(id value) {
 		return [self.value raf_apply:value];
-	} failure:^(id<RAFSemigroup> errors) {
+	} failure:^(NSArray *errors) {
 		return [RAFFailure failure:errors];
 	}];
 }
@@ -76,7 +76,7 @@
 - (instancetype)raf_append:(RAFValidation *)validation {
 	return [validation caseSuccess:^id(id value) {
 		return self;
-	} failure:^(id<RAFSemigroup> errors) {
+	} failure:^(NSArray *errors) {
 		return [RAFFailure failure:errors];
 	}];
 }
@@ -89,7 +89,7 @@
 
 @implementation RAFFailure
 
-- (id)initWithErrors:(id<RAFSemigroup>)errors {
+- (id)initWithErrors:(NSArray *)errors {
 	if (self = [self init]) {
 		_errors = errors;
 	}
@@ -97,23 +97,23 @@
 	return self;
 }
 
-- (id)caseSuccess:(id (^)(id))success failure:(id (^)(id<RAFSemigroup>))failure {
+- (id)caseSuccess:(id (^)(id))success failure:(id (^)(NSArray *))failure {
 	return failure(self.errors);
 }
 
 - (RAFValidation *)raf_apply:(RAFValidation *)validation {
 	return [validation caseSuccess:^(id _) {
 		return self;
-	} failure:^id(id<RAFSemigroup> errors) {
-		return [RAFFailure failure:[self.errors raf_append:errors]];
+	} failure:^id(NSArray *errors) {
+		return [RAFFailure failure:[self.errors arrayByAddingObjectsFromArray:errors]];
 	}];
 }
 
 - (instancetype)raf_append:(RAFValidation *)validation {
 	return [validation caseSuccess:^(id _) {
 		return self;
-	} failure:^id(id<RAFSemigroup> errors) {
-		return [RAFFailure failure:[self.errors raf_append:errors]];
+	} failure:^id(NSArray *errors) {
+		return [RAFFailure failure:[self.errors arrayByAddingObjectsFromArray:errors]];
 	}];
 }
 
@@ -128,9 +128,9 @@
 
 - (RACSignal *)raf_isSuccessSignal {
 	return [self map:^id(RAFValidation *validation) {
-		return [validation caseSuccess:^id(id value) {
+		return [validation caseSuccess:^(id value) {
 			return @(YES);
-		} failure:^id(id<RAFSemigroup> errors) {
+		} failure:^(NSArray *errors) {
 			return @(NO);
 		}];
 	}];

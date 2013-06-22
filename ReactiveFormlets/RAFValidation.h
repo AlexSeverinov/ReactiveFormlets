@@ -18,9 +18,9 @@
 // Returns a successful validation with given value.
 + (RAFValidation *)success:(id)value;
 
-// errors - a collection of errors; this may be an NSArray or any other semigroup.
+// errors - a collection of errors.
 // Returns a failed validation with the given errors.
-+ (RAFValidation *)failure:(id<RAFSemigroup>)errors;
++ (RAFValidation *)failure:(NSArray *)errors;
 
 // The eliminator for validations.
 //
@@ -29,7 +29,7 @@
 //
 // Returns either the result of the success block or the failure block depending
 // on whether the validation was created with +success: or +failure:.
-- (id)caseSuccess:(id(^)(id value))success failure:(id(^)(id<RAFSemigroup> errors))failure;
+- (id)caseSuccess:(id(^)(id value))success failure:(id(^)(NSArray *errors))failure;
 @end
 
 @interface RACSignal (RAFValidation)
