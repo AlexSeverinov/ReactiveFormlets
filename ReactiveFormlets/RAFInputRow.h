@@ -11,13 +11,11 @@
 
 @class UIView, UITableViewCell;
 
-// RAFInputRow is a table row with a text field.
 @interface RAFInputRow : RAFTableRow
-- (instancetype)placeholder:(NSString *)placeholder;
 @end
 
 @interface RAFTextFieldInputRow : RAFInputRow
-- (instancetype)modifyTextField:(void (^)(UITextField *field))block;
+@property (copy) void (^configureTextField)(UITextField *field);
 @end
 
 @interface RAFTextInputRow : RAFTextFieldInputRow <RAFText>

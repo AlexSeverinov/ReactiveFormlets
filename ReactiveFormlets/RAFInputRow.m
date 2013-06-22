@@ -9,6 +9,7 @@
 #import "RAFInputRow.h"
 #import "RAFNumberStringValueTransformer.h"
 #import <ReactiveCocoa/ReactiveCocoa.h>
+#import <ReactiveCocoa/EXTScope.h>
 
 @implementation RAFInputRow
 
@@ -45,9 +46,22 @@
 		self.cell.accessoryView = _textField;
 		
 		RAC(self.textField.enabled) = RACAbleWithStart(self.editable);
+
+		@weakify(self);
+		[RACAbleWithStart(self.configureTextField) subscribeNext:^(void (^configure)(UITextField *)) {
+			@strongify(self);
+			if (configure) configure(self.textField);
+		}];
 	}
 
 	return self;
+}
+
+- (id)copyWithZone:(NSZone *)zone
+{
+	RAFTextFieldInputRow *copy = [super copyWithZone:zone];
+	copy.configureTextField = self.configureTextField;
+	return copy;
 }
 
 - (void)rowWasSelected {
@@ -63,34 +77,6 @@
 	return [self.textField.rac_textSignal map:^(NSString *text) {
 		return [self.valueTransformer transformedValue:text ?: @""];
 	}];
-}
-
-- (instancetype)placeholder:(NSString *)placeholder {
-	return [self modifyTextField:^(UITextField *field) {
-		field.placeholder = placeholder;
-	}];
-}
-
-- (instancetype)modifyTextField:(void (^)(UITextField *field))block {
-	RAFTextFieldInputRow *copy = [self copy];
-	block(copy.textField);
-	return copy;
-}
-
-- (id)copyWithZone:(NSZone *)zone {
-	RAFTextFieldInputRow *row = [super copyWithZone:zone];
-	UITextField *textField = row.textField;
-	textField.font = row.textField.font;
-	textField.textColor = row.textField.textColor;
-	textField.textAlignment = row.textField.textAlignment;
-	textField.frame = self.textField.frame;
-	textField.placeholder = self.textField.placeholder;
-	textField.secureTextEntry = self.textField.secureTextEntry;
-	textField.autocorrectionType = self.textField.autocorrectionType;
-	textField.autocapitalizationType = self.textField.autocapitalizationType;
-	textField.keyboardType = self.textField.keyboardType;
-	textField.keyboardAppearance = self.textField.keyboardAppearance;
-	return row;
 }
 
 #pragma mark - UITextFieldDelegate
