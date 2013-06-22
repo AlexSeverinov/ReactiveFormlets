@@ -662,6 +662,7 @@
 				DSTROOT = /tmp/ReactiveFormlets.dst;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "ReactiveFormlets/ReactiveFormlets-Prefix.pch";
+				GCC_TREAT_WARNINGS_AS_ERRORS = YES;
 				HEADER_SEARCH_PATHS = external/libextobjc/;
 				OTHER_LDFLAGS = "-ObjC";
 				PRODUCT_NAME = "$(TARGET_NAME)";
@@ -677,6 +678,7 @@
 				DSTROOT = /tmp/ReactiveFormlets.dst;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "ReactiveFormlets/ReactiveFormlets-Prefix.pch";
+				GCC_TREAT_WARNINGS_AS_ERRORS = YES;
 				HEADER_SEARCH_PATHS = external/libextobjc/;
 				OTHER_LDFLAGS = "-ObjC";
 				PRODUCT_NAME = "$(TARGET_NAME)";
