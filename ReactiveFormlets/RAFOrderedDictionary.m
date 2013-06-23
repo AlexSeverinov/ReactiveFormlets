@@ -162,12 +162,15 @@ typedef enum {
 	NSParameterAssert(key != nil);
 	[self assertMutableForSelector:_cmd];
 
-	if (object == nil) [_keys removeObject:key];
-	if (![_keys containsObject:key]) {
-		[_keys addObject:key];
+	if (object == nil) {
+		[_keys removeObject:key];
+		[_dictionary removeObjectForKey:key];
+	} else {
+		[_dictionary setObject:object forKey:key];
+		if (![_keys containsObject:key]) {
+			[_keys addObject:key];
+		}
 	}
-
-	[_dictionary setObject:object forKey:key];
 }
 
 - (void)setObject:(id)object forKeyedSubscript:(id<NSCopying>)key {
