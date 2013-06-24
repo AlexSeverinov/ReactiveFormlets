@@ -13,6 +13,9 @@
 @interface RAFTableForm : RAFCompoundFormlet
 @property (strong, readonly) UITableView *tableView;
 @property (copy) NSArray *sections;
+
++ (Class)tableFormMomentClass;    // Defaults to RAFTableFormMoment
++ (Class)tableSectionMomentClass; // Defaults to RAFTableSectionMoment
 @end
 
 // This is a premade form which will mirror the model (and the protocol) of the
