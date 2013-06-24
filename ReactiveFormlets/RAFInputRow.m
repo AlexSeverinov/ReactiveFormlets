@@ -9,14 +9,12 @@
 #import "RAFInputRow.h"
 #import "RAFNumberStringValueTransformer.h"
 #import <ReactiveCocoa/ReactiveCocoa.h>
-#import <ReactiveCocoa/EXTScope.h>
+#import "EXTScope.h"
 
 @implementation RAFInputRow
 
-- (id)init
-{
-	if (self = [super init])
-	{
+- (id)init {
+	if (self = [super init]) {
 		self.cell.selectionStyle = UITableViewCellSelectionStyleNone;
 	}
 
@@ -44,7 +42,7 @@
 		_textField.delegate = self;
 
 		self.cell.accessoryView = _textField;
-		
+
 		RAC(self.textField.enabled) = RACAbleWithStart(self.editable);
 
 		@weakify(self);
@@ -94,10 +92,8 @@
 
 @implementation RAFNumberInputRow
 
-- (id)init
-{
-	if (self = [super init])
-	{
+- (id)init {
+	if (self = [super init]) {
 		self.textField.keyboardType = UIKeyboardTypeNumberPad;
 	}
 
