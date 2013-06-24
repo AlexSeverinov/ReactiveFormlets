@@ -21,7 +21,7 @@
 - (id)init
 {
 	if (self = [super init]) {
-		_editable = YES;
+		self.editable = YES;
 	}
 
 	return self;
@@ -92,7 +92,7 @@
 
 - (id)initWithOrderedDictionary:(RAFOrderedDictionary *)dictionary {
 	if (self = [super initWithOrderedDictionary:dictionary]) {
-		_editable = YES;
+		self.editable = YES;
 	}
 
 	return self;
