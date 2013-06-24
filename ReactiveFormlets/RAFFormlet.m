@@ -18,8 +18,7 @@
 @synthesize validator = _validator;
 @synthesize editable = _editable;
 
-- (id)init
-{
+- (id)init {
 	if (self = [super init]) {
 		self.editable = YES;
 	}
@@ -146,26 +145,19 @@
 - (RACSignal *)rawDataSignal {
 	if (!_rawDataSignal) {
 		@weakify(self);
+
+		RACSequence *signals = [self.allValues.rac_sequence map:^id(id<RAFFormlet> subform) {
+			return subform.rawDataSignal;
+		}];
+
 		_rawDataSignal = [RACSignal createSignal:^RACDisposable *(id<RACSubscriber> subscriber) {
 			@strongify(self);
-			NSMutableSet *signals = [NSMutableSet setWithCapacity:self.count];
-			__block NSInteger count = self.count;
-
-			for (id key in self) {
-				id<RAFFormlet> subform = self[key];
-				RACSignal *signal = subform.rawDataSignal;
-				[signals addObject:[signal map:^id(id value) {
-					return RACTuplePack(key, value);
-				}]];
-			}
-
 			return [[RACSignal combineLatest:signals] subscribeNext:^(RACTuple *tuple) {
 				[subscriber sendNext:self.raf_extract];
 			} error:^(NSError *error) {
 				[subscriber sendError:error];
 			} completed:^{
-				--count;
-				if (count == 0) [subscriber sendCompleted];
+				[subscriber sendCompleted];
 			}];
 		}];
 	}
@@ -175,26 +167,20 @@
 
 - (RACSignal *)validationSignal {
 	if (!_validation) {
+		RACSequence *signals = [self.allValues.rac_sequence map:^id(id<RAFFormlet> subform) {
+			return subform.validationSignal;
+		}];
+
 		@weakify(self);
 		_validation = [RACSignal createSignal:^RACDisposable *(id<RACSubscriber> subscriber) {
 			@strongify(self);
-			NSMutableSet *signals = [NSMutableSet setWithCapacity:self.count];
-			__block NSInteger count = self.count;
-
-			for (id key in self) {
-				id<RAFFormlet> subform = self[key];
-				RACSignal *signal = subform.validationSignal;
-				[signals addObject:signal];
-			}
-
 			return [[RACSignal combineLatest:signals] subscribeNext:^(RACTuple *tuple) {
 				RAFValidation *start = [RAFValidation success:self.raf_extract];
 				[subscriber sendNext:[RAFValidation raf_sum:tuple.rac_sequence onto:start]];
 			} error:^(NSError *error) {
 				[subscriber sendError:error];
 			} completed:^{
-				--count;
-				if (count == 0) [subscriber sendCompleted];
+				[subscriber sendCompleted];
 			}];
 		}];
 	}
