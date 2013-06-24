@@ -10,15 +10,13 @@
 #import "RAFFormlet.h"
 #import "RAFTableSection.h"
 
-@class RAFInputRow;
-
 @interface RAFTableForm : RAFCompoundFormlet
 @property (strong, readonly) UITableView *tableView;
 @property (copy) NSArray *sections;
 @end
 
-// This is a premade form which will mirror the model of the section that is
-// provided it.
+// This is a premade form which will mirror the model (and the protocol) of the
+// section that is provided it.
 @interface RAFOneSectionTableForm : RAFTableForm
 + (id)section:(RAFTableSection *)section;
 @end
