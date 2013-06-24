@@ -40,7 +40,7 @@
 		_tableView.backgroundColor = [UIColor colorWithWhite:0.94f alpha:1.f];
 		self.sections = self.allValues;
 
-		RAC(self.tableController) = [[[[RACAbleWithStart(self.sections) map:^id(NSArray *sections) {
+		RAC(self.tableController) = [[[[RACAble(self.sections) map:^id(NSArray *sections) {
 			return [RACSignal combineLatest:[sections.rac_sequence map:^id(RAFTableSection *section) {
 				NSArray *components = @[ RACAbleWithStart(section, rows), RACAbleWithStart(section, headerTitle), RACAbleWithStart(section, footerTitle) ];
 				return [RACSignal combineLatest:components reduce:^(NSArray *rows, NSString *header, NSString *footer) {
@@ -222,7 +222,7 @@
 		_headerTitle = [headerTitle copy];
 		_footerTitle = [footerTitle copy];
 	}
-
+	
 	return self;
 }
 
