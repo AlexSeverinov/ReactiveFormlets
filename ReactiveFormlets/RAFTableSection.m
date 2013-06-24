@@ -11,41 +11,24 @@
 #import "RAFTableForm.h"
 #import "RAFFormlet.h"
 
-@interface RAFTableSection ()
-- (RAFTableRow *)rowAtIndex:(NSUInteger)index;
-@end
-
 @implementation RAFTableSection
 @synthesize headerTitle = _headerTitle;
 @synthesize footerTitle = _footerTitle;
-@synthesize elementOrdering = _elementOrdering;
+
+- (id)initWithOrderedDictionary:(RAFOrderedDictionary *)dictionary {
+	if (self = [super initWithOrderedDictionary:dictionary]) {
+		self.rows = self.allValues;
+	}
+
+	return self;
+}
 
 - (id)copyWithZone:(NSZone *)zone {
 	RAFTableSection *copy = [super copyWithZone:zone];
-	copy.headerTitle = _headerTitle;
-	copy.footerTitle = _footerTitle;
-	copy.elementOrdering = [_elementOrdering copy];
+	copy.headerTitle = [_headerTitle copy];
+	copy.footerTitle = [_footerTitle copy];
+	copy.rows = [_rows copy];
 	return copy;
-}
-
-- (NSArray *)rows {
-	return _elementOrdering ? _elementOrdering(self) : self.allValues;
-}
-
-- (RAFInputRow *)rowAtIndex:(NSUInteger)index {
-	return self.rows[index];
-}
-
-- (CGFloat)heightForRowAtIndex:(NSUInteger)index {
-	return [self rowAtIndex:index].height;
-}
-
-- (UITableViewCell *)cellForRowAtIndex:(NSUInteger)index {
-	return [self rowAtIndex:index].cell;
-}
-
-- (void)didSelectRowAtIndex:(NSUInteger)index {
-	[[self rowAtIndex:index] rowWasSelected];
 }
 
 @end

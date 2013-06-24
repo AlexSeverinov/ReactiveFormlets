@@ -12,12 +12,13 @@
 
 @class RAFInputRow;
 
-// Many RAFTableSection
-@interface RAFTableForm : RAFCompoundFormlet <UITableViewDataSource, UITableViewDelegate>
+@interface RAFTableForm : RAFCompoundFormlet
 @property (strong, readonly) UITableView *tableView;
-- (NSArray *)sections;
+@property (copy) NSArray *sections;
 @end
 
-// Many RAFTableRow
-@interface RAFSingleSectionTableForm : RAFTableForm <RAFTableSection>
+// This is a premade form which will mirror the model of the section that is
+// provided it.
+@interface RAFOneSectionTableForm : RAFTableForm
++ (id)section:(RAFTableSection *)section;
 @end
