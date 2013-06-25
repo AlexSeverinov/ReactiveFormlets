@@ -40,7 +40,7 @@
 
 		Class TableFormMomentClass = self.class.tableFormMomentClass;
 		Class TableSectionMomentClass = self.class.tableSectionMomentClass;
-		
+
 		RAC(self.tableController) = [[[[RACAbleWithStart(self.sections) map:^id(NSArray *sections) {
 			return [RACSignal combineLatest:[sections.rac_sequence map:^id(RAFTableSection *section) {
 				NSArray *components = @[ RACAbleWithStart(section, rows), RACAbleWithStart(section, headerTitle), RACAbleWithStart(section, footerTitle) ];
@@ -92,11 +92,11 @@
 		NSMutableArray *rowsToMove = [NSMutableArray array];
 
 		[oldSections enumerateObjectsUsingBlock:^(RAFTableSectionMoment *section, NSUInteger sectionIndex, BOOL *stop) {
-			[section.rows enumerateObjectsUsingBlock:^(RAFTableRow *row, NSUInteger rowIndex, BOOL *stop) {
-				if (controller.sectionMoments.count <= sectionIndex) {
-					[sectionsToDelete addIndex:sectionIndex];
-				}
+			if (controller.sectionMoments.count <= sectionIndex) {
+				[sectionsToDelete addIndex:sectionIndex];
+			}
 
+			[section.rows enumerateObjectsUsingBlock:^(RAFTableRow *row, NSUInteger rowIndex, BOOL *stop) {
 				if (![controller indexPathForRow:row]) {
 					[rowsToDelete addObject:[NSIndexPath indexPathForRow:rowIndex inSection:sectionIndex]];
 				}
@@ -104,13 +104,13 @@
 		}];
 
 		[newSections enumerateObjectsUsingBlock:^(RAFTableSectionMoment *section, NSUInteger sectionIndex, BOOL *stop) {
+			if (oldController.sectionMoments.count <= sectionIndex) {
+				[sectionsToInsert addIndex:sectionIndex];
+			}
+
 			[section.rows enumerateObjectsUsingBlock:^(RAFTableRow *row, NSUInteger rowIndex, BOOL *stop) {
 				NSIndexPath *newIndexPath = [NSIndexPath indexPathForRow:rowIndex inSection:sectionIndex];
 				NSIndexPath *oldIndexPath = [oldController indexPathForRow:row];
-
-				if (oldController.sectionMoments.count <= sectionIndex) {
-					[sectionsToInsert addIndex:sectionIndex];
-				}
 
 				if (oldIndexPath) {
 					[rowsToMove addObject:RACTuplePack(oldIndexPath, newIndexPath)];
@@ -150,4 +150,3 @@
 }
 
 @end
-
