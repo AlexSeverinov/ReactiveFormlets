@@ -57,14 +57,25 @@
 	return [self.sectionMoments[section] footerTitle];
 }
 
+
 #pragma mark - UITableViewDelegate
 
+- (UIView *)tableView:(UITableView *)tableView viewForHeaderInSection:(NSInteger)section {
+	return [self.sectionMoments[section] headerView];
+}
+
+- (UIView *)tableView:(UITableView *)tableView viewForFooterInSection:(NSInteger)section {
+	return [self.sectionMoments[section] footerView];
+}
+
 - (CGFloat)tableView:(UITableView *)tableView heightForHeaderInSection:(NSInteger)section {
-	return UITableViewAutomaticDimension;
+	UIView *headerView = [self.sectionMoments[section] headerView];
+	return headerView ? headerView.bounds.size.height : UITableViewAutomaticDimension;
 }
 
 - (CGFloat)tableView:(UITableView *)tableView heightForFooterInSection:(NSInteger)section {
-	return UITableViewAutomaticDimension;
+	UIView *footerView = [self.sectionMoments[section] footerView];
+	return footerView ? footerView.bounds.size.height : UITableViewAutomaticDimension;
 }
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {

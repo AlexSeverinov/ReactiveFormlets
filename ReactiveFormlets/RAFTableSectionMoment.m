@@ -10,11 +10,13 @@
 
 @implementation RAFTableSectionMoment
 
-- (id)initWithRows:(NSArray *)rows headerTitle:(NSString *)headerTitle footerTitle:(NSString *)footerTitle {
+- (id)initWithRows:(NSArray *)rows headerTitle:(NSString *)headerTitle footerTitle:(NSString *)footerTitle  headerView:(UIView *)headerView footerView:(UIView *)footerView {
 	if (self = [super init]) {
 		_rows = [rows copy];
 		_headerTitle = [headerTitle copy];
 		_footerTitle = [footerTitle copy];
+		_headerView = headerView;
+		_footerView = footerView;
 	}
 
 	return self;

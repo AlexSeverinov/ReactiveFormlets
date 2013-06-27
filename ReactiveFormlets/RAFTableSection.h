@@ -11,5 +11,7 @@
 @interface RAFTableSection : RAFCompoundFormlet
 @property (copy) NSString *headerTitle;
 @property (copy) NSString *footerTitle;
+@property (strong) UIView *headerView;
+@property (strong) UIView *footerView;
 @property (copy) NSArray *rows;
 @end

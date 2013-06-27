@@ -43,9 +43,9 @@
 
 		RAC(self.tableController) = [[[[RACAbleWithStart(self.sections) map:^id(NSArray *sections) {
 			return [RACSignal combineLatest:[sections.rac_sequence map:^id(RAFTableSection *section) {
-				NSArray *components = @[ RACAbleWithStart(section, rows), RACAbleWithStart(section, headerTitle), RACAbleWithStart(section, footerTitle) ];
-				return [RACSignal combineLatest:components reduce:^(NSArray *rows, NSString *header, NSString *footer) {
-					return [[TableSectionMomentClass alloc] initWithRows:rows headerTitle:header footerTitle:footer];
+				NSArray *components = @[ RACAbleWithStart(section, rows), RACAbleWithStart(section, headerTitle), RACAbleWithStart(section, footerTitle), RACAbleWithStart(section, headerView), RACAbleWithStart(section, footerView) ];
+				return [RACSignal combineLatest:components reduce:^(NSArray *rows, NSString *header, NSString *footer, UIView *headerView, UIView *footerView) {
+					return [[TableSectionMomentClass alloc] initWithRows:rows headerTitle:header footerTitle:footer headerView:headerView footerView:footerView];
 				}];
 			}]];
 		}].switchToLatest map:^(RACTuple *sections) {
