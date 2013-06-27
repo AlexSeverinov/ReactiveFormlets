@@ -34,10 +34,6 @@
 		_tableView.autoresizingMask = UIViewAutoresizingFlexibleHeight | UIViewAutoresizingFlexibleWidth | UIViewAutoresizingFlexibleBottomMargin | UIViewAutoresizingFlexibleTopMargin | UIViewAutoresizingFlexibleLeftMargin | UIViewAutoresizingFlexibleRightMargin;
 		_tableView.backgroundColor = [UIColor colorWithWhite:0.94f alpha:1.f];
 
-		self.sections = [self.allValues.rac_sequence filter:^BOOL(id value) {
-			return [value isKindOfClass:[RAFTableSection class]];
-		}].array;
-
 		Class TableFormMomentClass = self.class.tableFormMomentClass;
 		Class TableSectionMomentClass = self.class.tableSectionMomentClass;
 
