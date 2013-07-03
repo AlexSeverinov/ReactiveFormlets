@@ -12,10 +12,14 @@
 #import "EXTScope.h"
 #import "EXTConcreteProtocol.h"
 
+@interface RAFPrimitiveFormlet ()
+@property (strong, readwrite, nonatomic) RAFValidator *validator;
+@end
+
 @implementation RAFPrimitiveFormlet {
 	RACSignal *_validation;
 }
-@synthesize validator = _validator;
+
 @synthesize editable = _editable;
 
 - (id)init {
@@ -28,7 +32,7 @@
 
 - (instancetype)validator:(RAFValidator *)validator {
 	RAFPrimitiveFormlet *copy = [self copy];
-	copy->_validator = validator;
+	copy.validator = validator;
 	return copy;
 }
 
@@ -36,7 +40,7 @@
 
 - (id)copyWithZone:(NSZone *)zone {
 	RAFPrimitiveFormlet *copy = [self.class new];
-	copy->_validator = self.validator;
+	copy.validator = self.validator;
 	return copy;
 }
 
@@ -51,11 +55,9 @@
 
 - (RACSignal *)validationSignal {
 	if (!_validation) {
-		@weakify(self);
-
-		_validation = [[RACSignal merge:@[ self.rawDataSignal, self.hardUpdateSignal ]] map:^id(id value) {
-			@strongify(self);
-			return [self.validator validate:value];
+		RACSignal *dataSignal = [RACSignal merge:@[ self.rawDataSignal, self.hardUpdateSignal ]];
+		_validation = [RACSignal combineLatest:@[ RACAbleWithStart(self.validator), dataSignal ] reduce:^(RAFValidator * validator, id value) {
+			return [validator validate:value];
 		}].switchToLatest;
 	}
 
