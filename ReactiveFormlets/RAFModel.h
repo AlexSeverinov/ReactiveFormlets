@@ -23,6 +23,13 @@
 - (RACUnit *)raf_extract;
 @end
 
+@protocol RAFIdentity <RAFExtract>
+- (id)identityValue;
++ (instancetype)identityValue:(id)object;
+@concrete
+- (id)raf_extract;
+@end
+
 @interface NSString (RAFText) <RAFText>
 @end
 

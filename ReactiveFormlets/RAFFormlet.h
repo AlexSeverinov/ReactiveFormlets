@@ -33,7 +33,7 @@
 // `RAFPrimitiveFormlet` subclasses must provide their own `-rawDataSignal` and
 // `-keyPathForLens` implementations.
 @interface RAFPrimitiveFormlet : NSObject <RAFFormlet>
-@property (strong, readonly) RAFValidator *validator;
+@property (strong, readonly, nonatomic) RAFValidator *validator;
 - (instancetype)validator:(RAFValidator *)validator;
 @end
 

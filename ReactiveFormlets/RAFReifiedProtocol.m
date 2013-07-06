@@ -13,6 +13,10 @@
 #import <ReactiveCocoa/RACTuple.h>
 #import <ReactiveCocoa/RACSequence.h>
 
+// An empty model to serve as the default model for RAFReifiedProtocol.
+@protocol RAFEmpty
+@end
+
 static void *kModelAssociatedObjectKey = &kModelAssociatedObjectKey;
 
 @implementation RAFReifiedProtocol
@@ -27,7 +31,7 @@ static void *kModelAssociatedObjectKey = &kModelAssociatedObjectKey;
 }
 
 + (Protocol *)model {
-	return [self raf_associatedObjectForKey:kModelAssociatedObjectKey];
+	return [self raf_associatedObjectForKey:kModelAssociatedObjectKey] ?: @protocol(RAFEmpty);
 }
 
 #pragma mark - Message Forwarding

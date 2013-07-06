@@ -17,16 +17,11 @@
 - (id)init {
 	if (self = [super init]) {
 		self.unit = [RACUnit defaultUnit];
+		RAC(self.cell.textLabel.text) = RACAbleWithStart(self.title);
+		self.cell.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
 	}
 
 	return self;
-}
-
-- (UITableViewCell *)cell {
-	UITableViewCell *cell = [super cell];
-	cell.textLabel.text = self.title;
-	cell.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
-	return cell;
 }
 
 - (id)copyWithZone:(NSZone *)zone {

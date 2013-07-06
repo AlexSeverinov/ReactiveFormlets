@@ -6,7 +6,9 @@
 //  Copyright (c) 2013 Jon Sterling. All rights reserved.
 //
 
-@protocol RAFApply
+#import "RAFFunctor.h"
+
+@protocol RAFApply <RAFFunctor>
 // Corresponds to `(<*>)` in Haskell's Control.Applicative. Apply a function
 // `F (a -> b)` (where `F` is a class adopting <RAFApply>) to a value `F a`.
 //

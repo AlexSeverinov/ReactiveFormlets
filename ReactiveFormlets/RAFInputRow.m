@@ -9,18 +9,16 @@
 #import "RAFInputRow.h"
 #import "RAFNumberStringValueTransformer.h"
 #import <ReactiveCocoa/ReactiveCocoa.h>
+#import "EXTScope.h"
 
 @implementation RAFInputRow
 
-- (UITableViewCell *)cell {
-	UITableViewCell *cell = [super cell];
-	cell.selectionStyle = UITableViewCellSelectionStyleNone;
-	cell.accessoryView = self.accessoryView;
-	return cell;
-}
+- (id)init {
+	if (self = [super init]) {
+		self.cell.selectionStyle = UITableViewCellSelectionStyleNone;
+	}
 
-- (UIView *)accessoryView {
-	return nil;
+	return self;
 }
 
 - (instancetype)placeholder:(NSString *)placeholder {
@@ -43,10 +41,25 @@
 		_textField.returnKeyType = UIReturnKeyDone;
 		_textField.delegate = self;
 
+		self.cell.accessoryView = _textField;
+
 		RAC(self.textField.enabled) = RACAbleWithStart(self.editable);
+
+		@weakify(self);
+		[RACAbleWithStart(self.configureTextField) subscribeNext:^(void (^configure)(UITextField *)) {
+			@strongify(self);
+			if (configure) configure(self.textField);
+		}];
 	}
 
 	return self;
+}
+
+- (id)copyWithZone:(NSZone *)zone
+{
+	RAFTextFieldInputRow *copy = [super copyWithZone:zone];
+	copy.configureTextField = self.configureTextField;
+	return copy;
 }
 
 - (void)rowWasSelected {
@@ -64,38 +77,6 @@
 	}];
 }
 
-- (instancetype)placeholder:(NSString *)placeholder {
-	return [self modifyTextField:^(UITextField *field) {
-		field.placeholder = placeholder;
-	}];
-}
-
-- (instancetype)modifyTextField:(void (^)(UITextField *field))block {
-	RAFTextFieldInputRow *copy = [self copy];
-	block(copy.textField);
-	return copy;
-}
-
-- (UIView *)accessoryView {
-	return self.textField;
-}
-
-- (id)copyWithZone:(NSZone *)zone {
-	RAFTextFieldInputRow *row = [super copyWithZone:zone];
-	UITextField *textField = row.textField;
-	textField.font = row.textField.font;
-	textField.textColor = row.textField.textColor;
-	textField.textAlignment = row.textField.textAlignment;
-	textField.frame = self.textField.frame;
-	textField.placeholder = self.textField.placeholder;
-	textField.secureTextEntry = self.textField.secureTextEntry;
-	textField.autocorrectionType = self.textField.autocorrectionType;
-	textField.autocapitalizationType = self.textField.autocapitalizationType;
-	textField.keyboardType = self.textField.keyboardType;
-	textField.keyboardAppearance = self.textField.keyboardAppearance;
-	return row;
-}
-
 #pragma mark - UITextFieldDelegate
 
 - (BOOL)textFieldShouldReturn:(UITextField *)textField {
@@ -111,14 +92,16 @@
 
 @implementation RAFNumberInputRow
 
-- (NSValueTransformer *)valueTransformer {
-	return [NSValueTransformer valueTransformerForName:RAFNumberStringValueTransformerName];
+- (id)init {
+	if (self = [super init]) {
+		self.textField.keyboardType = UIKeyboardTypeNumberPad;
+	}
+
+	return self;
 }
 
-- (UITextField *)textField {
-	UITextField *textField = [super textField];
-	textField.keyboardType = UIKeyboardTypeNumberPad;
-	return textField;
+- (NSValueTransformer *)valueTransformer {
+	return [NSValueTransformer valueTransformerForName:RAFNumberStringValueTransformerName];
 }
 
 @end

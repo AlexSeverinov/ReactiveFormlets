@@ -12,17 +12,19 @@
 #import "EXTScope.h"
 #import "EXTConcreteProtocol.h"
 
+@interface RAFPrimitiveFormlet ()
+@property (strong, readwrite, nonatomic) RAFValidator *validator;
+@end
+
 @implementation RAFPrimitiveFormlet {
 	RACSignal *_validation;
 }
-@synthesize validator = _validator;
+
 @synthesize editable = _editable;
 
-- (id)init
-{
-	if (self = [super init])
-	{
-		_editable = YES;
+- (id)init {
+	if (self = [super init]) {
+		self.editable = YES;
 	}
 
 	return self;
@@ -30,7 +32,7 @@
 
 - (instancetype)validator:(RAFValidator *)validator {
 	RAFPrimitiveFormlet *copy = [self copy];
-	copy->_validator = validator;
+	copy.validator = validator;
 	return copy;
 }
 
@@ -38,7 +40,7 @@
 
 - (id)copyWithZone:(NSZone *)zone {
 	RAFPrimitiveFormlet *copy = [self.class new];
-	copy->_validator = self.validator;
+	copy.validator = self.validator;
 	return copy;
 }
 
@@ -53,13 +55,10 @@
 
 - (RACSignal *)validationSignal {
 	if (!_validation) {
-		@weakify(self);
-		_validation = [RACSignal createSignal:^RACDisposable *(id<RACSubscriber> subscriber) {
-			@strongify(self);
-			return [[RACSignal merge:@[ self.rawDataSignal, self.hardUpdateSignal ]] subscribeNext:^(id value) {
-				[subscriber sendNext:[self.validator raf_apply:value]];
-			}];
-		}];
+		RACSignal *dataSignal = [RACSignal merge:@[ self.rawDataSignal, self.hardUpdateSignal ]];
+		_validation = [RACSignal combineLatest:@[ RACAbleWithStart(self.validator), dataSignal ] reduce:^(RAFValidator * validator, id value) {
+			return [validator validate:value];
+		}].switchToLatest;
 	}
 
 	return _validation;
@@ -92,11 +91,9 @@
 @dynamic compoundValue;
 @synthesize editable = _editable;
 
-- (id)initWithOrderedDictionary:(RAFOrderedDictionary *)dictionary
-{
-	if (self = [super initWithOrderedDictionary:dictionary])
-	{
-		_editable = YES;
+- (id)initWithOrderedDictionary:(RAFOrderedDictionary *)dictionary {
+	if (self = [super initWithOrderedDictionary:dictionary]) {
+		self.editable = YES;
 	}
 
 	return self;
@@ -149,29 +146,22 @@
 
 - (RACSignal *)rawDataSignal {
 	if (!_rawDataSignal) {
-        @weakify(self);
-        _rawDataSignal = [RACSignal createSignal:^RACDisposable *(id<RACSubscriber> subscriber) {
-            @strongify(self);
-            NSMutableSet *signals = [NSMutableSet setWithCapacity:self.count];
-            __block NSInteger count = self.count;
+		@weakify(self);
 
-            for (id key in self) {
-                id<RAFFormlet> subform = self[key];
-                RACSignal *signal = subform.rawDataSignal;
-                [signals addObject:[signal map:^id(id value) {
-                    return RACTuplePack(key, value);
-                }]];
-            }
+		RACSequence *signals = [self.allValues.rac_sequence map:^id(id<RAFFormlet> subform) {
+			return subform.rawDataSignal;
+		}];
 
-            return [[RACSignal combineLatest:signals] subscribeNext:^(RACTuple *tuple) {
-                [subscriber sendNext:self.raf_extract];
-            } error:^(NSError *error) {
-                [subscriber sendError:error];
-            } completed:^{
-                --count;
-                if (count == 0) [subscriber sendCompleted];
-            }];
-        }];
+		_rawDataSignal = [RACSignal createSignal:^RACDisposable *(id<RACSubscriber> subscriber) {
+			@strongify(self);
+			return [[RACSignal combineLatest:signals] subscribeNext:^(RACTuple *tuple) {
+				[subscriber sendNext:self.raf_extract];
+			} error:^(NSError *error) {
+				[subscriber sendError:error];
+			} completed:^{
+				[subscriber sendCompleted];
+			}];
+		}];
 	}
 
 	return [RACSignal merge:@[ [_rawDataSignal startWith:self.raf_extract], self.hardUpdateSignal ]];
@@ -179,32 +169,22 @@
 
 - (RACSignal *)validationSignal {
 	if (!_validation) {
-        @weakify(self);
-        _validation = [RACSignal createSignal:^RACDisposable *(id<RACSubscriber> subscriber) {
-            @strongify(self);
-            NSMutableSet *signals = [NSMutableSet setWithCapacity:self.count];
-            __block NSInteger count = self.count;
+		RACSequence *signals = [self.allValues.rac_sequence map:^id(id<RAFFormlet> subform) {
+			return subform.validationSignal;
+		}];
 
-            for (id key in self) {
-                id<RAFFormlet> subform = self[key];
-                RACSignal *signal = subform.validationSignal;
-                [signals addObject:[signal map:^id(id value) {
-                    return RACTuplePack(key, value);
-                }]];
-            }
-
-            return [[RACSignal combineLatest:signals] subscribeNext:^(RACTuple *tuple) {
-                RAFValidation *start = [RAFValidation success:self.raf_extract];
-                [subscriber sendNext:[tuple.rac_sequence foldLeftWithStart:start combine:^id(RAFValidation *acc, RACTuple *valueForKey) {
-                    return [acc raf_append:[valueForKey second]];
-                }]];
-            } error:^(NSError *error) {
-                [subscriber sendError:error];
-            } completed:^{
-                --count;
-                if (count == 0) [subscriber sendCompleted];
-            }];
-        }];
+		@weakify(self);
+		_validation = [RACSignal createSignal:^RACDisposable *(id<RACSubscriber> subscriber) {
+			@strongify(self);
+			return [[RACSignal combineLatest:signals] subscribeNext:^(RACTuple *tuple) {
+				RAFValidation *start = [RAFValidation success:self.raf_extract];
+				[subscriber sendNext:[RAFValidation raf_sum:tuple.rac_sequence onto:start]];
+			} error:^(NSError *error) {
+				[subscriber sendError:error];
+			} completed:^{
+				[subscriber sendCompleted];
+			}];
+		}];
 	}
 
 	return _validation;

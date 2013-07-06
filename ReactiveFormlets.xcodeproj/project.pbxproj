@@ -12,6 +12,10 @@
 		FC4582D2175AD92200253EF2 /* RAFApplicative.h in Headers */ = {isa = PBXBuildFile; fileRef = FC4582D1175AD92200253EF2 /* RAFApplicative.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		FC54EBD8175FE09E00314601 /* EXTRuntimeExtensions.h in Headers */ = {isa = PBXBuildFile; fileRef = FC54EBD6175FE09E00314601 /* EXTRuntimeExtensions.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		FC54EBD9175FE09E00314601 /* EXTRuntimeExtensions.m in Sources */ = {isa = PBXBuildFile; fileRef = FC54EBD7175FE09E00314601 /* EXTRuntimeExtensions.m */; };
+		FC9006C91778FA3300F974E5 /* RAFTableFormMoment.h in Headers */ = {isa = PBXBuildFile; fileRef = FC9006C71778FA3300F974E5 /* RAFTableFormMoment.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		FC9006CA1778FA3300F974E5 /* RAFTableFormMoment.m in Sources */ = {isa = PBXBuildFile; fileRef = FC9006C81778FA3300F974E5 /* RAFTableFormMoment.m */; };
+		FC9006D01778FA8100F974E5 /* RAFTableSectionMoment.h in Headers */ = {isa = PBXBuildFile; fileRef = FC9006CE1778FA8100F974E5 /* RAFTableSectionMoment.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		FC9006D11778FA8100F974E5 /* RAFTableSectionMoment.m in Sources */ = {isa = PBXBuildFile; fileRef = FC9006CF1778FA8100F974E5 /* RAFTableSectionMoment.m */; };
 		FC95AD911766B5B000391656 /* RAFTableRow.h in Headers */ = {isa = PBXBuildFile; fileRef = FC95AD8F1766B5AF00391656 /* RAFTableRow.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		FC95AD921766B5B000391656 /* RAFTableRow.m in Sources */ = {isa = PBXBuildFile; fileRef = FC95AD901766B5AF00391656 /* RAFTableRow.m */; };
 		FC95AD971766B77200391656 /* RAFButtonRow.h in Headers */ = {isa = PBXBuildFile; fileRef = FC95AD951766B77100391656 /* RAFButtonRow.h */; settings = {ATTRIBUTES = (Public, ); }; };
@@ -63,6 +67,9 @@
 		FCE72645175D531F008876C5 /* EXTScope.m in Sources */ = {isa = PBXBuildFile; fileRef = FCE72601175D531F008876C5 /* EXTScope.m */; };
 		FCE72646175D531F008876C5 /* EXTScope.m in Sources */ = {isa = PBXBuildFile; fileRef = FCE72601175D531F008876C5 /* EXTScope.m */; };
 		FCE72650175D531F008876C5 /* metamacros.h in Headers */ = {isa = PBXBuildFile; fileRef = FCE72609175D531F008876C5 /* metamacros.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		FCFD58761776419000C991A1 /* RAFFunctor.h in Headers */ = {isa = PBXBuildFile; fileRef = FCFD58751776418F00C991A1 /* RAFFunctor.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		FCFD587B1776459300C991A1 /* RAFSemigroup.m in Sources */ = {isa = PBXBuildFile; fileRef = FCFD587A1776459300C991A1 /* RAFSemigroup.m */; };
+		FCFD587D1776472500C991A1 /* RAFMonoid.m in Sources */ = {isa = PBXBuildFile; fileRef = FCFD587C1776472500C991A1 /* RAFMonoid.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -109,6 +116,10 @@
 		FC4582D1175AD92200253EF2 /* RAFApplicative.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RAFApplicative.h; sourceTree = "<group>"; };
 		FC54EBD6175FE09E00314601 /* EXTRuntimeExtensions.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = EXTRuntimeExtensions.h; sourceTree = "<group>"; };
 		FC54EBD7175FE09E00314601 /* EXTRuntimeExtensions.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = EXTRuntimeExtensions.m; sourceTree = "<group>"; };
+		FC9006C71778FA3300F974E5 /* RAFTableFormMoment.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RAFTableFormMoment.h; sourceTree = "<group>"; };
+		FC9006C81778FA3300F974E5 /* RAFTableFormMoment.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RAFTableFormMoment.m; sourceTree = "<group>"; };
+		FC9006CE1778FA8100F974E5 /* RAFTableSectionMoment.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RAFTableSectionMoment.h; sourceTree = "<group>"; };
+		FC9006CF1778FA8100F974E5 /* RAFTableSectionMoment.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RAFTableSectionMoment.m; sourceTree = "<group>"; };
 		FC95AD8F1766B5AF00391656 /* RAFTableRow.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RAFTableRow.h; sourceTree = "<group>"; };
 		FC95AD901766B5AF00391656 /* RAFTableRow.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RAFTableRow.m; sourceTree = "<group>"; };
 		FC95AD951766B77100391656 /* RAFButtonRow.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RAFButtonRow.h; sourceTree = "<group>"; };
@@ -162,6 +173,9 @@
 		FCE72600175D531F008876C5 /* EXTScope.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = EXTScope.h; sourceTree = "<group>"; };
 		FCE72601175D531F008876C5 /* EXTScope.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = EXTScope.m; sourceTree = "<group>"; };
 		FCE72609175D531F008876C5 /* metamacros.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = metamacros.h; sourceTree = "<group>"; };
+		FCFD58751776418F00C991A1 /* RAFFunctor.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RAFFunctor.h; sourceTree = "<group>"; };
+		FCFD587A1776459300C991A1 /* RAFSemigroup.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RAFSemigroup.m; sourceTree = "<group>"; };
+		FCFD587C1776472500C991A1 /* RAFMonoid.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RAFMonoid.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -188,6 +202,17 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		FC9006CD1778FA3A00F974E5 /* Moments */ = {
+			isa = PBXGroup;
+			children = (
+				FC9006C71778FA3300F974E5 /* RAFTableFormMoment.h */,
+				FC9006C81778FA3300F974E5 /* RAFTableFormMoment.m */,
+				FC9006CE1778FA8100F974E5 /* RAFTableSectionMoment.h */,
+				FC9006CF1778FA8100F974E5 /* RAFTableSectionMoment.m */,
+			);
+			name = Moments;
+			sourceTree = "<group>";
+		};
 		FCD30F3016F64B4A00473BB8 = {
 			isa = PBXGroup;
 			children = (
@@ -288,10 +313,13 @@
 		FCDDDE37175AAA1100953722 /* Algebra */ = {
 			isa = PBXGroup;
 			children = (
+				FCFD58751776418F00C991A1 /* RAFFunctor.h */,
 				FCDDDE35175AA82400953722 /* RAFApply.h */,
 				FC4582D1175AD92200253EF2 /* RAFApplicative.h */,
 				FCDDDE38175AAA2600953722 /* RAFSemigroup.h */,
+				FCFD587A1776459300C991A1 /* RAFSemigroup.m */,
 				FCDDDE3A175AAA2F00953722 /* RAFMonoid.h */,
+				FCFD587C1776472500C991A1 /* RAFMonoid.m */,
 			);
 			name = Algebra;
 			sourceTree = "<group>";
@@ -318,6 +346,7 @@
 				FCD30F9416F64D9D00473BB8 /* RAFTableForm.m */,
 				FCD30F9516F64D9D00473BB8 /* RAFTableSection.h */,
 				FCD30F9616F64D9D00473BB8 /* RAFTableSection.m */,
+				FC9006CD1778FA3A00F974E5 /* Moments */,
 				FC95AD8F1766B5AF00391656 /* RAFTableRow.h */,
 				FC95AD901766B5AF00391656 /* RAFTableRow.m */,
 				FCD30F9716F64D9D00473BB8 /* RAFInputRow.h */,
@@ -408,6 +437,9 @@
 				FCE72650175D531F008876C5 /* metamacros.h in Headers */,
 				FC54EBD8175FE09E00314601 /* EXTRuntimeExtensions.h in Headers */,
 				FC95AD911766B5B000391656 /* RAFTableRow.h in Headers */,
+				FC9006D01778FA8100F974E5 /* RAFTableSectionMoment.h in Headers */,
+				FC9006C91778FA3300F974E5 /* RAFTableFormMoment.h in Headers */,
+				FCFD58761776419000C991A1 /* RAFFunctor.h in Headers */,
 				FC95AD971766B77200391656 /* RAFButtonRow.h in Headers */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -546,8 +578,11 @@
 				FCD30F9C16F64D9D00473BB8 /* RAFLens.m in Sources */,
 				FCD30F9D16F64D9D00473BB8 /* RAFModel.m in Sources */,
 				FCD30F9E16F64D9D00473BB8 /* RAFOrderedDictionary.m in Sources */,
+				FCFD587B1776459300C991A1 /* RAFSemigroup.m in Sources */,
 				FCD30F9F16F64D9D00473BB8 /* RAFReifiedProtocol.m in Sources */,
+				FC9006CA1778FA3300F974E5 /* RAFTableFormMoment.m in Sources */,
 				FCD30FA116F64D9D00473BB8 /* RAFObjCRuntime.m in Sources */,
+				FCFD587D1776472500C991A1 /* RAFMonoid.m in Sources */,
 				FCD30FA216F64D9D00473BB8 /* NSInvocation+RAFExtensions.m in Sources */,
 				FCD30FA316F64D9D00473BB8 /* RAFIdentityValueTransformer.m in Sources */,
 				FCD30FA416F64D9D00473BB8 /* RAFNumberStringValueTransformer.m in Sources */,
@@ -555,6 +590,7 @@
 				FCD30FA616F64D9D00473BB8 /* RAFTableSection.m in Sources */,
 				FCD30FA716F64D9D00473BB8 /* RAFInputRow.m in Sources */,
 				FCDDDE30175AA35700953722 /* RAFValidation.m in Sources */,
+				FC9006D11778FA8100F974E5 /* RAFTableSectionMoment.m in Sources */,
 				FCDDDE34175AA74300953722 /* RAFValidator.m in Sources */,
 				FC4582CC175AC38C00253EF2 /* NSArray+RAFMonoid.m in Sources */,
 				FCE7261E175D531F008876C5 /* EXTConcreteProtocol.m in Sources */,
@@ -662,6 +698,7 @@
 				DSTROOT = /tmp/ReactiveFormlets.dst;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "ReactiveFormlets/ReactiveFormlets-Prefix.pch";
+				GCC_TREAT_WARNINGS_AS_ERRORS = YES;
 				HEADER_SEARCH_PATHS = external/libextobjc/;
 				OTHER_LDFLAGS = "-ObjC";
 				PRODUCT_NAME = "$(TARGET_NAME)";
@@ -677,6 +714,7 @@
 				DSTROOT = /tmp/ReactiveFormlets.dst;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "ReactiveFormlets/ReactiveFormlets-Prefix.pch";
+				GCC_TREAT_WARNINGS_AS_ERRORS = YES;
 				HEADER_SEARCH_PATHS = external/libextobjc/;
 				OTHER_LDFLAGS = "-ObjC";
 				PRODUCT_NAME = "$(TARGET_NAME)";
