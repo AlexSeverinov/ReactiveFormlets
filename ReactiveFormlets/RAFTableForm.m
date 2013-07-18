@@ -56,7 +56,19 @@
 			return [[TableFormMomentClass alloc] initWithSectionMoments:sections.rac_sequence.array];
 		}] deliverOn:RACScheduler.mainThreadScheduler] startWith:[RAFTableFormMoment new]];
 
-		RACSignal *editingDestinations = [RACAbleWithStart(self.rowsByEditingOrder) map:^(NSArray *rows) {
+		RACSignal *includedRows = [RACAbleWithStart(self.sections) map:^(NSArray *sections) {
+			return [sections.rac_sequence flattenMap:^RACStream *(RAFTableSection *section) {
+				return section.rows.rac_sequence;
+			}].array;
+		}];
+
+		RACSignal *includedRowsByEditingOrder = [RACSignal combineLatest:@[ RACAbleWithStart(self.rowsByEditingOrder), includedRows ] reduce:^(NSArray *rows, NSArray *includedRows) {
+			return [rows.rac_sequence filter:^BOOL(RAFTableRow *row) {
+				return [includedRows containsObject:row];
+			}].array;
+		}];
+
+		RACSignal *editingDestinations = [includedRows map:^(NSArray *rows) {
 			if (!rows) return [RACSignal empty];
 
 			return [RACSignal merge:[rows.rac_sequence map:^(RAFTableRow *row) {
@@ -68,7 +80,7 @@
 			}]];
 		}].switchToLatest;
 
-		[RACAbleWithStart(self.rowsByEditingOrder) subscribeNext:^(NSArray *rows) {
+		[includedRowsByEditingOrder subscribeNext:^(NSArray *rows) {
 			[rows enumerateObjectsUsingBlock:^(RAFTableRow *row, NSUInteger idx, BOOL *stop) {
 				row.lastInTabOrder = idx == rows.count - 1;
 			}];
