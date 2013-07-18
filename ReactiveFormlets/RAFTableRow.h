@@ -10,6 +10,10 @@
 
 @interface RAFTableRow : RAFPrimitiveFormlet
 @property (strong, readonly) UITableViewCell *cell;
+@property (assign) BOOL lastInTabOrder;
+
+- (RACSignal *)fieldDidFinishEditingSignal; // RACSignal[RACUnit]
+- (void)beginEditing;
 
 + (Class)cellClass;
 - (CGFloat)height;

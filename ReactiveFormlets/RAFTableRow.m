@@ -39,4 +39,12 @@
 	
 }
 
+- (RACSignal *)fieldDidFinishEditingSignal {
+	return [RACSignal empty];
+}
+
+- (void)beginEditing {
+	[self.cell becomeFirstResponder];
+}
+
 @end

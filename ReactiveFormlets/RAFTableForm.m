@@ -56,6 +56,28 @@
 			return [[TableFormMomentClass alloc] initWithSectionMoments:sections.rac_sequence.array];
 		}] deliverOn:RACScheduler.mainThreadScheduler] startWith:[RAFTableFormMoment new]];
 
+		RACSignal *editingDestinations = [RACAbleWithStart(self.rowsByEditingOrder) map:^(NSArray *rows) {
+			if (!rows) return [RACSignal empty];
+
+			return [RACSignal merge:[rows.rac_sequence map:^(RAFTableRow *row) {
+				return [row.fieldDidFinishEditingSignal map:^(RACUnit *unit) {
+					NSUInteger currentIndex = [rows indexOfObject:row];
+					NSUInteger nextIndex = currentIndex + 1;
+					return rows.count > nextIndex ? rows[nextIndex] : nil;
+				}];
+			}]];
+		}].switchToLatest;
+
+		[RACAbleWithStart(self.rowsByEditingOrder) subscribeNext:^(NSArray *rows) {
+			[rows enumerateObjectsUsingBlock:^(RAFTableRow *row, NSUInteger idx, BOOL *stop) {
+				row.lastInTabOrder = idx == rows.count - 1;
+			}];
+		}];
+
+		[editingDestinations subscribeNext:^(RAFTableRow *row) {
+			[row beginEditing];
+		}];
+
 		self.tableView.dataSource = self.tableController;
 		self.tableView.delegate = self.tableController;
 

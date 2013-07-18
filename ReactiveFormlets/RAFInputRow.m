@@ -27,20 +27,29 @@
 
 @end
 
-@implementation RAFTextFieldInputRow
+@implementation RAFTextFieldInputRow {
+	RACSubject *_fieldDidFinishEditingSignal;
+}
 
 - (id)init {
 	if (self = [super init]) {
+		_fieldDidFinishEditingSignal = [RACSubject subject];
+		
 		_textField = [[UITextField alloc] initWithFrame:CGRectMake(0.f, 5.f, 285.f, 35.f)];
 		_textField.contentVerticalAlignment = UIControlContentVerticalAlignmentCenter;
 		_textField.returnKeyType = UIReturnKeyDone;
 		_textField.delegate = self;
 
+		@weakify(self);
+		[RACAbleWithStart(self.lastInTabOrder) subscribeNext:^(NSNumber *isLast) {
+			@strongify(self);
+			self.textField.returnKeyType = isLast.boolValue ? UIReturnKeyDone : UIReturnKeyNext;
+		}];
+
 		self.cell.accessoryView = _textField;
 
 		RAC(self.textField.enabled) = RACAbleWithStart(self.editable);
 
-		@weakify(self);
 		[RACAbleWithStart(self.configureTextField) subscribeNext:^(void (^configure)(UITextField *)) {
 			@strongify(self);
 			if (configure) configure(self.textField);
@@ -72,10 +81,19 @@
 	}];
 }
 
+- (RACSignal *)fieldDidFinishEditingSignal {
+	return _fieldDidFinishEditingSignal;
+}
+
+- (void)beginEditing {
+	[self.textField becomeFirstResponder];
+}
+
 #pragma mark - UITextFieldDelegate
 
 - (BOOL)textFieldShouldReturn:(UITextField *)textField {
 	[textField resignFirstResponder];
+	[_fieldDidFinishEditingSignal sendNext:RACUnit.defaultUnit];
 	return NO;
 }
 

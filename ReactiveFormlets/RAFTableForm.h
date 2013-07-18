@@ -12,7 +12,8 @@
 
 @interface RAFTableForm : RAFCompoundFormlet
 @property (strong, readonly) UITableView *tableView;
-@property (copy) NSArray *sections;
+@property (copy) NSArray *sections;           // NSArray[RAFTableSection]
+@property (copy) NSArray *rowsByEditingOrder; // NSArray[RAFTableRow]
 
 // When YES, the form's `sections` property is automatically set to -allValues.
 // When NO, the form's `sections` property must be set manually.
