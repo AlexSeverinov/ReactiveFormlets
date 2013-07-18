@@ -27,11 +27,6 @@
 
 @end
 
-
-@interface RAFTextFieldInputRow () <UITextFieldDelegate>
-@property (strong, readonly) UITextField *textField;
-@end
-
 @implementation RAFTextFieldInputRow
 
 - (id)init {
