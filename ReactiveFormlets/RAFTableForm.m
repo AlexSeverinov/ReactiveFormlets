@@ -28,6 +28,10 @@
 	return [RAFTableSectionMoment class];
 }
 
++ (BOOL)sectionsMirrorData {
+	return YES;
+}
+
 - (id)initWithOrderedDictionary:(RAFOrderedDictionary *)dictionary {
 	if (self = [super initWithOrderedDictionary:dictionary]) {
 		_tableView = [[UITableView alloc] initWithFrame:CGRectZero style:UITableViewStyleGrouped];
@@ -36,6 +40,10 @@
 
 		Class TableFormMomentClass = self.class.tableFormMomentClass;
 		Class TableSectionMomentClass = self.class.tableSectionMomentClass;
+
+		if (self.class.sectionsMirrorData) {
+			self.sections = self.allValues;
+		}
 
 		RAC(self.tableController) = [[[[RACAbleWithStart(self.sections) map:^id(NSArray *sections) {
 			return [RACSignal combineLatest:[sections.rac_sequence map:^id(RAFTableSection *section) {
@@ -118,6 +126,14 @@
 
 		return RACTuplePack(controller, [sectionsToDelete copy], [sectionsToInsert copy], [rowsToDelete copy], [rowsToInsert copy], [rowsToMove copy]);
 	}];
+}
+
+@end
+
+@implementation RAFCustomTableForm
+
++ (BOOL)sectionsMirrorData {
+	return NO;
 }
 
 @end
