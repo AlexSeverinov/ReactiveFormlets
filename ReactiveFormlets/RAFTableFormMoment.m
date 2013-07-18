@@ -21,10 +21,10 @@
 
 - (NSIndexPath *)indexPathForRow:(RAFTableRow *)row {
 	__block NSIndexPath *indexPath = nil;
-	[self.sectionMoments enumerateObjectsUsingBlock:^(RAFTableSectionMoment *controller, NSUInteger sectionIndex, BOOL *stop) {
-		if ([controller.rows containsObject:row]) {
+	[self.sectionMoments enumerateObjectsUsingBlock:^(RAFTableSectionMoment *moment, NSUInteger sectionIndex, BOOL *stop) {
+		if ([moment.rows containsObject:row]) {
 			*stop = YES;
-			indexPath = [NSIndexPath indexPathForRow:[controller.rows indexOfObject:row] inSection:sectionIndex];
+			indexPath = [NSIndexPath indexPathForRow:[moment.rows indexOfObject:row] inSection:sectionIndex];
 		}
 	}];
 
