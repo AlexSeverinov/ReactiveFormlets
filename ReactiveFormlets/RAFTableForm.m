@@ -63,6 +63,12 @@
 		}];
 
 		RACSignal *includedRowsByEditingOrder = [RACSignal combineLatest:@[ RACAbleWithStart(self.rowsByEditingOrder), includedRows ] reduce:^(NSArray *rows, NSArray *includedRows) {
+			if (!rows) {
+				return [includedRows.rac_sequence filter:^BOOL(RAFTableRow *row) {
+					return [row canEdit];
+				}].array;
+			}
+
 			return [rows.rac_sequence filter:^BOOL(RAFTableRow *row) {
 				return [includedRows containsObject:row];
 			}].array;

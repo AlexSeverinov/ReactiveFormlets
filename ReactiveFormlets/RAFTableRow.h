@@ -13,6 +13,7 @@
 @property (assign) BOOL lastInTabOrder;
 
 - (RACSignal *)fieldDidFinishEditingSignal; // RACSignal[RACUnit]
+- (BOOL)canEdit;
 - (void)beginEditing;
 
 + (Class)cellClass;

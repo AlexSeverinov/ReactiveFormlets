@@ -47,4 +47,8 @@
 	[self.cell becomeFirstResponder];
 }
 
+- (BOOL)canEdit {
+	return NO;
+}
+
 @end

@@ -13,6 +13,8 @@
 @interface RAFTableForm : RAFCompoundFormlet
 @property (strong, readonly) UITableView *tableView;
 @property (copy) NSArray *sections;           // NSArray[RAFTableSection]
+
+// Defaults to linear order of rows for which -canEdit is YES.
 @property (copy) NSArray *rowsByEditingOrder; // NSArray[RAFTableRow]
 
 // When YES, the form's `sections` property is automatically set to -allValues.

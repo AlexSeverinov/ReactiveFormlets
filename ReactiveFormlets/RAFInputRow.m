@@ -85,6 +85,10 @@
 	return _fieldDidFinishEditingSignal;
 }
 
+- (BOOL)canEdit {
+	return YES;
+}
+
 - (void)beginEditing {
 	[self.textField becomeFirstResponder];
 }
