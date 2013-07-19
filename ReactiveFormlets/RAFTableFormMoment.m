@@ -7,7 +7,7 @@
 //
 
 #import "RAFTableFormMoment.h"
-#import "RAFTableSectionMoment.h"
+#import "RAFTableSection.h"
 
 @implementation RAFTableFormMoment
 
@@ -21,7 +21,7 @@
 
 - (NSIndexPath *)indexPathForRow:(RAFTableRow *)row {
 	__block NSIndexPath *indexPath = nil;
-	[self.sectionMoments enumerateObjectsUsingBlock:^(RAFTableSectionMoment *moment, NSUInteger sectionIndex, BOOL *stop) {
+	[self.sectionMoments enumerateObjectsUsingBlock:^(RAFTableSection *moment, NSUInteger sectionIndex, BOOL *stop) {
 		if ([moment.rows containsObject:row]) {
 			*stop = YES;
 			indexPath = [NSIndexPath indexPathForRow:[moment.rows indexOfObject:row] inSection:sectionIndex];
