@@ -98,22 +98,24 @@
 		@weakify(self);
 		[self.tableViewUpdatesSignal subscribeNext:^(RACTuple *tuple) {
 			@strongify(self);
-			RACTupleUnpack(RAFTableFormMoment *controller, NSIndexSet *sectionsToDelete, NSIndexSet *sectionsToInsert, NSArray *rowsToDelete, NSArray *rowsToInsert, NSArray *rowsToMove) = tuple;
+//			RACTupleUnpack(RAFTableFormMoment *controller, NSIndexSet *sectionsToDelete, NSIndexSet *sectionsToInsert, NSArray *rowsToDelete, NSArray *rowsToInsert, NSArray *rowsToMove) = tuple;
+//
+//			[self.tableView beginUpdates];
+//
+//			[self.tableView deleteSections:sectionsToDelete withRowAnimation:UITableViewRowAnimationAutomatic];
+//			[self.tableView insertSections:sectionsToInsert withRowAnimation:UITableViewRowAnimationAutomatic];
+//			[self.tableView deleteRowsAtIndexPaths:rowsToDelete withRowAnimation:UITableViewRowAnimationAutomatic];
+//			[self.tableView insertRowsAtIndexPaths:rowsToInsert withRowAnimation:UITableViewRowAnimationAutomatic];
+//
+//			for (RACTuple *move in rowsToMove) {
+//				[self.tableView moveRowAtIndexPath:move.first toIndexPath:move.second];
+//			}
 
-			[self.tableView beginUpdates];
-
-			[self.tableView deleteSections:sectionsToDelete withRowAnimation:UITableViewRowAnimationAutomatic];
-			[self.tableView insertSections:sectionsToInsert withRowAnimation:UITableViewRowAnimationAutomatic];
-			[self.tableView deleteRowsAtIndexPaths:rowsToDelete withRowAnimation:UITableViewRowAnimationAutomatic];
-			[self.tableView insertRowsAtIndexPaths:rowsToInsert withRowAnimation:UITableViewRowAnimationAutomatic];
-
-			for (RACTuple *move in rowsToMove) {
-				[self.tableView moveRowAtIndexPath:move.first toIndexPath:move.second];
-			}
-
-			self.tableView.dataSource = controller;
-			self.tableView.delegate = controller;
-			[self.tableView endUpdates];
+			self.tableView.dataSource = tuple.first;
+			self.tableView.delegate = tuple.first;
+			[self.tableView reloadData];
+			
+//			[self.tableView endUpdates];
 		}];
 	}
 
