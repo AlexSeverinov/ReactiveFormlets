@@ -35,13 +35,12 @@
 	return self;
 }
 
-- (id)initWithUniqueIdentifier:(NSString *)identifier rows:(NSArray *)rows {
-    if (self = [super init]) {
-        self.rows = rows;
-        self.uniqueIdentifier = identifier;
-    }
++ (instancetype)uniqueIdentifier:(NSString *)identifier rows:(NSArray *)rows {
+	return [[self alloc] initWithUniqueIdentifier:identifier rows:rows headerTitle:nil footerTitle:nil headerView:nil footerView:nil];
+}
 
-    return self;
++ (instancetype)uniqueIdentifier:(NSString *)identifier rows:(NSArray *)rows headerTitle:(NSString *)headerTitle footerTitle:(NSString *)footerTitle {
+	return [[self alloc] initWithUniqueIdentifier:identifier rows:rows headerTitle:headerTitle footerTitle:footerTitle headerView:nil footerView:nil];
 }
 
 - (id)initWithOrderedDictionary:(RAFOrderedDictionary *)dictionary {

@@ -47,8 +47,10 @@ typedef void (^RAFTableSectionModifyBlock)(id<RAFMutableTableSection> section);
 @end
 
 @interface RAFTableSection : RAFCompoundFormlet <RAFTableSection>
-- (id)initWithUniqueIdentifier:(NSString *)identifier rows:(NSArray *)rows;
 - (id)initWithUniqueIdentifier:(NSString *)identifier rows:(NSArray *)rows headerTitle:(NSString *)headerTitle footerTitle:(NSString *)footerTitle headerView:(UIView *)headerView footerView:(UIView *)footerView;
+
++ (instancetype)uniqueIdentifier:(NSString *)identifier rows:(NSArray *)rows;
++ (instancetype)uniqueIdentifier:(NSString *)identifier rows:(NSArray *)rows headerTitle:(NSString *)headerTitle footerTitle:(NSString *)footerTitle;
 
 // A signal of immutable RAFTableSection objects which fires for every change to a mutable receiver.
 - (RACSignal *)moments; // RACSignal[RAFTableSection]
