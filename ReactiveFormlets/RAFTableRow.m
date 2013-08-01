@@ -11,10 +11,8 @@
 @implementation RAFTableRow
 @synthesize cell = _cell;
 
-- (id)init
-{
-	if (self = [super init])
-	{
+- (id)init {
+	if (self = [super init]) {
 		_cell = [[self.class.cellClass alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:NSStringFromClass(self.class)];
 	}
 
