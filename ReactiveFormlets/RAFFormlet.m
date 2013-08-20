@@ -197,4 +197,8 @@
 	return @keypath(self.compoundValue);
 }
 
+- (id)raf_extract {
+	return self.compoundValue;
+}
+
 @end
