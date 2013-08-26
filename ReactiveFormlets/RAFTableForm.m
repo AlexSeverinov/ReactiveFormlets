@@ -1,9 +1,9 @@
 //
-//  RAFTableForm.m
-//  ReactiveFormlets
+//RAFTableForm.m
+//ReactiveFormlets
 //
-//  Created by Jon Sterling on 6/12/12.
-//  Copyright (c) 2012 Jon Sterling. All rights reserved.
+//Created by Jon Sterling on 6/12/12.
+//Copyright (c) 2012 Jon Sterling. All rights reserved.
 //
 
 #import "RAFTableForm.h"
@@ -12,7 +12,7 @@
 #import "RAFObjCRuntime.h"
 #import "EXTScope.h"
 #import "RAFTableFormMoment.h"
-#import "RAFTableSectionMoment.h"
+#import "RAFTableSection.h"
 
 @interface RAFTableForm ()
 @property (strong) RAFTableFormMoment *tableController;
@@ -25,7 +25,7 @@
 }
 
 + (Class)tableSectionMomentClass {
-	return [RAFTableSectionMoment class];
+	return [RAFTableSection class];
 }
 
 + (BOOL)sectionsMirrorData {
@@ -39,18 +39,14 @@
 		_tableView.backgroundColor = [UIColor colorWithWhite:0.94f alpha:1.f];
 
 		Class TableFormMomentClass = self.class.tableFormMomentClass;
-		Class TableSectionMomentClass = self.class.tableSectionMomentClass;
 
 		if (self.class.sectionsMirrorData) {
 			self.sections = self.allValues;
 		}
 
 		RAC(self.tableController) = [[[[RACAbleWithStart(self.sections) map:^id(NSArray *sections) {
-			return [RACSignal combineLatest:[sections.rac_sequence map:^id(RAFTableSection *section) {
-				NSArray *components = @[ RACAbleWithStart(section, rows), RACAbleWithStart(section, headerTitle), RACAbleWithStart(section, footerTitle), RACAbleWithStart(section, headerView), RACAbleWithStart(section, footerView) ];
-				return [RACSignal combineLatest:components reduce:^(NSArray *rows, NSString *header, NSString *footer, UIView *headerView, UIView *footerView) {
-					return [[TableSectionMomentClass alloc] initWithRows:rows headerTitle:header footerTitle:footer headerView:headerView footerView:footerView];
-				}];
+			return [RACSignal combineLatest:[sections.rac_sequence map:^(RAFTableSection *section) {
+				return section.moments;
 			}]];
 		}].switchToLatest map:^(RACTuple *sections) {
 			return [[TableFormMomentClass alloc] initWithSectionMoments:sections.rac_sequence.array];
@@ -102,22 +98,24 @@
 		@weakify(self);
 		[self.tableViewUpdatesSignal subscribeNext:^(RACTuple *tuple) {
 			@strongify(self);
-			RACTupleUnpack(RAFTableFormMoment *controller, NSIndexSet *sectionsToDelete, NSIndexSet *sectionsToInsert, NSArray *rowsToDelete, NSArray *rowsToInsert, NSArray *rowsToMove) = tuple;
+//			RACTupleUnpack(RAFTableFormMoment *controller, NSIndexSet *sectionsToDelete, NSIndexSet *sectionsToInsert, NSArray *rowsToDelete, NSArray *rowsToInsert, NSArray *rowsToMove) = tuple;
+//
+//			[self.tableView beginUpdates];
+//
+//			[self.tableView deleteSections:sectionsToDelete withRowAnimation:UITableViewRowAnimationAutomatic];
+//			[self.tableView insertSections:sectionsToInsert withRowAnimation:UITableViewRowAnimationAutomatic];
+//			[self.tableView deleteRowsAtIndexPaths:rowsToDelete withRowAnimation:UITableViewRowAnimationAutomatic];
+//			[self.tableView insertRowsAtIndexPaths:rowsToInsert withRowAnimation:UITableViewRowAnimationAutomatic];
+//
+//			for (RACTuple *move in rowsToMove) {
+//				[self.tableView moveRowAtIndexPath:move.first toIndexPath:move.second];
+//			}
 
-			[self.tableView beginUpdates];
-
-			[self.tableView deleteSections:sectionsToDelete withRowAnimation:UITableViewRowAnimationAutomatic];
-			[self.tableView insertSections:sectionsToInsert withRowAnimation:UITableViewRowAnimationAutomatic];
-			[self.tableView deleteRowsAtIndexPaths:rowsToDelete withRowAnimation:UITableViewRowAnimationAutomatic];
-			[self.tableView insertRowsAtIndexPaths:rowsToInsert withRowAnimation:UITableViewRowAnimationAutomatic];
-
-			for (RACTuple *move in rowsToMove) {
-				[self.tableView moveRowAtIndexPath:move.first toIndexPath:move.second];
-			}
-
-			self.tableView.dataSource = controller;
-			self.tableView.delegate = controller;
-			[self.tableView endUpdates];
+			self.tableView.dataSource = tuple.first;
+			self.tableView.delegate = tuple.first;
+			[self.tableView reloadData];
+			
+//			[self.tableView endUpdates];
 		}];
 	}
 
@@ -125,9 +123,9 @@
 }
 
 - (RACSignal *)tableViewUpdatesSignal {
-	return [RACAble(self.tableController) mapPreviousWithStart:self.tableController combine:^id(RAFTableFormMoment *oldController, RAFTableFormMoment *controller) {
-		NSArray *oldSections = oldController.sectionMoments;
-		NSArray *newSections = controller.sectionMoments;
+	return [RACAble(self.tableController) mapPreviousWithStart:[RAFTableFormMoment new] combine:^id(RAFTableFormMoment *oldController, RAFTableFormMoment *newController) {
+		NSArray *oldSections = oldController.sectionMoments ?: @[];
+		NSArray *newSections = newController.sectionMoments;
 
 		NSMutableIndexSet *sectionsToDelete = [NSMutableIndexSet indexSet];
 		NSMutableIndexSet *sectionsToInsert = [NSMutableIndexSet indexSet];
@@ -135,24 +133,22 @@
 		NSMutableArray *rowsToDelete = [NSMutableArray array];
 		NSMutableArray *rowsToMove = [NSMutableArray array];
 
-		[oldSections enumerateObjectsUsingBlock:^(RAFTableSectionMoment *section, NSUInteger sectionIndex, BOOL *stop) {
-			if (controller.sectionMoments.count <= sectionIndex) {
-				[sectionsToDelete addIndex:sectionIndex];
-			}
+		[oldSections enumerateObjectsUsingBlock:^(RAFTableSection *oldSection, NSUInteger sectionIndex, BOOL *stop) {
+			BOOL sectionIsDeleted = ![newController.sectionMoments containsObject:oldSections];
+			if (sectionIsDeleted) [sectionsToDelete addIndex:sectionIndex];
 
-			[section.rows enumerateObjectsUsingBlock:^(RAFTableRow *row, NSUInteger rowIndex, BOOL *stop) {
-				if (![controller indexPathForRow:row]) {
+			[oldSection.rows enumerateObjectsUsingBlock:^(RAFTableRow *row, NSUInteger rowIndex, BOOL *stop) {
+				if (![newController indexPathForRow:row]) {
 					[rowsToDelete addObject:[NSIndexPath indexPathForRow:rowIndex inSection:sectionIndex]];
 				}
 			}];
 		}];
 
-		[newSections enumerateObjectsUsingBlock:^(RAFTableSectionMoment *section, NSUInteger sectionIndex, BOOL *stop) {
-			if (oldController.sectionMoments.count <= sectionIndex) {
-				[sectionsToInsert addIndex:sectionIndex];
-			}
+		[newSections enumerateObjectsUsingBlock:^(RAFTableSection *newSection, NSUInteger sectionIndex, BOOL *stop) {
+			BOOL sectionIsInserted = ![oldController.sectionMoments containsObject:newSection];
+			if (sectionIsInserted) [sectionsToInsert addIndex:sectionIndex];
 
-			[section.rows enumerateObjectsUsingBlock:^(RAFTableRow *row, NSUInteger rowIndex, BOOL *stop) {
+			[newSection.rows enumerateObjectsUsingBlock:^(RAFTableRow *row, NSUInteger rowIndex, BOOL *stop) {
 				NSIndexPath *newIndexPath = [NSIndexPath indexPathForRow:rowIndex inSection:sectionIndex];
 				NSIndexPath *oldIndexPath = [oldController indexPathForRow:row];
 
@@ -164,7 +160,7 @@
 			}];
 		}];
 
-		return RACTuplePack(controller, [sectionsToDelete copy], [sectionsToInsert copy], [rowsToDelete copy], [rowsToInsert copy], [rowsToMove copy]);
+		return RACTuplePack(newController, [sectionsToDelete copy], [sectionsToInsert copy], [rowsToDelete copy], [rowsToInsert copy], [rowsToMove copy]);
 	}];
 }
 

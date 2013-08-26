@@ -24,7 +24,6 @@
 + (BOOL)sectionsMirrorData;
 
 + (Class)tableFormMomentClass;    // Defaults to RAFTableFormMoment
-+ (Class)tableSectionMomentClass; // Defaults to RAFTableSectionMoment
 @end
 
 // +[RAFCustomTableForm sectionsMirrorData] returns NO.

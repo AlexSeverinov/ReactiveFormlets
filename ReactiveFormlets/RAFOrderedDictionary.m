@@ -33,8 +33,7 @@ typedef enum {
 
 #pragma mark - Initializers
 
-- (id)init
-{
+- (id)init {
 	return [self initWithOrderedDictionary:nil];
 }
 

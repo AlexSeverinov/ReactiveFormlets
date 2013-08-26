@@ -65,4 +65,9 @@ static void *kModelAssociatedObjectKey = &kModelAssociatedObjectKey;
 			[super respondsToSelector:aSelector]);
 }
 
+- (id)raf_extract {
+	return self;
+}
+
 @end
+
