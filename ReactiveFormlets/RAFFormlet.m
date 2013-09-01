@@ -87,7 +87,7 @@
 		RACSignal *value = [self.totalDataSignal startWith:nil];
 		_validation = [RACSignal combineLatest:@[ RACObserve(self, validator), value ]
 								 reduce:^(RAFValidator *validator, id value) {
-			return [validator validate:value];
+			return [validator execute:value];
 		}].switchToLatest;
 	}
 

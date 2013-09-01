@@ -11,29 +11,41 @@
 #import "RAFSemigroup.h"
 
 // RAFValidation represents a reasoned validity-judgement of an object.
+//
+// | RAFValidation (A : Type) : Type
 @interface RAFValidation : NSObject <RAFSemigroup>
 
-// value - the value which has been validated
-// Returns a successful validation with given value.
+// The constructor for successful validations.
+//
+// | (success : A) → RAFValidation A
 + (RAFValidation *)success:(id)value;
 
-// errors - a collection of errors.
-// Returns a failed validation with the given errors.
+// The constructor for failed validations.
+//
+// | (failure : NSArray NSError) → RAFValidation A
 + (RAFValidation *)failure:(NSArray *)errors;
 
 // The eliminator for validations.
 //
-// success - A block from a valid value to some object.
-// failure - A block from a collection of errors to some object.
-//
 // Returns either the result of the success block or the failure block depending
 // on whether the validation was created with +success: or +failure:.
+//
+// | Π {B : Type}. (success : A → B, failure : NSArray NSError → B) → B
 - (id)caseSuccess:(id(^)(id value))success failure:(id(^)(NSArray *errors))failure;
+
+// A side-effecting eliminator for validations.
+//
+// Executes the success block or the failure block depending on whether
+// the validation was created with +success: or +failure:.
+//
+// | (success : A → void, failure : NSArray NSError → void) → void
 - (void)ifSuccess:(void(^)(id value))success failure:(void(^)(NSArray *errors))failure;
 @end
 
 @interface RACSignal (RAFValidation)
 // Transforms RACSignal[RAFValidation] to RACSignal[Bool], where successes are
 // mapped to YES and failures to NO.
+
+// | Π {A : Type}. {self : RACSignal (RAFValidation A)} → RACSignal Bool.
 - (RACSignal *)raf_isSuccessSignal;
 @end
