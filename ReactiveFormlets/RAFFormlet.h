@@ -16,7 +16,7 @@
 // composed of other formlets.
 @protocol RAFFormlet <NSCopying>
 
-- (RACChannel *)channel;
+- (RACChannelTerminal *)channelTerminal;
 
 // Returns a signal of RAFValidation objects, with errors for all subordinate
 // form elements accumulated.
@@ -24,11 +24,6 @@
 
 // Whether the formlet is editable or now. Should default to YES.
 @property (assign, nonatomic, getter = isEditable) BOOL editable;
-
-@concrete
-// A bidirectional value transformer; by default, the Identity transformer is
-// used if none is provided.
-- (NSValueTransformer *)valueTransformer;
 @end
 
 @class RAFValidator;
@@ -38,6 +33,10 @@
 @interface RAFPrimitiveFormlet : NSObject <RAFFormlet>
 @property (strong, readonly, nonatomic) RAFValidator *validator;
 - (instancetype)validator:(RAFValidator *)validator;
+
+// A bidirectional value transformer; by default, the Identity transformer is
+// used if none is provided.
+- (NSValueTransformer *)valueTransformer;
 @end
 
 // A compound formlet is one which is composed of smaller formlets, as specified

@@ -13,30 +13,11 @@
 #import "EXTConcreteProtocol.h"
 #import "RAFIdentityValueTransformer.h"
 
-@concreteprotocol(RAFFormlet)
-@dynamic editable;
-
-- (RACChannel *)channel {
-	return nil;
-}
-
-- (RACSignal *)validationSignal {
-	return nil;
-}
-
-- (id)copyWithZone:(NSZone *)zone {
-	return nil;
-}
-
-#pragma mark - Concrete
-
-- (NSValueTransformer *)valueTransformer {
-	return [NSValueTransformer valueTransformerForName:RAFIdentityValueTransformerName];
-}
-
+@protocol RAFFormletPrivate <RAFFormlet>
+- (RACChannel *)channel;
 @end
 
-@interface RAFPrimitiveFormlet ()
+@interface RAFPrimitiveFormlet () <RAFFormletPrivate>
 @property (strong, readwrite, nonatomic) RAFValidator *validator;
 @end
 
@@ -63,6 +44,14 @@
 
 - (RACChannel *)channel {
 	return nil;
+}
+
+- (RACChannelTerminal *)channelTerminal {
+	return self.channel.followingTerminal;
+}
+
+- (NSValueTransformer *)valueTransformer {
+	return [NSValueTransformer valueTransformerForName:RAFIdentityValueTransformerName];
 }
 
 #pragma mark - NSCopying
@@ -92,7 +81,7 @@
 
 @end
 
-@interface RAFCompoundFormlet ()
+@interface RAFCompoundFormlet () <RAFFormletPrivate>
 @property (strong) id compoundValue;
 @end
 
@@ -140,10 +129,14 @@
 
 #pragma mark - Signals
 
+- (RACChannelTerminal *)channelTerminal {
+	return self.channel.followingTerminal;
+}
+
 - (RACChannel *)channel {
 	if (!_channel) {
 
-		RACSequence *channels = [self.allValues.rac_sequence map:^id(id<RAFFormlet> subform) {
+		RACSequence *channels = [self.allValues.rac_sequence map:^id(id<RAFFormletPrivate> subform) {
 			return subform.channel;
 		}];
 
