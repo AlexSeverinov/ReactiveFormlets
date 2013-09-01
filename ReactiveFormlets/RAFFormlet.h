@@ -24,6 +24,9 @@
 
 // Whether the formlet is editable or now. Should default to YES.
 @property (assign, nonatomic, getter = isEditable) BOOL editable;
+
+@concrete
+- (RACSignal *)totalDataSignal;
 @end
 
 @class RAFValidator;

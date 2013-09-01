@@ -17,6 +17,24 @@
 - (RACChannel *)channel;
 @end
 
+@concreteprotocol(RAFFormlet)
+@dynamic editable;
+
+- (RACChannelTerminal *)channelTerminal { return nil; }
+- (id)copyWithZone:(NSZone *)zone { return nil; }
+- (RACSignal *)validationSignal { return nil; }
+
+#pragma mark - Concrete
+
+- (RACSignal *)totalDataSignal {
+	NSAssert([self conformsToProtocol:@protocol(RAFFormletPrivate)], @"All formlets must adopt <RAFFormletPrivate>");
+
+	RACChannel *channel = [(id<RAFFormletPrivate>)self channel];
+	return [RACSignal merge:@[ channel.followingTerminal, channel.leadingTerminal ]];
+}
+
+@end
+
 @interface RAFPrimitiveFormlet () <RAFFormletPrivate>
 @property (strong, readwrite, nonatomic) RAFValidator *validator;
 @end
@@ -66,7 +84,7 @@
 
 - (RACSignal *)validationSignal {
 	if (!_validation) {
-		RACSignal *value = [[RACSignal merge:@[ self.channel.followingTerminal, self.channel.leadingTerminal ]] startWith:nil];
+		RACSignal *value = [self.totalDataSignal startWith:nil];
 		_validation = [RACSignal combineLatest:@[ RACObserve(self, validator), value ] reduce:^(RAFValidator * validator, id value) {
 			return [validator validate:value];
 		}].switchToLatest;
