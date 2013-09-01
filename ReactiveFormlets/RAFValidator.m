@@ -11,37 +11,33 @@
 
 @implementation RAFValidator
 
-- (id)initWithBuilder:(RAFValidationBuilder)builder {
+- (id)initWithBuilder:(RACSignal *(^)(id object))builder {
 	NSParameterAssert(builder);
-	if (self = [self init]) {
-		_builder = [builder copy];
+	if (self = [self initWithSignalBlock:builder]) {
+		self.allowsConcurrentExecution = YES;
 	}
 
 	return self;
 }
 
-+ (instancetype)builder:(RAFValidationBuilder)builder {
++ (instancetype)builder:(RACSignal *(^)(id object))builder {
 	return [[self alloc] initWithBuilder:builder];
 }
 
-+ (instancetype)predicate:(BOOL(^)(id object))predicate errors:(NSArray *(^)(id object))errors {
++ (instancetype)predicate:(BOOL(^)(id object))predicate error:(NSError *(^)(id object))error {
 	NSParameterAssert(predicate);
-	NSParameterAssert(errors);
-	return [self builder:^RACSignal *(id object) {
-		RAFValidation *validation = predicate(object) ? [RAFValidation success:object] : [RAFValidation failure:errors(object)];
+	NSParameterAssert(error);
+	return [self builder:^(id object) {
+		RAFValidation *validation = predicate(object) ? [RAFValidation success:object] : [RAFValidation failure:@[ error(object) ]];
 		return [RACSignal return:validation];
 	}];
-}
-
-- (RACSignal *)validate:(id)object {
-	return self.builder(object);
 }
 
 #pragma mark - RAFSemigroup
 
 - (instancetype)raf_append:(RAFValidator *)validator {
 	return [self.class builder:^RACSignal *(id object) {
-		return [RACSignal combineLatest:@[ [self validate:object], [validator validate:object] ] reduce:^(RAFValidation *leftValidation, RAFValidation *rightValidation) {
+		return [RACSignal combineLatest:@[ [self execute:object], [validator execute:object] ] reduce:^(RAFValidation *leftValidation, RAFValidation *rightValidation) {
 			return [leftValidation raf_append:rightValidation];
 		}];
 	}];
@@ -56,3 +52,4 @@
 }
 
 @end
+
