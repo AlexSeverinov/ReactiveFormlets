@@ -17,15 +17,6 @@
 	if (self = [super init]) {
 		RAC(self, cell.textLabel.text) = RACObserve(self, title);
 		self.cell.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
-
-		_channel = [RACChannel new];
-		[[self.command.executionSignals mapReplace:RACUnit.defaultUnit] subscribe:_channel.leadingTerminal];
-
-		@weakify(self);
-		[_channel.leadingTerminal subscribeNext:^(id value) {
-			@strongify(self);
-			[self.command execute:value];
-		}];
 	}
 
 	return self;
@@ -39,6 +30,18 @@
 }
 
 - (RACChannel *)channel {
+	if (!_channel) {
+		_channel = [RACChannel new];
+		[[RACObserve(self, command) map:^id(RACCommand *command) {
+			return [command.executionSignals mapReplace:RACUnit.defaultUnit];
+		}].switchToLatest subscribe:_channel.leadingTerminal];
+
+		@weakify(self);
+		[_channel.leadingTerminal subscribeNext:^(id value) {
+			@strongify(self);
+			[self.command execute:value];
+		}];
+	}
 	return _channel;
 }
 

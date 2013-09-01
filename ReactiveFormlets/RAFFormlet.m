@@ -17,40 +17,28 @@
 - (RACChannel *)channel;
 @end
 
-@concreteprotocol(RAFFormlet)
-@dynamic editable;
-
-- (RACChannelTerminal *)channelTerminal { return nil; }
-- (id)copyWithZone:(NSZone *)zone { return nil; }
-- (RACSignal *)validationSignal { return nil; }
-
-#pragma mark - Concrete
-
-- (RACSignal *)totalDataSignal {
-	NSAssert([self conformsToProtocol:@protocol(RAFFormletPrivate)], @"All formlets must adopt <RAFFormletPrivate>");
-
-	RACChannel *channel = [(id<RAFFormletPrivate>)self channel];
-	return [RACSignal merge:@[ channel.followingTerminal, channel.leadingTerminal ]];
-}
-
-@end
-
 @interface RAFPrimitiveFormlet () <RAFFormletPrivate>
 @property (strong, readwrite, nonatomic) RAFValidator *validator;
 @end
 
 @implementation RAFPrimitiveFormlet {
-	RACSignal *_validation;
 	RACChannel *_channel;
 }
 
 @synthesize editable = _editable;
+@synthesize validationSignal = _validationSignal;
+@synthesize totalDataSignal = _totalDataSignal;
 
 - (id)init {
 	if (self = [super init]) {
 		self.editable = YES;
-	}
 
+		_totalDataSignal = [RACSignal merge:@[ self.channel.followingTerminal, self.channel.leadingTerminal ]].replay;
+		_validationSignal = [RACSignal combineLatest:@[ RACObserve(self, validator), [_totalDataSignal startWith:nil] ] reduce:^(RAFValidator *validator, id value) {
+			return [validator execute:value];
+		}].switchToLatest;
+	}
+	
 	return self;
 }
 
@@ -82,18 +70,6 @@
 
 #pragma mark - RAFFormlet
 
-- (RACSignal *)validationSignal {
-	if (!_validation) {
-		RACSignal *value = [self.totalDataSignal startWith:nil];
-		_validation = [RACSignal combineLatest:@[ RACObserve(self, validator), value ]
-								 reduce:^(RAFValidator *validator, id value) {
-			return [validator execute:value];
-		}].switchToLatest;
-	}
-
-	return _validation;
-}
-
 - (RAFValidator *)validator {
 	return _validator ? _validator : [RAFValidator raf_zero];
 }
@@ -101,20 +77,46 @@
 @end
 
 @interface RAFCompoundFormlet () <RAFFormletPrivate>
-@property (strong) id compoundValue;
 @end
 
 @implementation RAFCompoundFormlet {
-	RACSignal *_validation;
+	RACSignal *_totalDataSignal;
 	RACChannel *_channel;
 }
 
-@dynamic compoundValue;
 @synthesize editable = _editable;
+@synthesize validationSignal = _validationSignal;
+@synthesize totalDataSignal = _totalDataSignal;
 
 - (id)initWithOrderedDictionary:(RAFOrderedDictionary *)dictionary {
 	if (self = [super initWithOrderedDictionary:dictionary]) {
 		self.editable = YES;
+		_totalDataSignal = [RACSignal merge:@[ self.channel.followingTerminal, self.channel.leadingTerminal ]].replay;
+
+		RACSequence *signals = [self.allValues.rac_sequence map:^id(id<RAFFormlet> subform) {
+			return subform.validationSignal;
+		}];
+
+		Class Model = [RAFReifiedProtocol model:self.class.model];
+		NSArray *allKeys = self.allKeys;
+
+		_validationSignal = [[RACSignal combineLatest:signals] map:^id(RACTuple *tuple) {
+			NSMutableArray *errorSequences = [NSMutableArray array];
+			id dict = [[Model new] modify:^(id<RAFMutableOrderedDictionary> dict) {
+				[allKeys enumerateObjectsUsingBlock:^(id key, NSUInteger idx, BOOL *stop) {
+					[tuple[idx] ?: [RAFValidation failure:@[]] caseSuccess:^id(id value) {
+						dict[key] = value;
+						return nil;
+					} failure:^id(NSArray *errors) {
+						[errorSequences addObject:errors.rac_sequence];
+						return nil;
+					}];
+				}];
+			}];
+
+			return errorSequences.count ? [RAFValidation failure:errorSequences.rac_sequence.flatten.array] : [RAFValidation success:dict];
+		}];
+
 	}
 
 	return self;
@@ -146,7 +148,7 @@
 	return copy;
 }
 
-#pragma mark - Signals
+#pragma mark - Channels
 
 - (RACChannelTerminal *)channelTerminal {
 	return self.channel.followingTerminal;
@@ -179,37 +181,6 @@
 	}
 
 	return _channel;
-}
-
-- (RACSignal *)validationSignal {
-	if (!_validation) {
-		RACSequence *signals = [self.allValues.rac_sequence map:^id(id<RAFFormlet> subform) {
-			return subform.validationSignal;
-		}];
-
-		Class Model = [RAFReifiedProtocol model:self.class.model];
-		NSArray *allKeys = self.allKeys;
-
-		_validation = [[RACSignal combineLatest:signals] map:^id(RACTuple *tuple) {
-			NSMutableArray *errorSequences = [NSMutableArray array];
-			id dict = [[Model new] modify:^(id<RAFMutableOrderedDictionary> dict) {
-				[allKeys enumerateObjectsUsingBlock:^(id key, NSUInteger idx, BOOL *stop) {
-					[tuple[idx] ?: [RAFValidation failure:@[]] caseSuccess:^id(id value) {
-						dict[key] = value;
-						return nil;
-					} failure:^id(NSArray *errors) {
-						[errorSequences addObject:errors.rac_sequence];
-						return nil;
-					}];
-				}];
-			}];
-
-			return errorSequences.count ? [RAFValidation failure:errorSequences.rac_sequence.flatten.array] : [RAFValidation success:dict];
-		}];
-	}
-
-
-	return _validation;
 }
 
 @end
