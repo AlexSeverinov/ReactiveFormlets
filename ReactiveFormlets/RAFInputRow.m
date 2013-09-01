@@ -51,11 +51,6 @@
 
 		RAC(self, textField.enabled) = RACObserve(self, editable);
 
-		[RACObserve(self, configureTextField) subscribeNext:^(void (^configure)(UITextField *)) {
-			@strongify(self);
-			if (configure) configure(self.textField);
-		}];
-
 		_channel = [RACChannel new];
 		[[[self.textField.rac_newTextChannel map:^id(id value) {
 			return [self.valueTransformer transformedValue:value];
@@ -67,13 +62,6 @@
 	}
 
 	return self;
-}
-
-- (id)copyWithZone:(NSZone *)zone
-{
-	RAFTextFieldInputRow *copy = [super copyWithZone:zone];
-	copy.configureTextField = self.configureTextField;
-	return copy;
 }
 
 - (void)rowWasSelected {

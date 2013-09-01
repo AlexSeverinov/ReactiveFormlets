@@ -16,7 +16,6 @@
 
 @interface RAFTextFieldInputRow : RAFInputRow <UITextFieldDelegate>
 @property (strong, readonly) UITextField *textField;
-@property (copy) void (^configureTextField)(UITextField *field);
 @end
 
 @interface RAFTextInputRow : RAFTextFieldInputRow <RAFString>
