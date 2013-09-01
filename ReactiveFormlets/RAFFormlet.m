@@ -85,7 +85,8 @@
 - (RACSignal *)validationSignal {
 	if (!_validation) {
 		RACSignal *value = [self.totalDataSignal startWith:nil];
-		_validation = [RACSignal combineLatest:@[ RACObserve(self, validator), value ] reduce:^(RAFValidator * validator, id value) {
+		_validation = [RACSignal combineLatest:@[ RACObserve(self, validator), value ]
+								 reduce:^(RAFValidator *validator, id value) {
 			return [validator validate:value];
 		}].switchToLatest;
 	}
@@ -159,23 +160,15 @@
 		}];
 
 		_channel = [RACChannel new];
-		[[RACSignal createSignal:^RACDisposable *(id<RACSubscriber> subscriber) {
-			RACSignal *seededTerminals = [RACSignal combineLatest:[channels map:^(RACChannel *channel) {
-				return [channel.followingTerminal startWith:nil];
-			}]];
 
-			return [seededTerminals subscribeNext:^(RACTuple *tuple) {
-				id dict = [[[RAFReifiedProtocol model:self.class.model] new] modify:^(id<RAFMutableOrderedDictionary> dict) {
-					[self.allKeys enumerateObjectsUsingBlock:^(id key, NSUInteger idx, BOOL *stop) {
-						dict[key] = tuple[idx];
-					}];
-				}];
-				[subscriber sendNext:dict];
-			} error:^(NSError *error) {
-				[subscriber sendError:error];
-			} completed:^{
-				[subscriber sendCompleted];
-			}];
+		RACSignal *seededTerminals = [RACSignal combineLatest:[channels map:^(RACChannel *channel) {
+			return [channel.followingTerminal startWith:nil];
+		}]];
+
+		Class Model = [RAFReifiedProtocol model:self.class.model];
+
+		[[seededTerminals map:^(RACTuple *tuple) {
+			return [[Model alloc] initWithValues:tuple.rac_sequence.array];
 		}] subscribe:_channel.leadingTerminal];
 
 		[_channel.leadingTerminal subscribeNext:^(RAFOrderedDictionary *value) {
@@ -194,29 +187,24 @@
 			return subform.validationSignal;
 		}];
 
-		@weakify(self);
-		_validation = [RACSignal createSignal:^RACDisposable *(id<RACSubscriber> subscriber) {
-			@strongify(self);
-			return [[RACSignal combineLatest:signals] subscribeNext:^(RACTuple *tuple) {
-				NSMutableArray *merrors = [NSMutableArray array];
-				id dict = [[[RAFReifiedProtocol model:self.class.model] new] modify:^(id<RAFMutableOrderedDictionary> dict) {
-					[self.allKeys enumerateObjectsUsingBlock:^(id key, NSUInteger idx, BOOL *stop) {
-						[tuple[idx] ?: [RAFValidation failure:@[]] caseSuccess:^id(id value) {
-							dict[key] = value;
-							return nil;
-						} failure:^id(NSArray *errors) {
-							[merrors addObject:errors];
-							return nil;
-						}];
+		Class Model = [RAFReifiedProtocol model:self.class.model];
+		NSArray *allKeys = self.allKeys;
+
+		_validation = [[RACSignal combineLatest:signals] map:^id(RACTuple *tuple) {
+			NSMutableArray *errorSequences = [NSMutableArray array];
+			id dict = [[Model new] modify:^(id<RAFMutableOrderedDictionary> dict) {
+				[allKeys enumerateObjectsUsingBlock:^(id key, NSUInteger idx, BOOL *stop) {
+					[tuple[idx] ?: [RAFValidation failure:@[]] caseSuccess:^id(id value) {
+						dict[key] = value;
+						return nil;
+					} failure:^id(NSArray *errors) {
+						[errorSequences addObject:errors.rac_sequence];
+						return nil;
 					}];
 				}];
-				NSArray *errors = [merrors valueForKeyPath:@"@unionOfArrays.self"];
-				[subscriber sendNext:(merrors.count ? [RAFValidation failure:errors] : [RAFValidation success:dict])];
-			} error:^(NSError *error) {
-				[subscriber sendError:error];
-			} completed:^{
-				[subscriber sendCompleted];
 			}];
+
+			return errorSequences.count ? [RAFValidation failure:errorSequences.rac_sequence.flatten.array] : [RAFValidation success:dict];
 		}];
 	}
 

@@ -59,6 +59,10 @@
 // The model associated with any particular `RAFReifiedProtocol`-generated
 // subclass.
 + (Protocol *)model;
+
+// Constructs an object from an array of values which correspond to
+// the order of keys in -allKeys.
+- (id)initWithValues:(NSArray *)values;
 @end
 
 

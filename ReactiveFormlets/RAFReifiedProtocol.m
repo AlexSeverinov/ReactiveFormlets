@@ -34,6 +34,14 @@ static void *kModelAssociatedObjectKey = &kModelAssociatedObjectKey;
 	return [self raf_associatedObjectForKey:kModelAssociatedObjectKey] ?: @protocol(RAFEmpty);
 }
 
+- (id)initWithValues:(NSArray *)values {
+	return [[self init] modify:^(id<RAFMutableOrderedDictionary> dict) {
+		[self.allKeys enumerateObjectsUsingBlock:^(NSString *key, NSUInteger idx, BOOL *stop) {
+			dict[key] = values[idx];
+		}];
+	}];
+}
+
 #pragma mark - Message Forwarding
 
 + (NSMethodSignature *)methodSignatureForSelector:(SEL)aSelector {
