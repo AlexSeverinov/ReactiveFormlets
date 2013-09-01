@@ -60,7 +60,6 @@
 		FCDDDE34175AA74300953722 /* RAFValidator.m in Sources */ = {isa = PBXBuildFile; fileRef = FCDDDE32175AA74300953722 /* RAFValidator.m */; };
 		FCDDDE39175AAA2600953722 /* RAFSemigroup.h in Headers */ = {isa = PBXBuildFile; fileRef = FCDDDE38175AAA2600953722 /* RAFSemigroup.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		FCDDDE3B175AAA2F00953722 /* RAFMonoid.h in Headers */ = {isa = PBXBuildFile; fileRef = FCDDDE3A175AAA2F00953722 /* RAFMonoid.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		FCFD58761776419000C991A1 /* RAFFunctor.h in Headers */ = {isa = PBXBuildFile; fileRef = FCFD58751776418F00C991A1 /* RAFFunctor.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		FCFD587B1776459300C991A1 /* RAFSemigroup.m in Sources */ = {isa = PBXBuildFile; fileRef = FCFD587A1776459300C991A1 /* RAFSemigroup.m */; };
 		FCFD587D1776472500C991A1 /* RAFMonoid.m in Sources */ = {isa = PBXBuildFile; fileRef = FCFD587C1776472500C991A1 /* RAFMonoid.m */; };
 /* End PBXBuildFile section */
@@ -182,7 +181,6 @@
 		FCDDDE32175AA74300953722 /* RAFValidator.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RAFValidator.m; sourceTree = "<group>"; };
 		FCDDDE38175AAA2600953722 /* RAFSemigroup.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RAFSemigroup.h; sourceTree = "<group>"; };
 		FCDDDE3A175AAA2F00953722 /* RAFMonoid.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RAFMonoid.h; sourceTree = "<group>"; };
-		FCFD58751776418F00C991A1 /* RAFFunctor.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RAFFunctor.h; sourceTree = "<group>"; };
 		FCFD587A1776459300C991A1 /* RAFSemigroup.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RAFSemigroup.m; sourceTree = "<group>"; };
 		FCFD587C1776472500C991A1 /* RAFMonoid.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RAFMonoid.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -337,7 +335,6 @@
 		FCDDDE37175AAA1100953722 /* Algebra */ = {
 			isa = PBXGroup;
 			children = (
-				FCFD58751776418F00C991A1 /* RAFFunctor.h */,
 				FCDDDE38175AAA2600953722 /* RAFSemigroup.h */,
 				FCFD587A1776459300C991A1 /* RAFSemigroup.m */,
 				FCDDDE3A175AAA2F00953722 /* RAFMonoid.h */,
@@ -442,7 +439,6 @@
 				FC9006C91778FA3300F974E5 /* RAFTableFormMoment.h in Headers */,
 				FC6B41E717D3A56F0080F1C4 /* EXTScope.h in Headers */,
 				FC6B41E417D3A5300080F1C4 /* metamacros.h in Headers */,
-				FCFD58761776419000C991A1 /* RAFFunctor.h in Headers */,
 				FC95AD971766B77200391656 /* RAFButtonRow.h in Headers */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
