@@ -8,11 +8,10 @@
 
 #import <Foundation/Foundation.h>
 #import <ReactiveCocoa/ReactiveCocoa.h>
-#import "RAFApplicative.h"
 #import "RAFSemigroup.h"
 
 // RAFValidation represents a reasoned validity-judgement of an object.
-@interface RAFValidation : NSObject <RAFApplicative, RAFSemigroup>
+@interface RAFValidation : NSObject <RAFSemigroup>
 
 // value - the value which has been validated
 // Returns a successful validation with given value.
@@ -30,6 +29,7 @@
 // Returns either the result of the success block or the failure block depending
 // on whether the validation was created with +success: or +failure:.
 - (id)caseSuccess:(id(^)(id value))success failure:(id(^)(NSArray *errors))failure;
+- (void)ifSuccess:(void(^)(id value))success failure:(void(^)(NSArray *errors))failure;
 @end
 
 @interface RACSignal (RAFValidation)

@@ -12,6 +12,4 @@
 #import "RAFValidation.h"
 #import "RAFValidator.h"
 #import "RAFReifiedProtocol.h"
-#import "RAFApply.h"
-#import "RAFApplicative.h"
 #import "NSArray+RAFMonoid.h"

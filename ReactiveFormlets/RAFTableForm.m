@@ -1,9 +1,9 @@
 //
-//RAFTableForm.m
-//ReactiveFormlets
+//	RAFTableForm.m
+//	ReactiveFormlets
 //
-//Created by Jon Sterling on 6/12/12.
-//Copyright (c) 2012 Jon Sterling. All rights reserved.
+//	Created by Jon Sterling on 6/12/12.
+//	Copyright (c) 2012 Jon Sterling. All rights reserved.
 //
 
 #import "RAFTableForm.h"
@@ -28,10 +28,6 @@
 	return [RAFTableSection class];
 }
 
-+ (BOOL)sectionsMirrorData {
-	return NO;
-}
-
 - (id)initWithOrderedDictionary:(RAFOrderedDictionary *)dictionary {
 	if (self = [super initWithOrderedDictionary:dictionary]) {
 		_tableView = [[UITableView alloc] initWithFrame:CGRectZero style:UITableViewStyleGrouped];
@@ -39,10 +35,6 @@
 		_tableView.backgroundColor = [UIColor colorWithWhite:0.94f alpha:1.f];
 
 		Class TableFormMomentClass = self.class.tableFormMomentClass;
-
-		if (self.class.sectionsMirrorData) {
-			self.sections = self.allValues;
-		}
 
 		RAC(self, tableController) = [[[[RACObserve(self, sections) map:^id(NSArray *sections) {
 			return [RACSignal combineLatest:[sections.rac_sequence map:^(RAFTableSection *section) {
@@ -53,19 +45,19 @@
 		}] deliverOn:RACScheduler.mainThreadScheduler] startWith:[RAFTableFormMoment new]];
 
 		RACSignal *includedRows = [RACObserve(self, sections) map:^(NSArray *sections) {
-			return [sections.rac_sequence flattenMap:^RACStream *(RAFTableSection *section) {
+			return [sections.rac_sequence flattenMap:^(RAFTableSection *section) {
 				return section.rows.rac_sequence;
 			}].array;
 		}];
 
 		RACSignal *includedRowsByEditingOrder = [RACSignal combineLatest:@[ RACObserve(self, rowsByEditingOrder), includedRows ] reduce:^(NSArray *rows, NSArray *includedRows) {
 			if (!rows) {
-				return [includedRows.rac_sequence filter:^BOOL(RAFTableRow *row) {
-					return [row canEdit];
+				return [includedRows.rac_sequence filter:^BOOL (RAFTableRow *row) {
+					return row.canEdit;
 				}].array;
 			}
 
-			return [rows.rac_sequence filter:^BOOL(RAFTableRow *row) {
+			return [rows.rac_sequence filter:^BOOL (RAFTableRow *row) {
 				return [includedRows containsObject:row];
 			}].array;
 		}];

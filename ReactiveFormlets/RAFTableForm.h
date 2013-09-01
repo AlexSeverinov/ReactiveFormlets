@@ -17,11 +17,5 @@
 // Defaults to linear order of rows for which -canEdit is YES.
 @property (copy) NSArray *rowsByEditingOrder; // NSArray[RAFTableRow]
 
-// When YES, the form's `sections` property is automatically set to -allValues.
-// When NO, the form's `sections` property must be set manually.
-//
-// Default: NO
-+ (BOOL)sectionsMirrorData;
-
 + (Class)tableFormMomentClass;    // Defaults to RAFTableFormMoment
 @end

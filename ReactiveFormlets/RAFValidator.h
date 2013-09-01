@@ -7,7 +7,6 @@
 //
 
 #import <Foundation/Foundation.h>
-#import "RAFApply.h"
 #import "RAFMonoid.h"
 
 @class RAFValidation, RACSignal;
