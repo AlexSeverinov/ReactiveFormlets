@@ -17,7 +17,7 @@
 #pragma mark - Concrete
 
 + (instancetype)raf_sum:(RACSequence *)objects onto:(id<RAFSemigroup>)zero {
-	return [objects foldLeftWithStart:zero combine:^id(id accumulator, id value) {
+	return [objects foldLeftWithStart:zero reduce:^(id accumulator, id value) {
 		return [accumulator raf_append:value];
 	}];
 }

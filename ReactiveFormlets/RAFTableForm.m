@@ -44,7 +44,7 @@
 			self.sections = self.allValues;
 		}
 
-		RAC(self.tableController) = [[[[RACAbleWithStart(self.sections) map:^id(NSArray *sections) {
+		RAC(self, tableController) = [[[[RACObserve(self, sections) map:^id(NSArray *sections) {
 			return [RACSignal combineLatest:[sections.rac_sequence map:^(RAFTableSection *section) {
 				return section.moments;
 			}]];
@@ -52,13 +52,13 @@
 			return [[TableFormMomentClass alloc] initWithSectionMoments:sections.rac_sequence.array];
 		}] deliverOn:RACScheduler.mainThreadScheduler] startWith:[RAFTableFormMoment new]];
 
-		RACSignal *includedRows = [RACAbleWithStart(self.sections) map:^(NSArray *sections) {
+		RACSignal *includedRows = [RACObserve(self, sections) map:^(NSArray *sections) {
 			return [sections.rac_sequence flattenMap:^RACStream *(RAFTableSection *section) {
 				return section.rows.rac_sequence;
 			}].array;
 		}];
 
-		RACSignal *includedRowsByEditingOrder = [RACSignal combineLatest:@[ RACAbleWithStart(self.rowsByEditingOrder), includedRows ] reduce:^(NSArray *rows, NSArray *includedRows) {
+		RACSignal *includedRowsByEditingOrder = [RACSignal combineLatest:@[ RACObserve(self, rowsByEditingOrder), includedRows ] reduce:^(NSArray *rows, NSArray *includedRows) {
 			if (!rows) {
 				return [includedRows.rac_sequence filter:^BOOL(RAFTableRow *row) {
 					return [row canEdit];
@@ -123,7 +123,7 @@
 }
 
 - (RACSignal *)tableViewUpdatesSignal {
-	return [RACAble(self.tableController) mapPreviousWithStart:[RAFTableFormMoment new] combine:^id(RAFTableFormMoment *oldController, RAFTableFormMoment *newController) {
+	return [[RACObserve(self, tableController) skip:1] combinePreviousWithStart:[RAFTableFormMoment new] reduce:^id(RAFTableFormMoment *oldController, RAFTableFormMoment *newController) {
 		NSArray *oldSections = oldController.sectionMoments ?: @[];
 		NSArray *newSections = newController.sectionMoments;
 

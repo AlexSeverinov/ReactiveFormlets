@@ -56,7 +56,7 @@
 - (RACSignal *)validationSignal {
 	if (!_validation) {
 		RACSignal *dataSignal = [RACSignal merge:@[ self.rawDataSignal, self.hardUpdateSignal ]];
-		_validation = [RACSignal combineLatest:@[ RACAbleWithStart(self.validator), dataSignal ] reduce:^(RAFValidator * validator, id value) {
+		_validation = [RACSignal combineLatest:@[ RACObserve(self, validator), dataSignal ] reduce:^(RAFValidator * validator, id value) {
 			return [validator validate:value];
 		}].switchToLatest;
 	}

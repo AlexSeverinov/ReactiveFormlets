@@ -41,16 +41,16 @@
 		_textField.delegate = self;
 
 		@weakify(self);
-		[RACAbleWithStart(self.lastInTabOrder) subscribeNext:^(NSNumber *isLast) {
+		[RACObserve(self, lastInTabOrder) subscribeNext:^(NSNumber *isLast) {
 			@strongify(self);
 			self.textField.returnKeyType = isLast.boolValue ? UIReturnKeyDone : UIReturnKeyNext;
 		}];
 
 		self.cell.accessoryView = _textField;
 
-		RAC(self.textField.enabled) = RACAbleWithStart(self.editable);
+		RAC(self, textField.enabled) = RACObserve(self, editable);
 
-		[RACAbleWithStart(self.configureTextField) subscribeNext:^(void (^configure)(UITextField *)) {
+		[RACObserve(self, configureTextField) subscribeNext:^(void (^configure)(UITextField *)) {
 			@strongify(self);
 			if (configure) configure(self.textField);
 		}];

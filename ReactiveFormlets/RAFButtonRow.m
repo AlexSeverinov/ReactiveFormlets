@@ -17,7 +17,7 @@
 - (id)init {
 	if (self = [super init]) {
 		self.unit = [RACUnit defaultUnit];
-		RAC(self.cell.textLabel.text) = RACAbleWithStart(self.title);
+		RAC(self, cell.textLabel.text) = RACObserve(self, title);
 		self.cell.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
 	}
 
@@ -33,7 +33,7 @@
 }
 
 - (RACSignal *)rawDataSignal {
-	return RACAble(self.unit);
+	return [RACObserve(self, unit) skip:1];
 }
 
 - (NSString *)keyPathForLens {

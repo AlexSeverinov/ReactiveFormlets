@@ -80,12 +80,12 @@
 }
 
 - (RACSignal *)moments {
-	NSArray *components = @[ RACAbleWithStart(self.uniqueIdentifier),
-							 RACAbleWithStart(self.rows),
-							 RACAbleWithStart(self.headerTitle),
-							 RACAbleWithStart(self.footerTitle),
-							 RACAbleWithStart(self.headerView),
-							 RACAbleWithStart(self.footerView) ];
+	NSArray *components = @[ RACObserve(self, uniqueIdentifier),
+							 RACObserve(self, rows),
+							 RACObserve(self, headerTitle),
+							 RACObserve(self, footerTitle),
+							 RACObserve(self, headerView),
+							 RACObserve(self, footerView) ];
 
 	Class SectionClass = self.class;
 	return [RACSignal combineLatest:components reduce:^(NSString *identifier, NSArray *rows, NSString *headerTitle, NSString *footertitle, UIView *headerView, UIView *footerView) {
