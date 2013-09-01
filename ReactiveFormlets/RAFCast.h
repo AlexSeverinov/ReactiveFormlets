@@ -14,6 +14,8 @@
 // objects of protocol type. -raf_cast is the identity function,
 // and serves as a type-safe cast.
 @protocol RAFCast
-@concrete
 - (id)raf_cast;
+@end
+
+@interface NSObject (RAFCast) <RAFCast>
 @end

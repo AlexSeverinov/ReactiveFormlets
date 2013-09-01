@@ -65,9 +65,5 @@ static void *kModelAssociatedObjectKey = &kModelAssociatedObjectKey;
 			[super respondsToSelector:aSelector]);
 }
 
-- (id)raf_cast {
-	return self;
-}
-
 @end
 

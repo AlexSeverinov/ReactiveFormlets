@@ -9,7 +9,7 @@
 #import "RAFCast.h"
 #import "RAFIdentityValueTransformer.h"
 
-@concreteprotocol(RAFCast)
+@implementation NSObject (RAFCast)
 
 - (id)raf_cast {
 	return self;
