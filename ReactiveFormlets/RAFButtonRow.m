@@ -7,18 +7,25 @@
 //
 
 #import "RAFButtonRow.h"
+#import "EXTScope.h"
 
-@interface RAFButtonRow ()
-@property (strong, nonatomic) RACUnit *unit;
-@end
-
-@implementation RAFButtonRow
+@implementation RAFButtonRow {
+	RACChannel *_channel;
+}
 
 - (id)init {
 	if (self = [super init]) {
-		self.unit = [RACUnit defaultUnit];
 		RAC(self, cell.textLabel.text) = RACObserve(self, title);
 		self.cell.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
+
+		_channel = [RACChannel new];
+		[[self.command.executionSignals mapReplace:RACUnit.defaultUnit] subscribe:_channel.leadingTerminal];
+
+		@weakify(self);
+		[_channel.leadingTerminal subscribeNext:^(id value) {
+			@strongify(self);
+			[self.command execute:value];
+		}];
 	}
 
 	return self;
@@ -26,18 +33,13 @@
 
 - (id)copyWithZone:(NSZone *)zone {
 	RAFButtonRow *copy = [super copyWithZone:zone];
-	copy.unit = self.unit;
 	copy.command = self.command;
 	copy.title = self.title;
 	return copy;
 }
 
-- (RACSignal *)rawDataSignal {
-	return [RACObserve(self, unit) skip:1];
-}
-
-- (NSString *)keyPathForLens {
-	return @keypath(self.unit);
+- (RACChannel *)channel {
+	return _channel;
 }
 
 - (void)rowWasSelected {

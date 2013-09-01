@@ -6,28 +6,21 @@
 //  Copyright (c) 2012 Jon Sterling. All rights reserved.
 //
 
-#import "RAFLens.h"
+#import "RAFCast.h"
 
-@protocol RAFText <RAFExtract>
+@protocol RAFText <RAFCast>
 @concrete
-- (NSString *)raf_extract;
+- (NSString *)raf_cast;
 @end
 
-@protocol RAFNumber <RAFExtract>
+@protocol RAFNumber <RAFCast>
 @concrete
-- (NSNumber *)raf_extract;
+- (NSNumber *)raf_cast;
 @end
 
-@protocol RAFUnit <RAFExtract>
+@protocol RAFUnit <RAFCast>
 @concrete
-- (RACUnit *)raf_extract;
-@end
-
-@protocol RAFIdentity <RAFExtract>
-- (id)identityValue;
-+ (instancetype)identityValue:(id)object;
-@concrete
-- (id)raf_extract;
+- (RACUnit *)raf_cast;
 @end
 
 @interface NSString (RAFText) <RAFText>

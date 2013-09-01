@@ -10,15 +10,13 @@
 #import "ReactiveFormlets.h"
 #import "RAFReifiedProtocol.h"
 #import "RAFModel.h"
-#import "RAFModel.h"
 
 // A formlet emits a signal and provides a lens through which values are mapped
 // in and out. A formlet may either bind directly to an interface, or may be
 // composed of other formlets.
-@protocol RAFFormlet <RAFLens>
-// Returns a signal of the raw data of the form over every change. This may
-// be nil.
-- (RACSignal *)rawDataSignal;
+@protocol RAFFormlet <NSCopying>
+
+- (RACChannel *)channel;
 
 // Returns a signal of RAFValidation objects, with errors for all subordinate
 // form elements accumulated.
@@ -26,12 +24,17 @@
 
 // Whether the formlet is editable or now. Should default to YES.
 @property (assign, nonatomic, getter = isEditable) BOOL editable;
+
+@concrete
+// A bidirectional value transformer; by default, the Identity transformer is
+// used if none is provided.
+- (NSValueTransformer *)valueTransformer;
 @end
 
 @class RAFValidator;
 // A primitive formlet is one which binds directly to an interface.
-// `RAFPrimitiveFormlet` subclasses must provide their own `-rawDataSignal` and
-// `-keyPathForLens` implementations.
+// `RAFPrimitiveFormlet` subclasses must provide their own `-channel`
+// implementations.
 @interface RAFPrimitiveFormlet : NSObject <RAFFormlet>
 @property (strong, readonly, nonatomic) RAFValidator *validator;
 - (instancetype)validator:(RAFValidator *)validator;

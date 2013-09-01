@@ -11,6 +11,30 @@
 #import <ReactiveCocoa/ReactiveCocoa.h>
 #import "EXTScope.h"
 #import "EXTConcreteProtocol.h"
+#import "RAFIdentityValueTransformer.h"
+
+@concreteprotocol(RAFFormlet)
+@dynamic editable;
+
+- (RACChannel *)channel {
+	return nil;
+}
+
+- (RACSignal *)validationSignal {
+	return nil;
+}
+
+- (id)copyWithZone:(NSZone *)zone {
+	return nil;
+}
+
+#pragma mark - Concrete
+
+- (NSValueTransformer *)valueTransformer {
+	return [NSValueTransformer valueTransformerForName:RAFIdentityValueTransformerName];
+}
+
+@end
 
 @interface RAFPrimitiveFormlet ()
 @property (strong, readwrite, nonatomic) RAFValidator *validator;
@@ -18,6 +42,7 @@
 
 @implementation RAFPrimitiveFormlet {
 	RACSignal *_validation;
+	RACChannel *_channel;
 }
 
 @synthesize editable = _editable;
@@ -36,6 +61,10 @@
 	return copy;
 }
 
+- (RACChannel *)channel {
+	return nil;
+}
+
 #pragma mark - NSCopying
 
 - (id)copyWithZone:(NSZone *)zone {
@@ -46,17 +75,10 @@
 
 #pragma mark - RAFFormlet
 
-- (RACSignal *)rawDataSignal {
-	@throw [NSException exceptionWithName:NSGenericException
-								   reason:@"Subclasses of RAFPrimitiveFormlet must override -rawDataSignal"
-								 userInfo:nil];
-	return nil;
-}
-
 - (RACSignal *)validationSignal {
 	if (!_validation) {
-		RACSignal *dataSignal = [RACSignal merge:@[ self.rawDataSignal, self.hardUpdateSignal ]];
-		_validation = [RACSignal combineLatest:@[ RACObserve(self, validator), dataSignal ] reduce:^(RAFValidator * validator, id value) {
+		RACSignal *value = [[RACSignal merge:@[ self.channel.followingTerminal, self.channel.leadingTerminal ]] startWith:nil];
+		_validation = [RACSignal combineLatest:@[ RACObserve(self, validator), value ] reduce:^(RAFValidator * validator, id value) {
 			return [validator validate:value];
 		}].switchToLatest;
 	}
@@ -68,15 +90,6 @@
 	return _validator ? _validator : [RAFValidator raf_zero];
 }
 
-#pragma mark - RAFLens
-
-- (NSString *)keyPathForLens {
-	@throw [NSException exceptionWithName:NSGenericException
-								   reason:@"Subclasses of RAFPrimitiveFormlet must override -keyPathForLens"
-								 userInfo:nil];
-	return nil;
-}
-
 @end
 
 @interface RAFCompoundFormlet ()
@@ -84,8 +97,8 @@
 @end
 
 @implementation RAFCompoundFormlet {
-	RACSignal *_rawDataSignal;
 	RACSignal *_validation;
+	RACChannel *_channel;
 }
 
 @dynamic compoundValue;
@@ -97,22 +110,6 @@
 	}
 
 	return self;
-}
-
-- (id)compoundValue {
-	RAFReifiedProtocol *modelData = [[RAFReifiedProtocol model:self.class.model] new];
-	return [modelData modify:^(id<RAFMutableOrderedDictionary> dict) {
-		for (id key in self) {
-			id data = self[key].raf_extract;
-			if (data) dict[key] = data;
-		}
-	}];
-}
-
-- (void)setCompoundValue:(id)value {
-	for (id key in self) {
-		[self[key] updateInPlace:value[key]];
-	}
 }
 
 - (void)setEditable:(BOOL)editable
@@ -138,33 +135,46 @@
 - (instancetype)deepCopyWithZone:(NSZone *)zone {
 	RAFCompoundFormlet *copy = [super deepCopyWithZone:zone];
 	copy.editable = self.editable;
-	[copy updateInPlace:self.raf_extract];
 	return copy;
 }
 
 #pragma mark - Signals
 
-- (RACSignal *)rawDataSignal {
-	if (!_rawDataSignal) {
-		@weakify(self);
+- (RACChannel *)channel {
+	if (!_channel) {
 
-		RACSequence *signals = [self.allValues.rac_sequence map:^id(id<RAFFormlet> subform) {
-			return subform.rawDataSignal;
+		RACSequence *channels = [self.allValues.rac_sequence map:^id(id<RAFFormlet> subform) {
+			return subform.channel;
 		}];
 
-		_rawDataSignal = [RACSignal createSignal:^RACDisposable *(id<RACSubscriber> subscriber) {
-			@strongify(self);
-			return [[RACSignal combineLatest:signals] subscribeNext:^(RACTuple *tuple) {
-				[subscriber sendNext:self.raf_extract];
+		_channel = [RACChannel new];
+		[[RACSignal createSignal:^RACDisposable *(id<RACSubscriber> subscriber) {
+			RACSignal *seededTerminals = [RACSignal combineLatest:[channels map:^(RACChannel *channel) {
+				return [channel.followingTerminal startWith:nil];
+			}]];
+
+			return [seededTerminals subscribeNext:^(RACTuple *tuple) {
+				id dict = [[[RAFReifiedProtocol model:self.class.model] new] modify:^(id<RAFMutableOrderedDictionary> dict) {
+					[self.allKeys enumerateObjectsUsingBlock:^(id key, NSUInteger idx, BOOL *stop) {
+						dict[key] = tuple[idx];
+					}];
+				}];
+				[subscriber sendNext:dict];
 			} error:^(NSError *error) {
 				[subscriber sendError:error];
 			} completed:^{
 				[subscriber sendCompleted];
 			}];
+		}] subscribe:_channel.leadingTerminal];
+
+		[_channel.leadingTerminal subscribeNext:^(RAFOrderedDictionary *value) {
+			[channels.array enumerateObjectsUsingBlock:^(RACChannel *subchannel, NSUInteger idx, BOOL *stop) {
+				[subchannel.followingTerminal sendNext:value.allValues[idx]];
+			}];
 		}];
 	}
 
-	return [RACSignal merge:@[ [_rawDataSignal startWith:self.raf_extract], self.hardUpdateSignal ]];
+	return _channel;
 }
 
 - (RACSignal *)validationSignal {
@@ -177,8 +187,20 @@
 		_validation = [RACSignal createSignal:^RACDisposable *(id<RACSubscriber> subscriber) {
 			@strongify(self);
 			return [[RACSignal combineLatest:signals] subscribeNext:^(RACTuple *tuple) {
-				RAFValidation *start = [RAFValidation success:self.raf_extract];
-				[subscriber sendNext:[RAFValidation raf_sum:tuple.rac_sequence onto:start]];
+				NSMutableArray *merrors = [NSMutableArray array];
+				id dict = [[[RAFReifiedProtocol model:self.class.model] new] modify:^(id<RAFMutableOrderedDictionary> dict) {
+					[self.allKeys enumerateObjectsUsingBlock:^(id key, NSUInteger idx, BOOL *stop) {
+						[tuple[idx] ?: [RAFValidation failure:@[]] caseSuccess:^id(id value) {
+							dict[key] = value;
+							return nil;
+						} failure:^id(NSArray *errors) {
+							[merrors addObject:errors];
+							return nil;
+						}];
+					}];
+				}];
+				NSArray *errors = [merrors valueForKeyPath:@"@unionOfArrays.self"];
+				[subscriber sendNext:(merrors.count ? [RAFValidation failure:errors] : [RAFValidation success:dict])];
 			} error:^(NSError *error) {
 				[subscriber sendError:error];
 			} completed:^{
@@ -187,18 +209,8 @@
 		}];
 	}
 
+
 	return _validation;
-}
-
-
-#pragma mark - RAFLens
-
-- (NSString *)keyPathForLens {
-	return @keypath(self.compoundValue);
-}
-
-- (id)raf_extract {
-	return self.compoundValue;
 }
 
 @end

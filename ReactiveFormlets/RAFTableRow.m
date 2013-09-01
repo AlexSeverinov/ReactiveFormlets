@@ -23,12 +23,6 @@
 	return [UITableViewCell class];
 }
 
-- (id)copyWithZone:(NSZone *)zone {
-	RAFTableRow *row = [super copyWithZone:zone];
-	[row updateInPlace:self.raf_extract];
-	return row;
-}
-
 - (CGFloat)height {
 	return 44.f;
 }

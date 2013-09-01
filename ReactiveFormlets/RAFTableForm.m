@@ -29,7 +29,7 @@
 }
 
 + (BOOL)sectionsMirrorData {
-	return YES;
+	return NO;
 }
 
 - (id)initWithOrderedDictionary:(RAFOrderedDictionary *)dictionary {
@@ -166,35 +166,3 @@
 
 @end
 
-@implementation RAFCustomTableForm
-
-+ (BOOL)sectionsMirrorData {
-	return NO;
-}
-
-@end
-
-@implementation RAFOneSectionTableForm
-
-+ (Protocol *)model {
-	return @protocol(RAFIdentity);
-}
-
-+ (instancetype)section:(RAFTableSection *)section {
-	return [(Class)self identityValue:section];
-}
-
-- (id)forwardingTargetForSelector:(SEL)aSelector {
-	return [super methodSignatureForSelector:aSelector] ? nil : [(id<RAFIdentity>)self identityValue];
-}
-
-- (id)raf_extract {
-	return [[super raf_extract] identityValue];
-}
-
-- (void)updateInPlace:(id)value {
-	Class RAFIdentity = [RAFReifiedProtocol model:@protocol(RAFIdentity)];
-	[super updateInPlace:[RAFIdentity identityValue:value]];
-}
-
-@end

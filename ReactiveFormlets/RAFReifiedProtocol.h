@@ -61,3 +61,8 @@
 + (Protocol *)model;
 @end
 
+
+// Convenience macro for generating concrete classes for model protocols.
+#define RAFReify(proto) [RAFReifiedProtocol model:@protocol(proto)]
+
+

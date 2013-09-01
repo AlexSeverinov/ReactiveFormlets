@@ -20,18 +20,8 @@
 // When YES, the form's `sections` property is automatically set to -allValues.
 // When NO, the form's `sections` property must be set manually.
 //
-// Default: YES.
+// Default: NO
 + (BOOL)sectionsMirrorData;
 
 + (Class)tableFormMomentClass;    // Defaults to RAFTableFormMoment
-@end
-
-// +[RAFCustomTableForm sectionsMirrorData] returns NO.
-@interface RAFCustomTableForm : RAFTableForm
-@end
-
-// This is a premade form which will mirror the model (and the protocol) of the
-// section that is provided it.
-@interface RAFOneSectionTableForm : RAFTableForm
-+ (id)section:(RAFTableSection *)section;
 @end

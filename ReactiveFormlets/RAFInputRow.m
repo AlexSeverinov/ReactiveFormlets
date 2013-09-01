@@ -29,6 +29,7 @@
 
 @implementation RAFTextFieldInputRow {
 	RACSubject *_fieldDidFinishEditingSignal;
+	RACChannel *_channel;
 }
 
 - (id)init {
@@ -54,6 +55,15 @@
 			@strongify(self);
 			if (configure) configure(self.textField);
 		}];
+
+		_channel = [RACChannel new];
+		[[[self.textField.rac_newTextChannel map:^id(id value) {
+			return [self.valueTransformer transformedValue:value];
+		}] startWith:nil] subscribe:_channel.leadingTerminal];
+
+		[[[_channel.leadingTerminal map:^id(id value) {
+			return [self.valueTransformer reverseTransformedValue:value];
+		}] startWith:nil] subscribe:self.textField.rac_newTextChannel];
 	}
 
 	return self;
@@ -71,14 +81,8 @@
 	[self.textField becomeFirstResponder];
 }
 
-- (NSString *)keyPathForLens {
-	return @keypath(self.textField.text);
-}
-
-- (RACSignal *)rawDataSignal {
-	return [self.textField.rac_textSignal map:^(NSString *text) {
-		return [self.valueTransformer transformedValue:text ?: @""];
-	}];
+- (RACChannel *)channel {
+	return _channel;
 }
 
 - (RACSignal *)fieldDidFinishEditingSignal {

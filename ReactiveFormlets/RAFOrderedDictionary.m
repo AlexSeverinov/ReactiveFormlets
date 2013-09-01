@@ -130,10 +130,8 @@ typedef enum {
 #pragma mark -
 
 - (RACSequence *)sequence {
-	NSDictionary *immutableDict = [self copy];
-
-	return [immutableDict.allKeys.rac_sequence map:^(id key) {
-		id value = immutableDict[key];
+	return [self.allKeys.rac_sequence map:^(id key) {
+		id value = self[key];
 		return [RACTuple tupleWithObjects:key, value, nil];
 	}];
 }
