@@ -8,26 +8,13 @@
 
 #import "RAFCast.h"
 
-@protocol RAFText <RAFCast>
-@concrete
-- (NSString *)raf_cast;
-@end
+#define RAFDefinePrimitiveModel(ModelName, ClassName)\
+	@protocol ModelName <RAFCast>\
+	- (ClassName *)raf_cast;\
+	@end\
+	@interface ClassName (ModelName) <ModelName>\
+	@end
 
-@protocol RAFNumber <RAFCast>
-@concrete
-- (NSNumber *)raf_cast;
-@end
-
-@protocol RAFUnit <RAFCast>
-@concrete
-- (RACUnit *)raf_cast;
-@end
-
-@interface NSString (RAFText) <RAFText>
-@end
-
-@interface NSNumber (RAFNumber) <RAFNumber>
-@end
-
-@interface RACUnit (RAFUnit) <RAFUnit>
-@end
+RAFDefinePrimitiveModel(RAFString, NSString);
+RAFDefinePrimitiveModel(RAFNumber, NSNumber);
+RAFDefinePrimitiveModel(RAFUnit, RACUnit);

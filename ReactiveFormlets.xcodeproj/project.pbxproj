@@ -33,7 +33,6 @@
 		FCD30F7C16F64D0300473BB8 /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = FCD30F7B16F64D0300473BB8 /* UIKit.framework */; };
 		FCD30F9B16F64D9D00473BB8 /* RAFFormlet.m in Sources */ = {isa = PBXBuildFile; fileRef = FCD30F8016F64D9D00473BB8 /* RAFFormlet.m */; };
 		FCD30F9C16F64D9D00473BB8 /* RAFCast.m in Sources */ = {isa = PBXBuildFile; fileRef = FCD30F8216F64D9D00473BB8 /* RAFCast.m */; };
-		FCD30F9D16F64D9D00473BB8 /* RAFModel.m in Sources */ = {isa = PBXBuildFile; fileRef = FCD30F8416F64D9D00473BB8 /* RAFModel.m */; };
 		FCD30F9E16F64D9D00473BB8 /* RAFOrderedDictionary.m in Sources */ = {isa = PBXBuildFile; fileRef = FCD30F8616F64D9D00473BB8 /* RAFOrderedDictionary.m */; };
 		FCD30F9F16F64D9D00473BB8 /* RAFReifiedProtocol.m in Sources */ = {isa = PBXBuildFile; fileRef = FCD30F8816F64D9D00473BB8 /* RAFReifiedProtocol.m */; };
 		FCD30FA116F64D9D00473BB8 /* RAFObjCRuntime.m in Sources */ = {isa = PBXBuildFile; fileRef = FCD30F8C16F64D9D00473BB8 /* RAFObjCRuntime.m */; };
@@ -161,7 +160,6 @@
 		FCD30F8116F64D9D00473BB8 /* RAFCast.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RAFCast.h; sourceTree = "<group>"; };
 		FCD30F8216F64D9D00473BB8 /* RAFCast.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RAFCast.m; sourceTree = "<group>"; };
 		FCD30F8316F64D9D00473BB8 /* RAFModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RAFModel.h; sourceTree = "<group>"; };
-		FCD30F8416F64D9D00473BB8 /* RAFModel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RAFModel.m; sourceTree = "<group>"; };
 		FCD30F8516F64D9D00473BB8 /* RAFOrderedDictionary.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RAFOrderedDictionary.h; sourceTree = "<group>"; };
 		FCD30F8616F64D9D00473BB8 /* RAFOrderedDictionary.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RAFOrderedDictionary.m; sourceTree = "<group>"; };
 		FCD30F8716F64D9D00473BB8 /* RAFReifiedProtocol.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RAFReifiedProtocol.h; sourceTree = "<group>"; };
@@ -415,7 +413,6 @@
 				FCD30F8116F64D9D00473BB8 /* RAFCast.h */,
 				FCD30F8216F64D9D00473BB8 /* RAFCast.m */,
 				FCD30F8316F64D9D00473BB8 /* RAFModel.h */,
-				FCD30F8416F64D9D00473BB8 /* RAFModel.m */,
 			);
 			name = "Core Interfaces";
 			sourceTree = "<group>";
@@ -612,7 +609,6 @@
 				FCD30F9B16F64D9D00473BB8 /* RAFFormlet.m in Sources */,
 				FCD30F9C16F64D9D00473BB8 /* RAFCast.m in Sources */,
 				FC6B41E817D3A56F0080F1C4 /* EXTScope.m in Sources */,
-				FCD30F9D16F64D9D00473BB8 /* RAFModel.m in Sources */,
 				FCD30F9E16F64D9D00473BB8 /* RAFOrderedDictionary.m in Sources */,
 				FCFD587B1776459300C991A1 /* RAFSemigroup.m in Sources */,
 				FCD30F9F16F64D9D00473BB8 /* RAFReifiedProtocol.m in Sources */,

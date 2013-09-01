@@ -19,7 +19,7 @@
 @property (copy) void (^configureTextField)(UITextField *field);
 @end
 
-@interface RAFTextInputRow : RAFTextFieldInputRow <RAFText>
+@interface RAFTextInputRow : RAFTextFieldInputRow <RAFString>
 @end
 
 @interface RAFNumberInputRow : RAFTextFieldInputRow <RAFNumber>
