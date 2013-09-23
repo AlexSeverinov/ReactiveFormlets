@@ -13,11 +13,7 @@
 #import "EXTConcreteProtocol.h"
 #import "RAFIdentityValueTransformer.h"
 
-@protocol RAFFormletPrivate <RAFFormlet>
-- (RACChannel *)channel;
-@end
-
-@interface RAFPrimitiveFormlet () <RAFFormletPrivate>
+@interface RAFPrimitiveFormlet ()
 @property (strong, readwrite, nonatomic) RAFValidator *validator;
 @end
 
@@ -76,7 +72,7 @@
 
 @end
 
-@interface RAFCompoundFormlet () <RAFFormletPrivate>
+@interface RAFCompoundFormlet ()
 @end
 
 @implementation RAFCompoundFormlet {
@@ -157,7 +153,7 @@
 - (RACChannel *)channel {
 	if (!_channel) {
 
-		RACSequence *channels = [self.allValues.rac_sequence map:^id(id<RAFFormletPrivate> subform) {
+		RACSequence *channels = [self.allValues.rac_sequence map:^id(id<RAFFormlet> subform) {
 			return subform.channel;
 		}];
 

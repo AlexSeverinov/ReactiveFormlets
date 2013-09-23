@@ -16,6 +16,7 @@
 // composed of other formlets.
 @protocol RAFFormlet <NSCopying>
 
+- (RACChannel *)channel;
 - (RACChannelTerminal *)channelTerminal;
 
 // Returns a signal of RAFValidation objects, with errors for all subordinate
