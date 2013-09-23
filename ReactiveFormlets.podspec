@@ -1,6 +1,6 @@
 Pod::Spec.new do |s|
   s.name         = "ReactiveFormlets"
-  s.version      = "1.06"
+  s.version      = "1.5"
   s.summary      = "A framework for building iOS forms compositionally and reactively."
   s.homepage     = "https://github.com/jonsterling/ReactiveFormlets"
   s.author       = { "Jon Sterling" => "jonsterling@me.com" }
@@ -15,5 +15,7 @@ Pod::Spec.new do |s|
   s.source_files = 'ReactiveFormlets/*.{h,m}'
   s.public_header_files = 'ReactiveFormlets/*.h'
   s.frameworks = 'Foundation', 'UIKit'
-  s.dependency 'ReactiveCocoa', '~> 1.8.0'
+  s.dependency 'ReactiveCocoa', '~> 2.0'
+  s.dependency 'libextobjc/EXTConcreteProtocol', '~> 0.3'
+  s.dependency 'libextobjc/EXTScope', '~> 0.3'
 end

@@ -1,5 +1,5 @@
 //
-//  RAFLens.h
+//  RAFCast.h
 //  ReactiveFormlets
 //
 //  Created by Jon Sterling on 12/19/12.

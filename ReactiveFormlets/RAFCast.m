@@ -1,5 +1,5 @@
 //
-//  RAFLens.m
+//  RAFCast.m
 //  ReactiveFormlets
 //
 //  Created by Jon Sterling on 12/19/12.
