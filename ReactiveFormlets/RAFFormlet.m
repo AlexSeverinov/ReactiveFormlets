@@ -153,13 +153,13 @@
 - (RACChannel *)channel {
 	if (!_channel) {
 
-		RACSequence *channels = [self.allValues.rac_sequence map:^id(id<RAFFormlet> subform) {
-			return subform.channel;
+		RACSequence *channels = [self.sequence reduceEach:^(id key, id<RAFFormlet> subform) {
+			return RACTuplePack(key, subform.channel);
 		}];
 
 		_channel = [RACChannel new];
 
-		RACSignal *seededTerminals = [RACSignal combineLatest:[channels map:^(RACChannel *channel) {
+		RACSignal *seededTerminals = [RACSignal combineLatest:[channels reduceEach:^(id key, RACChannel *channel) {
 			return [channel.followingTerminal startWith:nil];
 		}]];
 
@@ -170,9 +170,12 @@
 		}] subscribe:_channel.leadingTerminal];
 
 		[_channel.leadingTerminal subscribeNext:^(RAFOrderedDictionary *value) {
-			[channels.array enumerateObjectsUsingBlock:^(RACChannel *subchannel, NSUInteger idx, BOOL *stop) {
-				[subchannel.followingTerminal sendNext:value.allValues[idx]];
-			}];
+			for (RACTuple *pair in channels)
+			{
+				RACTupleUnpack(id key, RACChannel *subchannel) = pair;
+				id subvalue = value[key];
+				[subchannel.followingTerminal sendNext:([subvalue isKindOfClass:[NSNull class]] ? nil : subvalue)];
+			}
 		}];
 	}
 
