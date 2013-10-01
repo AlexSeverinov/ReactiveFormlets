@@ -29,7 +29,10 @@
 	if (self = [super init]) {
 		self.editable = YES;
 
-		_totalDataSignal = [RACSignal merge:@[ self.channel.followingTerminal, self.channel.leadingTerminal ]].replay;
+		_totalDataSignal = [RACSignal defer:^RACSignal *{
+			return [RACSignal merge:@[ self.channel.followingTerminal, self.channel.leadingTerminal ]].replay;
+		}];
+
 		_validationSignal = [RACSignal combineLatest:@[ RACObserve(self, validator), [_totalDataSignal startWith:nil] ] reduce:^(RAFValidator *validator, id value) {
 			return [validator execute:value];
 		}].switchToLatest;
