@@ -106,7 +106,7 @@
 			}];
 
 			return errorSequences.count ? [RAFValidation failure:errorSequences.rac_sequence.flatten.array] : [RAFValidation success:dict];
-		}];
+		}].replayLazily;
 
 	}
 
