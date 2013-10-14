@@ -16,7 +16,7 @@
 // composed of other formlets.
 @protocol RAFFormlet <NSCopying>
 
-- (RACChannel *)channel;
+@property (strong, readonly, nonatomic) RACChannel *channel;
 - (RACChannelTerminal *)channelTerminal;
 
 // Returns a signal of RAFValidation objects, with errors for all subordinate
@@ -33,8 +33,7 @@
 // `RAFPrimitiveFormlet` subclasses must provide their own `-channel`
 // implementations.
 @interface RAFPrimitiveFormlet : NSObject <RAFFormlet>
-@property (strong, readonly, nonatomic) RAFValidator *validator;
-- (instancetype)validator:(RAFValidator *)validator;
+@property (strong, nonatomic) RAFValidator *validator;
 
 // A bidirectional value transformer; by default, the Identity transformer is
 // used if none is provided.

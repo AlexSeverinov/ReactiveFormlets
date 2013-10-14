@@ -13,10 +13,6 @@
 #import "EXTConcreteProtocol.h"
 #import "RAFIdentityValueTransformer.h"
 
-@interface RAFPrimitiveFormlet ()
-@property (strong, readwrite, nonatomic) RAFValidator *validator;
-@end
-
 @implementation RAFPrimitiveFormlet {
 	RACChannel *_channel;
 }
@@ -39,12 +35,6 @@
 	}
 	
 	return self;
-}
-
-- (instancetype)validator:(RAFValidator *)validator {
-	RAFPrimitiveFormlet *copy = [self copy];
-	copy.validator = validator;
-	return copy;
 }
 
 - (RACChannel *)channel {
