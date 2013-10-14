@@ -10,7 +10,6 @@
 #import "RAFValidation.h"
 #import <ReactiveCocoa/ReactiveCocoa.h>
 #import "EXTScope.h"
-#import "EXTConcreteProtocol.h"
 #import "RAFIdentityValueTransformer.h"
 
 @implementation RAFPrimitiveFormlet {
@@ -26,14 +25,17 @@
 		self.editable = YES;
 
 		_totalDataSignal = [RACSignal defer:^RACSignal *{
-			return [RACSignal merge:@[ self.channel.followingTerminal, self.channel.leadingTerminal ]].replay;
-		}];
+			return [RACSignal merge:@[ self.channel.followingTerminal, self.channel.leadingTerminal ]];
+		}].replayLazily;
 
-		_validationSignal = [RACSignal combineLatest:@[ RACObserve(self, validator), [_totalDataSignal startWith:nil] ] reduce:^(RAFValidator *validator, id value) {
-			return [validator execute:value];
-		}].switchToLatest;
+		RACSignal *validatorSignal = RACObserve(self, validator);
+		_validationSignal = [RACSignal defer:^RACSignal *{
+			return [RACSignal combineLatest:@[ validatorSignal, [_totalDataSignal startWith:nil] ] reduce:^(RAFValidator *validator, id value) {
+				return [validator execute:value];
+			}].switchToLatest;
+		}].replayLazily;
 	}
-	
+
 	return self;
 }
 
