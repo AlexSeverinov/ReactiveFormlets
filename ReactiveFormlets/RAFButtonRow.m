@@ -13,8 +13,8 @@
 	RACChannel *_channel;
 }
 
-- (id)init {
-	if (self = [super init]) {
+- (id)initWithValidator:(RAFValidator *)validator {
+	if (self = [super initWithValidator:validator]) {
 		RAC(self, cell.textLabel.text) = RACObserve(self, title);
 		self.cell.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
 	}

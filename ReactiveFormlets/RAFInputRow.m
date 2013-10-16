@@ -13,8 +13,8 @@
 
 @implementation RAFInputRow
 
-- (id)init {
-	if (self = [super init]) {
+- (id)initWithValidator:(RAFValidator *)validator {
+	if (self = [super initWithValidator:validator]) {
 		self.cell.selectionStyle = UITableViewCellSelectionStyleNone;
 	}
 
@@ -34,8 +34,8 @@
 
 @synthesize textField = _textField;
 
-- (id)init {
-	if (self = [super init]) {
+- (id)initWithValidator:(RAFValidator *)validator {
+	if (self = [super initWithValidator:validator]) {
 		_fieldDidFinishEditingSignal = [RACSubject subject];
 
 		@weakify(self);
@@ -111,8 +111,8 @@
 
 @implementation RAFNumberInputRow
 
-- (id)init {
-	if (self = [super init]) {
+- (id)initWithValidator:(RAFValidator *)validator {
+	if (self = [super initWithValidator:validator]) {
 		self.textField.keyboardType = UIKeyboardTypeNumberPad;
 	}
 

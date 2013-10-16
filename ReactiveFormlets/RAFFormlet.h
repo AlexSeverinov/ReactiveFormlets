@@ -21,8 +21,8 @@
 
 // Returns a signal of RAFValidation objects, with errors for all subordinate
 // form elements accumulated.
-@property (strong, readonly) RACSignal *validationSignal;
-@property (strong, readonly) RACSignal *totalDataSignal;
+@property (strong, readonly, nonatomic) RACSignal *validationSignal;
+@property (strong, readonly, nonatomic) RACSignal *totalDataSignal;
 
 // Whether the formlet is editable or now. Should default to YES.
 @property (assign, nonatomic, getter = isEditable) BOOL editable;
@@ -33,7 +33,9 @@
 // `RAFPrimitiveFormlet` subclasses must provide their own `-channel`
 // implementations.
 @interface RAFPrimitiveFormlet : NSObject <RAFFormlet>
-@property (strong, nonatomic) RAFValidator *validator;
+@property (strong, readonly, nonatomic) RAFValidator *validator;
+
+- (id)initWithValidator:(RAFValidator *)validator;
 
 // A bidirectional value transformer; by default, the Identity transformer is
 // used if none is provided.

@@ -19,24 +19,47 @@
 @synthesize editable = _editable;
 @synthesize validationSignal = _validationSignal;
 @synthesize totalDataSignal = _totalDataSignal;
+@synthesize validator = _validator;
 
-- (id)init {
+- (id)initWithValidator:(RAFValidator *)validator {
+	NSParameterAssert(validator != nil);
 	if (self = [super init]) {
 		self.editable = YES;
 
-		_totalDataSignal = [RACSignal defer:^RACSignal *{
+		RACSignal *totalDataSignal = [RACSignal defer:^RACSignal *{
 			return [RACSignal merge:@[ self.channel.followingTerminal, self.channel.leadingTerminal ]].replayLast;
 		}];
 
-		RACSignal *validatorSignal = RACObserve(self, validator);
-		_validationSignal = [RACSignal defer:^RACSignal *{
-			return [RACSignal combineLatest:@[ validatorSignal, [_totalDataSignal startWith:nil] ] reduce:^(RAFValidator *validator, id value) {
-				return [validator execute:value];
-			}].switchToLatest.replayLast;
+		validator = validator ?: [RAFValidator raf_zero];
+		_totalDataSignal = totalDataSignal;
+		_validator = validator;
+
+		_validationSignal = [RACSignal createSignal:^RACDisposable *(id<RACSubscriber> subscriber) {
+			__block RACDisposable *innerDisposable = nil;
+			RACDisposable *outerDisposable = [[totalDataSignal startWith:nil] subscribeNext:^(id value) {
+				innerDisposable = [[validator execute:value] subscribeNext:^(id x) {
+					[subscriber sendNext:x];
+				} error:^(NSError *error) {
+					[subscriber sendError:error];
+				}];
+			} error:^(NSError *error) {
+				[subscriber sendError:error];
+			} completed:^{
+				[subscriber sendCompleted];
+			}];
+
+			return [RACDisposable disposableWithBlock:^{
+				[outerDisposable dispose];
+				[innerDisposable dispose];
+			}];
 		}];
 	}
 
 	return self;
+}
+
+- (id)init {
+	return [self initWithValidator:[RAFValidator raf_zero]];
 }
 
 - (RACChannel *)channel {
@@ -58,15 +81,7 @@
 #pragma mark - NSCopying
 
 - (id)copyWithZone:(NSZone *)zone {
-	RAFPrimitiveFormlet *copy = [self.class new];
-	copy.validator = self.validator;
-	return copy;
-}
-
-#pragma mark - RAFFormlet
-
-- (RAFValidator *)validator {
-	return _validator ? _validator : [RAFValidator raf_zero];
+	return [[self.class alloc] initWithValidator:_validator];
 }
 
 @end
@@ -180,7 +195,7 @@
 			}
 		}];
 	}
-
+	
 	return _channel;
 }
 
