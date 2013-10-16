@@ -25,15 +25,15 @@
 		self.editable = YES;
 
 		_totalDataSignal = [RACSignal defer:^RACSignal *{
-			return [RACSignal merge:@[ self.channel.followingTerminal, self.channel.leadingTerminal ]];
-		}].replayLazily;
+			return [RACSignal merge:@[ self.channel.followingTerminal, self.channel.leadingTerminal ]].replayLast;
+		}];
 
 		RACSignal *validatorSignal = RACObserve(self, validator);
 		_validationSignal = [RACSignal defer:^RACSignal *{
 			return [RACSignal combineLatest:@[ validatorSignal, [_totalDataSignal startWith:nil] ] reduce:^(RAFValidator *validator, id value) {
 				return [validator execute:value];
-			}].switchToLatest;
-		}].replayLazily;
+			}].switchToLatest.replayLast;
+		}];
 	}
 
 	return self;
@@ -49,6 +49,10 @@
 
 - (NSValueTransformer *)valueTransformer {
 	return [NSValueTransformer valueTransformerForName:RAFIdentityValueTransformerName];
+}
+
+- (id)raf_cast {
+	return self.totalDataSignal.first;
 }
 
 #pragma mark - NSCopying
@@ -82,7 +86,7 @@
 - (id)initWithOrderedDictionary:(RAFOrderedDictionary *)dictionary {
 	if (self = [super initWithOrderedDictionary:dictionary]) {
 		self.editable = YES;
-		_totalDataSignal = [RACSignal merge:@[ self.channel.followingTerminal, self.channel.leadingTerminal ]].replay;
+		_totalDataSignal = [RACSignal merge:@[ self.channel.followingTerminal, self.channel.leadingTerminal ]].replayLast;
 
 		RACSequence *signals = [self.allValues.rac_sequence map:^id(id<RAFFormlet> subform) {
 			return subform.validationSignal;
@@ -106,15 +110,14 @@
 			}];
 
 			return errorSequences.count ? [RAFValidation failure:errorSequences.rac_sequence.flatten.array] : [RAFValidation success:dict];
-		}].replayLazily;
+		}].replayLast;
 
 	}
 
 	return self;
 }
 
-- (void)setEditable:(BOOL)editable
-{
+- (void)setEditable:(BOOL)editable {
 	[self willChangeValueForKey:@keypath(self.editable)];
 
 	_editable = editable;
@@ -125,6 +128,10 @@
 	}
 
 	[self didChangeValueForKey:@keypath(self.editable)];
+}
+
+- (id)raf_cast {
+	return self.totalDataSignal.first;
 }
 
 #pragma mark - NSCopying
