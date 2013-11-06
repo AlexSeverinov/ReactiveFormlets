@@ -173,18 +173,25 @@
 			return subform.validationSignal;
 		}];
 
-		@weakify(self);
-		_validation = [RACSignal createSignal:^RACDisposable *(id<RACSubscriber> subscriber) {
-			@strongify(self);
-			return [[RACSignal combineLatest:signals] subscribeNext:^(RACTuple *tuple) {
-				RAFValidation *start = [RAFValidation success:self.raf_extract];
-				[subscriber sendNext:[RAFValidation raf_sum:tuple.rac_sequence onto:start]];
-			} error:^(NSError *error) {
-				[subscriber sendError:error];
-			} completed:^{
-				[subscriber sendCompleted];
+		Class Model = [RAFReifiedProtocol model:self.class.model];
+		NSArray *allKeys = self.allKeys;
+
+		_validation = [[RACSignal combineLatest:signals] map:^id(RACTuple *tuple) {
+			NSMutableArray *errorSequences = [NSMutableArray array];
+			id dict = [[Model new] modify:^(id<RAFMutableOrderedDictionary> dict) {
+				[allKeys enumerateObjectsUsingBlock:^(id key, NSUInteger idx, BOOL *stop) {
+					[tuple[idx] ?: [RAFValidation failure:@[]] caseSuccess:^id(id value) {
+						dict[key] = value;
+						return nil;
+					} failure:^id(NSArray *errors) {
+						[errorSequences addObject:errors.rac_sequence];
+						return nil;
+					}];
+				}];
 			}];
-		}];
+
+			return errorSequences.count ? [RAFValidation failure:errorSequences.rac_sequence.flatten.array] : [RAFValidation success:dict];
+		}].replayLast;
 	}
 
 	return _validation;
