@@ -14,10 +14,6 @@
 #import "RAFTableFormMoment.h"
 #import "RAFTableSection.h"
 
-@interface RAFTableForm ()
-@property (strong) RAFTableFormMoment *tableController;
-@end
-
 @implementation RAFTableForm
 
 + (Class)tableFormMomentClass {
@@ -33,16 +29,6 @@
 		_tableView = [[UITableView alloc] initWithFrame:CGRectZero style:UITableViewStyleGrouped];
 		_tableView.autoresizingMask = UIViewAutoresizingFlexibleHeight | UIViewAutoresizingFlexibleWidth | UIViewAutoresizingFlexibleBottomMargin | UIViewAutoresizingFlexibleTopMargin | UIViewAutoresizingFlexibleLeftMargin | UIViewAutoresizingFlexibleRightMargin;
 		_tableView.backgroundColor = [UIColor colorWithWhite:0.94f alpha:1.f];
-
-		Class TableFormMomentClass = self.class.tableFormMomentClass;
-
-		RAC(self, tableController) = [[[[RACObserve(self, sections) map:^id(NSArray *sections) {
-			return [RACSignal combineLatest:[sections.rac_sequence map:^(RAFTableSection *section) {
-				return section.moments;
-			}]];
-		}].switchToLatest map:^(RACTuple *sections) {
-			return [[TableFormMomentClass alloc] initWithSectionMoments:sections.rac_sequence.array];
-		}] deliverOn:RACScheduler.mainThreadScheduler] startWith:[RAFTableFormMoment new]];
 
 		RACSignal *includedRows = [RACObserve(self, sections) map:^(NSArray *sections) {
 			return [sections.rac_sequence flattenMap:^(RAFTableSection *section) {
@@ -84,11 +70,8 @@
 			[row beginEditing];
 		}];
 
-		self.tableView.dataSource = self.tableController;
-		self.tableView.delegate = self.tableController;
-
 		@weakify(self);
-		[self.tableViewUpdatesSignal subscribeNext:^(RACTuple *tuple) {
+		[[self.tableViewUpdatesSignal deliverOn:RACScheduler.mainThreadScheduler] subscribeNext:^(RACTuple *tuple) {
 			@strongify(self);
 //			RACTupleUnpack(RAFTableFormMoment *controller, NSIndexSet *sectionsToDelete, NSIndexSet *sectionsToInsert, NSArray *rowsToDelete, NSArray *rowsToInsert, NSArray *rowsToMove) = tuple;
 //
@@ -115,7 +98,17 @@
 }
 
 - (RACSignal *)tableViewUpdatesSignal {
-	return [[RACObserve(self, tableController) skip:1] combinePreviousWithStart:[RAFTableFormMoment new] reduce:^id(RAFTableFormMoment *oldController, RAFTableFormMoment *newController) {
+	Class TableFormMomentClass = self.class.tableFormMomentClass;
+
+	RACSignal *controllers = [[RACObserve(self, sections) map:^(NSArray *sections) {
+		return [RACSignal combineLatest:[sections.rac_sequence map:^(RAFTableSection *section) {
+			return section.moments;
+		}]];
+	}].switchToLatest map:^(RACTuple *sections) {
+		return [[TableFormMomentClass alloc] initWithSectionMoments:sections.rac_sequence.array];
+	}];
+
+	return [controllers combinePreviousWithStart:[RAFTableFormMoment new] reduce:^id(RAFTableFormMoment *oldController, RAFTableFormMoment *newController) {
 		NSArray *oldSections = oldController.sectionMoments ?: @[];
 		NSArray *newSections = newController.sectionMoments;
 
