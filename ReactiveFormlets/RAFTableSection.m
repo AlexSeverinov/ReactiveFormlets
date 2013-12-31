@@ -12,12 +12,6 @@
 #import "RAFFormlet.h"
 
 @implementation RAFTableSection
-@synthesize headerTitle = _headerTitle;
-@synthesize footerTitle = _footerTitle;
-@synthesize headerView = _headerView;
-@synthesize footerView = _footerView;
-@synthesize rows = _rows;
-@synthesize uniqueIdentifier = _uniqueIdentifier;
 
 - (id)initWithUniqueIdentifier:(NSString *)identifier rows:(NSArray *)rows headerTitle:(NSString *)headerTitle footerTitle:(NSString *)footerTitle headerView:(UIView *)headerView footerView:(UIView *)footerView {
 	if (self = [super init]) {
