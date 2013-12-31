@@ -53,13 +53,13 @@
 @interface RAFCompoundFormlet (Safety)
 - (id<RAFFormlet>)objectForKey:(id<NSCopying>)key;
 - (id<RAFFormlet>)objectForKeyedSubscript:(id<NSCopying>)key;
-- (id)copy UNAVAILABLE_ATTRIBUTE;
-- (id)copyWithZone:(NSZone *)zone UNAVAILABLE_ATTRIBUTE;
-- (id)mutableCopy UNAVAILABLE_ATTRIBUTE;
+- (id)copy DEPRECATED_ATTRIBUTE;
+- (id)copyWithZone:(NSZone *)zone DEPRECATED_ATTRIBUTE;
+- (id)mutableCopy DEPRECATED_ATTRIBUTE;
 @end
 
 @interface RAFPrimitiveFormlet (Safety)
-- (id)copy UNAVAILABLE_ATTRIBUTE;
-- (id)copyWithZone:(NSZone *)zone UNAVAILABLE_ATTRIBUTE;
-- (id)mutableCopy UNAVAILABLE_ATTRIBUTE;
+- (id)copy DEPRECATED_ATTRIBUTE;
+- (id)copyWithZone:(NSZone *)zone DEPRECATED_ATTRIBUTE;
+- (id)mutableCopy DEPRECATED_ATTRIBUTE;
 @end

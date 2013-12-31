@@ -11,9 +11,6 @@
 #import "RAFTableForm.h"
 #import "RAFFormlet.h"
 
-@interface RAFTableSection () <RAFMutableTableSection>
-@end
-
 @implementation RAFTableSection
 @synthesize headerTitle = _headerTitle;
 @synthesize footerTitle = _footerTitle;
