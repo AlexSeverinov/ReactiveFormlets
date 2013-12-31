@@ -30,7 +30,7 @@
 			return [RACSignal merge:@[ self.channel.followingTerminal, self.channel.leadingTerminal ]].replayLast;
 		}];
 
-		validator = validator ?: [RAFValidator raf_zero];
+		validator = validator ?: [RAFValidator identityValidator];
 		_totalDataSignal = totalDataSignal;
 		_validator = validator;
 
@@ -59,7 +59,7 @@
 }
 
 - (id)init {
-	return [self initWithValidator:[RAFValidator raf_zero]];
+	return [self initWithValidator:[RAFValidator identityValidator]];
 }
 
 - (RACChannel *)channel {

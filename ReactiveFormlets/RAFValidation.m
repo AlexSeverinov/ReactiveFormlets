@@ -28,20 +28,6 @@
 	return [[RAFFailure alloc] initWithErrors:errors];
 }
 
-+ (instancetype)raf_point:(id)value {
-	return [self success:value];
-}
-
-- (id)raf_map:(id (^)(id))function {
-	[self doesNotRecognizeSelector:_cmd];
-	return nil;
-}
-
-- (id)raf_append:(id<RAFSemigroup>)value {
-	[self doesNotRecognizeSelector:_cmd];
-	return nil;
-}
-
 - (id)caseSuccess:(id (^)(id))success failure:(id (^)(NSArray *))failure {
 	[self doesNotRecognizeSelector:_cmd];
 	return nil;
@@ -73,17 +59,6 @@
 	return success(self.value);
 }
 
-- (id)raf_map:(id (^)(id))function {
-	return [RAFValidation success:function(self.value)];
-}
-- (instancetype)raf_append:(RAFValidation *)validation {
-	return [validation caseSuccess:^id(id value) {
-		return self;
-	} failure:^(NSArray *errors) {
-		return [RAFFailure failure:errors];
-	}];
-}
-
 - (NSString *)description {
 	return [NSString stringWithFormat:@"(Success: %@)", self.value];
 }
@@ -102,18 +77,6 @@
 
 - (id)caseSuccess:(id (^)(id))success failure:(id (^)(NSArray *))failure {
 	return failure(self.errors);
-}
-
-- (id)raf_map:(id (^)(id))function {
-	return self;
-}
-
-- (instancetype)raf_append:(RAFValidation *)validation {
-	return [validation caseSuccess:^(id _) {
-		return self;
-	} failure:^id(NSArray *errors) {
-		return [RAFFailure failure:[self.errors arrayByAddingObjectsFromArray:errors]];
-	}];
 }
 
 - (NSString *)description {

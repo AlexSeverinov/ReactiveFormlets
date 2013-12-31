@@ -44,38 +44,18 @@ typedef enum : BOOL {
 	return [self methodSignatureForSelector:selector inProtocol:protocol scope:RAFClassMethodScope];
 }
 
-@end
++ (Class)subclass:(Class)superclass name:(NSString *)name adopting:(NSArray *)protocols {
+	Class subclass = objc_getClass(name.UTF8String);
+	if (subclass != nil) return subclass;
 
-@implementation NSObject (RAFObjCRuntime)
-
-+ (Class)raf_subclassWithName:(NSString *)name adopting:(NSArray *)protocols {
-	Class class = objc_getClass(name.UTF8String);
-	if (class != nil) return class;
-
-	class = objc_allocateClassPair(self, name.UTF8String, 0);
-	objc_registerClassPair(class);
+	subclass = objc_allocateClassPair(superclass, name.UTF8String, 0);
+	objc_registerClassPair(subclass);
 
 	for (Protocol *protocol in protocols) {
-		class_addProtocol(class, protocol);
+		class_addProtocol(subclass, protocol);
 	}
 
-	return class;
-}
-
-- (id)raf_associatedObjectForKey:(void *)key {
-	return objc_getAssociatedObject(self, key);
-}
-
-- (void)raf_setAssociatedObject:(id)value forKey:(void *)key policy:(objc_AssociationPolicy)policy {
-	objc_setAssociatedObject(self, key, value, policy);
-}
-
-+ (id)raf_associatedObjectForKey:(void *)key {
-	return objc_getAssociatedObject(self, key);
-}
-
-+ (void)raf_setAssociatedObject:(id)value forKey:(void *)key policy:(objc_AssociationPolicy)policy {
-	objc_setAssociatedObject(self, key, value, policy);
+	return subclass;
 }
 
 @end

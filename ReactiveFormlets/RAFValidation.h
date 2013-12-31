@@ -8,12 +8,11 @@
 
 #import <Foundation/Foundation.h>
 #import <ReactiveCocoa/ReactiveCocoa.h>
-#import "RAFSemigroup.h"
 
 /// `RAFValidation` represents a validity decision of an object.
 ///
 /// | RAFValidation (A : Type) : Type
-@interface RAFValidation : NSObject <RAFSemigroup>
+@interface RAFValidation : NSObject
 
 /// The constructor for successful validations.
 ///
@@ -40,6 +39,7 @@
 ///
 /// | (success : A → void, failure : NSArray NSError → void) → void
 - (void)ifSuccess:(void(^)(id value))success failure:(void(^)(NSArray *errors))failure;
+
 @end
 
 @interface RACSignal (RAFValidation)
