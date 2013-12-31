@@ -63,6 +63,15 @@
 }
 
 - (RACChannel *)channel {
+	if (_channel == nil) {
+		_channel = [self buildChannel];
+	}
+
+	return _channel;
+}
+
+- (RACChannel *)buildChannel {
+	[self doesNotRecognizeSelector:@selector(buildChannel)];
 	return nil;
 }
 

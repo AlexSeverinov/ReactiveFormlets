@@ -24,14 +24,14 @@ static void *kModelAssociatedObjectKey = &kModelAssociatedObjectKey;
 + (Class)model:(Protocol *)model {
 	NSString *name = [NSString stringWithFormat:@"%@_%s", self, protocol_getName(model)];
 
-	Class class = [self raf_subclassWithName:name adopting:@[ model ]];
-	[class raf_setAssociatedObject:model forKey:kModelAssociatedObjectKey policy:OBJC_ASSOCIATION_ASSIGN];
+	Class class = [RAFObjCRuntime subclass:self name:name adopting:@[ model ]];
+	objc_setAssociatedObject(class, &kModelAssociatedObjectKey, model, OBJC_ASSOCIATION_ASSIGN);
 
 	return class;
 }
 
 + (Protocol *)model {
-	return [self raf_associatedObjectForKey:kModelAssociatedObjectKey] ?: @protocol(RAFEmpty);
+	return objc_getAssociatedObject(self, &kModelAssociatedObjectKey) ?: @protocol(RAFEmpty);
 }
 
 - (id)initWithValues:(NSArray *)values {

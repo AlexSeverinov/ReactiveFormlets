@@ -12,7 +12,9 @@
 @property (strong, readonly) UITableViewCell *cell;
 @property (assign) BOOL lastInTabOrder;
 
-- (RACSignal *)fieldDidFinishEditingSignal; // RACSignal[RACUnit]
+/// A signal of `RACUnit`.
+- (RACSignal *)fieldDidFinishEditingSignal;
+
 - (BOOL)canEdit;
 - (void)beginEditing;
 
