@@ -13,8 +13,8 @@
 
 @implementation RAFInputRow
 
-- (id)init {
-	if (self = [super init]) {
+- (id)initWithValidator:(RAFValidator *)validator {
+	if (self = [super initWithValidator:validator]) {
 		self.cell.selectionStyle = UITableViewCellSelectionStyleNone;
 	}
 
@@ -29,41 +29,28 @@
 
 @implementation RAFTextFieldInputRow {
 	RACSubject *_fieldDidFinishEditingSignal;
+	RACChannel *_channel;
 }
 
-- (id)init {
-	if (self = [super init]) {
+@synthesize textField = _textField;
+
+- (id)initWithValidator:(RAFValidator *)validator {
+	if (self = [super initWithValidator:validator]) {
 		_fieldDidFinishEditingSignal = [RACSubject subject];
-		
-		_textField = [[UITextField alloc] initWithFrame:CGRectMake(0.f, 5.f, 285.f, 35.f)];
-		_textField.contentVerticalAlignment = UIControlContentVerticalAlignmentCenter;
-		_textField.returnKeyType = UIReturnKeyDone;
-		_textField.delegate = self;
 
 		@weakify(self);
-		[RACAbleWithStart(self.lastInTabOrder) subscribeNext:^(NSNumber *isLast) {
+		[RACObserve(self, lastInTabOrder) subscribeNext:^(NSNumber *isLast) {
 			@strongify(self);
 			self.textField.returnKeyType = isLast.boolValue ? UIReturnKeyDone : UIReturnKeyNext;
 		}];
 
-		self.cell.accessoryView = _textField;
+		self.cell.accessoryView = self.textField;
 
-		RAC(self.textField.enabled) = RACAbleWithStart(self.editable);
+		RAC(self, textField.enabled) = RACObserve(self, editable);
 
-		[RACAbleWithStart(self.configureTextField) subscribeNext:^(void (^configure)(UITextField *)) {
-			@strongify(self);
-			if (configure) configure(self.textField);
-		}];
 	}
 
 	return self;
-}
-
-- (id)copyWithZone:(NSZone *)zone
-{
-	RAFTextFieldInputRow *copy = [super copyWithZone:zone];
-	copy.configureTextField = self.configureTextField;
-	return copy;
 }
 
 - (void)rowWasSelected {
@@ -71,14 +58,29 @@
 	[self.textField becomeFirstResponder];
 }
 
-- (NSString *)keyPathForLens {
-	return @keypath(self.textField.text);
+- (UITextField *)textField {
+	if (!_textField) {
+		_textField = [[UITextField alloc] initWithFrame:CGRectMake(0.f, 5.f, 285.f, 35.f)];
+		_textField.contentVerticalAlignment = UIControlContentVerticalAlignmentCenter;
+		_textField.returnKeyType = UIReturnKeyDone;
+		_textField.delegate = self;
+	}
+
+	return _textField;
 }
 
-- (RACSignal *)rawDataSignal {
-	return [self.textField.rac_textSignal map:^(NSString *text) {
-		return [self.valueTransformer transformedValue:text ?: @""];
-	}];
+- (RACChannel *)channel {
+	if (!_channel) {
+		_channel = [RACChannel new];
+		[[[self.textField.rac_newTextChannel map:^id(id value) {
+			return [self.valueTransformer transformedValue:value];
+		}] startWith:nil] subscribe:_channel.leadingTerminal];
+
+		[[[_channel.leadingTerminal map:^id(id value) {
+			return [self.valueTransformer reverseTransformedValue:value];
+		}] startWith:nil] subscribe:self.textField.rac_newTextChannel];
+	}
+	return _channel;
 }
 
 - (RACSignal *)fieldDidFinishEditingSignal {
@@ -109,8 +111,8 @@
 
 @implementation RAFNumberInputRow
 
-- (id)init {
-	if (self = [super init]) {
+- (id)initWithValidator:(RAFValidator *)validator {
+	if (self = [super initWithValidator:validator]) {
 		self.textField.keyboardType = UIKeyboardTypeNumberPad;
 	}
 

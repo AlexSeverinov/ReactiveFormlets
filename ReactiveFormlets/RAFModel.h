@@ -6,35 +6,15 @@
 //  Copyright (c) 2012 Jon Sterling. All rights reserved.
 //
 
-#import "RAFLens.h"
+#import "RAFCast.h"
 
-@protocol RAFText <RAFExtract>
-@concrete
-- (NSString *)raf_extract;
-@end
+#define RAFDefinePrimitiveModel(ModelName, ClassName)\
+	@protocol ModelName <RAFCast>\
+	- (ClassName *)raf_cast;\
+	@end\
+	@interface ClassName (ModelName) <ModelName>\
+	@end
 
-@protocol RAFNumber <RAFExtract>
-@concrete
-- (NSNumber *)raf_extract;
-@end
-
-@protocol RAFUnit <RAFExtract>
-@concrete
-- (RACUnit *)raf_extract;
-@end
-
-@protocol RAFIdentity <RAFExtract>
-- (id)identityValue;
-+ (instancetype)identityValue:(id)object;
-@concrete
-- (id)raf_extract;
-@end
-
-@interface NSString (RAFText) <RAFText>
-@end
-
-@interface NSNumber (RAFNumber) <RAFNumber>
-@end
-
-@interface RACUnit (RAFUnit) <RAFUnit>
-@end
+RAFDefinePrimitiveModel(RAFString, NSString);
+RAFDefinePrimitiveModel(RAFNumber, NSNumber);
+RAFDefinePrimitiveModel(RAFUnit, RACUnit);

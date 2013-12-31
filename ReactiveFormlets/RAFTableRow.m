@@ -11,8 +11,8 @@
 @implementation RAFTableRow
 @synthesize cell = _cell;
 
-- (id)init {
-	if (self = [super init]) {
+- (id)initWithValidator:(RAFValidator *)validator {
+	if (self = [super initWithValidator:validator]) {
 		_cell = [[self.class.cellClass alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:NSStringFromClass(self.class)];
 	}
 
@@ -21,12 +21,6 @@
 
 + (Class)cellClass {
 	return [UITableViewCell class];
-}
-
-- (id)copyWithZone:(NSZone *)zone {
-	RAFTableRow *row = [super copyWithZone:zone];
-	[row updateInPlace:self.raf_extract];
-	return row;
 }
 
 - (CGFloat)height {

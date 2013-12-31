@@ -11,27 +11,17 @@
 #import "RAFTableSection.h"
 
 @interface RAFTableForm : RAFCompoundFormlet
-@property (strong, readonly) UITableView *tableView;
-@property (copy) NSArray *sections;           // NSArray[RAFTableSection]
+@property (strong, readonly, nonatomic) UITableView *tableView;
 
-// Defaults to linear order of rows for which -canEdit is YES.
-@property (copy) NSArray *rowsByEditingOrder; // NSArray[RAFTableRow]
+/// An array of `RAFTableSection`.
+@property (copy, nonatomic) NSArray *sections;
 
-// When YES, the form's `sections` property is automatically set to -allValues.
-// When NO, the form's `sections` property must be set manually.
-//
-// Default: YES.
-+ (BOOL)sectionsMirrorData;
+/// An array of `RAFTableRow`.
+///
+/// Defaults to linear order of rows for which -canEdit is YES.
+@property (copy, nonatomic) NSArray *rowsByEditingOrder;
 
-+ (Class)tableFormMomentClass;    // Defaults to RAFTableFormMoment
-@end
-
-// +[RAFCustomTableForm sectionsMirrorData] returns NO.
-@interface RAFCustomTableForm : RAFTableForm
-@end
-
-// This is a premade form which will mirror the model (and the protocol) of the
-// section that is provided it.
-@interface RAFOneSectionTableForm : RAFTableForm
-+ (id)section:(RAFTableSection *)section;
+/// The class to use to represent table states at a given moment. This
+/// defaults to (and must be a subclass of) RAFTableFormMoment.
++ (Class)tableFormMomentClass;
 @end

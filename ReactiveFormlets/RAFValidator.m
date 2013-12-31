@@ -11,48 +11,48 @@
 
 @implementation RAFValidator
 
-- (id)initWithBuilder:(RAFValidationBuilder)builder {
-	NSParameterAssert(builder);
-	if (self = [self init]) {
-		_builder = [builder copy];
+- (id)initWithSignalBlock:(RACSignal *(^)(id))signalBlock {
+	if (self = [super initWithSignalBlock:signalBlock]) {
+		self.allowsConcurrentExecution = YES;
 	}
 
 	return self;
 }
 
-+ (instancetype)builder:(RAFValidationBuilder)builder {
-	return [[self alloc] initWithBuilder:builder];
-}
-
-+ (instancetype)predicate:(BOOL(^)(id object))predicate errors:(NSArray *(^)(id object))errors {
++ (instancetype)predicate:(BOOL(^)(id object))predicate error:(NSError *(^)(id object))error {
 	NSParameterAssert(predicate);
-	NSParameterAssert(errors);
-	return [self builder:^RACSignal *(id object) {
-		RAFValidation *validation = predicate(object) ? [RAFValidation success:object] : [RAFValidation failure:errors(object)];
+	NSParameterAssert(error);
+	return [[self alloc] initWithSignalBlock:^RACSignal *(id input) {
+		RAFValidation *validation = predicate(input) ? [RAFValidation success:input] : [RAFValidation failure:@[ error(input) ]];
 		return [RACSignal return:validation];
 	}];
 }
 
-- (RACSignal *)validate:(id)object {
-	return self.builder(object);
++ (instancetype)identityValidator {
+	return [[self alloc] initWithSignalBlock:^RACSignal *(id input) {
+		return [RACSignal return:[RAFValidation success:input]];
+	}];
 }
 
-#pragma mark - RAFSemigroup
-
-- (instancetype)raf_append:(RAFValidator *)validator {
-	return [self.class builder:^RACSignal *(id object) {
-		return [RACSignal combineLatest:@[ [self validate:object], [validator validate:object] ] reduce:^(RAFValidation *leftValidation, RAFValidation *rightValidation) {
-			return [leftValidation raf_append:rightValidation];
+- (instancetype)and:(RAFValidator *)validator {
+	return [[self.class alloc] initWithSignalBlock:^RACSignal *(id input) {
+		return [RACSignal combineLatest:@[ [self execute:input], [validator execute:input] ] reduce:^(RAFValidation *first, RAFValidation *second) {
+			return [first caseSuccess:^(id _) {
+				return [second caseSuccess:^(id _) {
+					return [RAFValidation success:input];
+				} failure:^(NSArray *errors) {
+					return [RAFValidation failure:errors];
+				}];
+			} failure:^(NSArray *firstErrors) {
+				return [second caseSuccess:^(id _) {
+					return [RAFValidation failure:firstErrors];
+				} failure:^(NSArray *secondErrors) {
+					return [RAFValidation failure:[firstErrors arrayByAddingObjectsFromArray:secondErrors]];
+				}];
+			}];
 		}];
 	}];
 }
 
-#pragma mark - RAFMonoid
-
-+ (instancetype)raf_zero {
-	return [self builder:^RACSignal *(id object) {
-		return [RACSignal return:[RAFValidation success:object]];
-	}];
-}
-
 @end
+

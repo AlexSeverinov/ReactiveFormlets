@@ -11,16 +11,7 @@
 #import "RAFTableForm.h"
 #import "RAFFormlet.h"
 
-@interface RAFTableSection () <RAFMutableTableSection>
-@end
-
 @implementation RAFTableSection
-@synthesize headerTitle = _headerTitle;
-@synthesize footerTitle = _footerTitle;
-@synthesize headerView = _headerView;
-@synthesize footerView = _footerView;
-@synthesize rows = _rows;
-@synthesize uniqueIdentifier = _uniqueIdentifier;
 
 - (id)initWithUniqueIdentifier:(NSString *)identifier rows:(NSArray *)rows headerTitle:(NSString *)headerTitle footerTitle:(NSString *)footerTitle headerView:(UIView *)headerView footerView:(UIView *)footerView {
 	if (self = [super init]) {
@@ -51,20 +42,6 @@
 	return self;
 }
 
-- (id)copyWithZone:(NSZone *)zone {
-	RAFTableSection *copy = [super copyWithZone:zone];
-	copy.headerTitle = [_headerTitle copy];
-	copy.footerTitle = [_footerTitle copy];
-	copy.rows = [_rows copy];
-	return copy;
-}
-
-- (instancetype)modifySection:(RAFTableSectionModifyBlock)block {
-	RAFTableSection *copy = [self mutableCopy];
-	block(copy);
-	return copy;
-}
-
 - (NSUInteger)hash {
 	return self.uniqueIdentifier ? self.uniqueIdentifier.hash : super.hash;
 }
@@ -80,12 +57,12 @@
 }
 
 - (RACSignal *)moments {
-	NSArray *components = @[ RACAbleWithStart(self.uniqueIdentifier),
-							 RACAbleWithStart(self.rows),
-							 RACAbleWithStart(self.headerTitle),
-							 RACAbleWithStart(self.footerTitle),
-							 RACAbleWithStart(self.headerView),
-							 RACAbleWithStart(self.footerView) ];
+	NSArray *components = @[ RACObserve(self, uniqueIdentifier),
+							 RACObserve(self, rows),
+							 RACObserve(self, headerTitle),
+							 RACObserve(self, footerTitle),
+							 RACObserve(self, headerView),
+							 RACObserve(self, footerView) ];
 
 	Class SectionClass = self.class;
 	return [RACSignal combineLatest:components reduce:^(NSString *identifier, NSArray *rows, NSString *headerTitle, NSString *footertitle, UIView *headerView, UIView *footerView) {

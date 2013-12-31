@@ -13,13 +13,13 @@
 
 @interface NSInvocation (RAFExtensions)
 
-// An array [NSString] of the invocations.
+/// An array of `NSString` of the invocation's argument keywords
 - (NSArray *)raf_keywords;
 
-// An array [id] of the invocation's arguments.
+/// An array of the invocation's arguments.
 - (NSArray *)raf_arguments;
 
-// An ordered dictionary of the invocation's keywords and arguments.
+/// An ordered dictionary of the invocation's keywords and arguments.
 - (RAFOrderedDictionary *)raf_argumentDictionary;
 
 @end

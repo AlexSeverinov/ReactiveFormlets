@@ -10,6 +10,6 @@
 
 extern NSString *const RAFNumberStringValueTransformerName;
 
-// Injection from numbers to strings; partial function from strings to numbers.
+/// Injection from numbers to strings; partial function from strings to numbers.
 @interface RAFNumberStringValueTransformer : NSValueTransformer
 @end

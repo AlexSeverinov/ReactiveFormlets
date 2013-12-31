@@ -6,13 +6,15 @@
 //  Copyright (c) 2013 Jon Sterling. All rights reserved.
 //
 
-#import <ReactiveFormlets/ReactiveFormlets.h>
+#import "ReactiveFormlets.h"
 
 @interface RAFTableRow : RAFPrimitiveFormlet
 @property (strong, readonly) UITableViewCell *cell;
 @property (assign) BOOL lastInTabOrder;
 
-- (RACSignal *)fieldDidFinishEditingSignal; // RACSignal[RACUnit]
+/// A signal of `RACUnit`.
+- (RACSignal *)fieldDidFinishEditingSignal;
+
 - (BOOL)canEdit;
 - (void)beginEditing;
 

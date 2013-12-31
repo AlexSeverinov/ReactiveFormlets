@@ -10,9 +10,9 @@
 
 extern NSString *const RAFIdentityValueTransformerName;
 
-// Provides a trivial identity bijection:
-//
-//   forall A, A <=> A.
-//
+/// Provides a trivial identity isomorphism:
+///
+///   forall A, A <=> A.
+///
 @interface RAFIdentityValueTransformer : NSValueTransformer
 @end

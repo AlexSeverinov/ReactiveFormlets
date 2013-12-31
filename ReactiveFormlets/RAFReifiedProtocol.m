@@ -24,14 +24,22 @@ static void *kModelAssociatedObjectKey = &kModelAssociatedObjectKey;
 + (Class)model:(Protocol *)model {
 	NSString *name = [NSString stringWithFormat:@"%@_%s", self, protocol_getName(model)];
 
-	Class class = [self raf_subclassWithName:name adopting:@[ model ]];
-	[class raf_setAssociatedObject:model forKey:kModelAssociatedObjectKey policy:OBJC_ASSOCIATION_ASSIGN];
+	Class class = [RAFObjCRuntime subclass:self name:name adopting:@[ model ]];
+	objc_setAssociatedObject(class, &kModelAssociatedObjectKey, model, OBJC_ASSOCIATION_ASSIGN);
 
 	return class;
 }
 
 + (Protocol *)model {
-	return [self raf_associatedObjectForKey:kModelAssociatedObjectKey] ?: @protocol(RAFEmpty);
+	return objc_getAssociatedObject(self, &kModelAssociatedObjectKey) ?: @protocol(RAFEmpty);
+}
+
+- (id)initWithValues:(NSArray *)values {
+	return [[self init] modify:^(id<RAFMutableOrderedDictionary> dict) {
+		[self.allKeys enumerateObjectsUsingBlock:^(NSString *key, NSUInteger idx, BOOL *stop) {
+			dict[key] = values[idx];
+		}];
+	}];
 }
 
 #pragma mark - Message Forwarding
@@ -63,10 +71,6 @@ static void *kModelAssociatedObjectKey = &kModelAssociatedObjectKey;
 - (BOOL)respondsToSelector:(SEL)aSelector {
 	return ([self.allKeys containsObject:NSStringFromSelector(aSelector)] ||
 			[super respondsToSelector:aSelector]);
-}
-
-- (id)raf_extract {
-	return self;
 }
 
 @end

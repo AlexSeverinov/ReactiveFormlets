@@ -1,9 +1,9 @@
 //
-//RAFTableForm.m
-//ReactiveFormlets
+//	RAFTableForm.m
+//	ReactiveFormlets
 //
-//Created by Jon Sterling on 6/12/12.
-//Copyright (c) 2012 Jon Sterling. All rights reserved.
+//	Created by Jon Sterling on 6/12/12.
+//	Copyright (c) 2012 Jon Sterling. All rights reserved.
 //
 
 #import "RAFTableForm.h"
@@ -28,10 +28,6 @@
 	return [RAFTableSection class];
 }
 
-+ (BOOL)sectionsMirrorData {
-	return YES;
-}
-
 - (id)initWithOrderedDictionary:(RAFOrderedDictionary *)dictionary {
 	if (self = [super initWithOrderedDictionary:dictionary]) {
 		_tableView = [[UITableView alloc] initWithFrame:CGRectZero style:UITableViewStyleGrouped];
@@ -40,11 +36,7 @@
 
 		Class TableFormMomentClass = self.class.tableFormMomentClass;
 
-		if (self.class.sectionsMirrorData) {
-			self.sections = self.allValues;
-		}
-
-		RAC(self.tableController) = [[[[RACAbleWithStart(self.sections) map:^id(NSArray *sections) {
+		RAC(self, tableController) = [[[[RACObserve(self, sections) map:^id(NSArray *sections) {
 			return [RACSignal combineLatest:[sections.rac_sequence map:^(RAFTableSection *section) {
 				return section.moments;
 			}]];
@@ -52,20 +44,20 @@
 			return [[TableFormMomentClass alloc] initWithSectionMoments:sections.rac_sequence.array];
 		}] deliverOn:RACScheduler.mainThreadScheduler] startWith:[RAFTableFormMoment new]];
 
-		RACSignal *includedRows = [RACAbleWithStart(self.sections) map:^(NSArray *sections) {
-			return [sections.rac_sequence flattenMap:^RACStream *(RAFTableSection *section) {
+		RACSignal *includedRows = [RACObserve(self, sections) map:^(NSArray *sections) {
+			return [sections.rac_sequence flattenMap:^(RAFTableSection *section) {
 				return section.rows.rac_sequence;
 			}].array;
 		}];
 
-		RACSignal *includedRowsByEditingOrder = [RACSignal combineLatest:@[ RACAbleWithStart(self.rowsByEditingOrder), includedRows ] reduce:^(NSArray *rows, NSArray *includedRows) {
+		RACSignal *includedRowsByEditingOrder = [RACSignal combineLatest:@[ RACObserve(self, rowsByEditingOrder), includedRows ] reduce:^(NSArray *rows, NSArray *includedRows) {
 			if (!rows) {
-				return [includedRows.rac_sequence filter:^BOOL(RAFTableRow *row) {
-					return [row canEdit];
+				return [includedRows.rac_sequence filter:^BOOL (RAFTableRow *row) {
+					return row.canEdit;
 				}].array;
 			}
 
-			return [rows.rac_sequence filter:^BOOL(RAFTableRow *row) {
+			return [rows.rac_sequence filter:^BOOL (RAFTableRow *row) {
 				return [includedRows containsObject:row];
 			}].array;
 		}];
@@ -123,7 +115,7 @@
 }
 
 - (RACSignal *)tableViewUpdatesSignal {
-	return [RACAble(self.tableController) mapPreviousWithStart:[RAFTableFormMoment new] combine:^id(RAFTableFormMoment *oldController, RAFTableFormMoment *newController) {
+	return [[RACObserve(self, tableController) skip:1] combinePreviousWithStart:[RAFTableFormMoment new] reduce:^id(RAFTableFormMoment *oldController, RAFTableFormMoment *newController) {
 		NSArray *oldSections = oldController.sectionMoments ?: @[];
 		NSArray *newSections = newController.sectionMoments;
 
@@ -166,35 +158,3 @@
 
 @end
 
-@implementation RAFCustomTableForm
-
-+ (BOOL)sectionsMirrorData {
-	return NO;
-}
-
-@end
-
-@implementation RAFOneSectionTableForm
-
-+ (Protocol *)model {
-	return @protocol(RAFIdentity);
-}
-
-+ (instancetype)section:(RAFTableSection *)section {
-	return [(Class)self identityValue:section];
-}
-
-- (id)forwardingTargetForSelector:(SEL)aSelector {
-	return [super methodSignatureForSelector:aSelector] ? nil : [(id<RAFIdentity>)self identityValue];
-}
-
-- (id)raf_extract {
-	return [[super raf_extract] identityValue];
-}
-
-- (void)updateInPlace:(id)value {
-	Class RAFIdentity = [RAFReifiedProtocol model:@protocol(RAFIdentity)];
-	[super updateInPlace:[RAFIdentity identityValue:value]];
-}
-
-@end

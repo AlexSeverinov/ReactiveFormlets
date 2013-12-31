@@ -7,37 +7,35 @@
 //
 
 #import "RAFButtonRow.h"
+#import "EXTScope.h"
 
-@interface RAFButtonRow ()
-@property (strong, nonatomic) RACUnit *unit;
-@end
+@implementation RAFButtonRow {
+	RACChannel *_channel;
+}
 
-@implementation RAFButtonRow
-
-- (id)init {
-	if (self = [super init]) {
-		self.unit = [RACUnit defaultUnit];
-		RAC(self.cell.textLabel.text) = RACAbleWithStart(self.title);
+- (id)initWithValidator:(RAFValidator *)validator {
+	if (self = [super initWithValidator:validator]) {
+		RAC(self, cell.textLabel.text) = RACObserve(self, title);
 		self.cell.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
 	}
 
 	return self;
 }
 
-- (id)copyWithZone:(NSZone *)zone {
-	RAFButtonRow *copy = [super copyWithZone:zone];
-	copy.unit = self.unit;
-	copy.command = self.command;
-	copy.title = self.title;
-	return copy;
-}
+- (RACChannel *)channel {
+	if (!_channel) {
+		_channel = [RACChannel new];
+		[[RACObserve(self, command) map:^id(RACCommand *command) {
+			return [command.executionSignals mapReplace:RACUnit.defaultUnit];
+		}].switchToLatest subscribe:_channel.leadingTerminal];
 
-- (RACSignal *)rawDataSignal {
-	return RACAble(self.unit);
-}
-
-- (NSString *)keyPathForLens {
-	return @keypath(self.unit);
+		@weakify(self);
+		[_channel.leadingTerminal subscribeNext:^(id value) {
+			@strongify(self);
+			[self.command execute:value];
+		}];
+	}
+	return _channel;
 }
 
 - (void)rowWasSelected {

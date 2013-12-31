@@ -52,16 +52,6 @@ typedef enum {
 	return [[[self class] alloc] initWithOrderedDictionary:self];
 }
 
-- (instancetype)deepCopyWithZone:(NSZone *)zone {
-	RAFOrderedDictionary *copy = [[self class] new];
-	[copy performWithTemporaryMutability:^(id<RAFMutableOrderedDictionary> dict) {
-		for (id key in self) {
-			dict[key] = [self[key] copyWithZone:zone];
-		}
-	}];
-	return copy;
-}
-
 #pragma mark - NSMutableCopying
 
 - (RAFOrderedDictionary<RAFMutableOrderedDictionary> *)mutableCopyWithZone:(NSZone *)zone {
@@ -130,10 +120,8 @@ typedef enum {
 #pragma mark -
 
 - (RACSequence *)sequence {
-	__weak RAFOrderedDictionary *weakSelf = self;
 	return [self.allKeys.rac_sequence map:^(id key) {
-		RAFOrderedDictionary *strongSelf = weakSelf;
-		id value = strongSelf[key];
+		id value = self[key];
 		return [RACTuple tupleWithObjects:key, value, nil];
 	}];
 }
