@@ -10,10 +10,6 @@
 
 @protocol RAFMutableTableSection;
 
-// The block which allows guarded access to the mutable interface of an
-// immutable RAFTableSection.
-typedef void (^RAFTableSectionModifyBlock)(id<RAFMutableTableSection> section);
-
 @protocol RAFTableSection <NSCopying, NSMutableCopying>
 @property (copy, readonly) NSString *headerTitle;
 @property (copy, readonly) NSString *footerTitle;
@@ -26,15 +22,6 @@ typedef void (^RAFTableSectionModifyBlock)(id<RAFMutableTableSection> section);
 // are equal. When a uniqueIdentifier is not present, we fall back to pointer
 // equality.
 @property (copy, readonly) NSString *uniqueIdentifier;
-
-// Non-destructive update for RAFTableSection.
-//
-// block - The destructive operations to be performed on the copy; within the
-// block's scope, access is granted statically to the mutable interface of
-// `RAFTableSection`.
-//
-// Returns a modified version of the table section.
-- (instancetype)modifySection:(RAFTableSectionModifyBlock)block;
 @end
 
 @protocol RAFMutableTableSection <RAFTableSection>

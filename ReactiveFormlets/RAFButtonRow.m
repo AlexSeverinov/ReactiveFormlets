@@ -22,13 +22,6 @@
 	return self;
 }
 
-- (id)copyWithZone:(NSZone *)zone {
-	RAFButtonRow *copy = [super copyWithZone:zone];
-	copy.command = self.command;
-	copy.title = self.title;
-	return copy;
-}
-
 - (RACChannel *)channel {
 	if (!_channel) {
 		_channel = [RACChannel new];

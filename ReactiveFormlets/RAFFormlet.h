@@ -14,7 +14,7 @@
 // A formlet emits a signal and provides a lens through which values are mapped
 // in and out. A formlet may either bind directly to an interface, or may be
 // composed of other formlets.
-@protocol RAFFormlet <NSCopying>
+@protocol RAFFormlet
 
 @property (strong, readonly, nonatomic) RACChannel *channel;
 - (RACChannelTerminal *)channelTerminal;
@@ -50,7 +50,16 @@
 // A compound formlet is an ordered dictionary, where its keys are model fields
 // and its values are other formlets. We can refine the dictionary accessors
 // to indicate that all elements of a compound formlet are other formlets.
-@interface RAFCompoundFormlet (TypeRefinement)
+@interface RAFCompoundFormlet (Safety)
 - (id<RAFFormlet>)objectForKey:(id<NSCopying>)key;
 - (id<RAFFormlet>)objectForKeyedSubscript:(id<NSCopying>)key;
+- (id)copy UNAVAILABLE_ATTRIBUTE;
+- (id)copyWithZone:(NSZone *)zone UNAVAILABLE_ATTRIBUTE;
+- (id)mutableCopy UNAVAILABLE_ATTRIBUTE;
+@end
+
+@interface RAFPrimitiveFormlet (Safety)
+- (id)copy UNAVAILABLE_ATTRIBUTE;
+- (id)copyWithZone:(NSZone *)zone UNAVAILABLE_ATTRIBUTE;
+- (id)mutableCopy UNAVAILABLE_ATTRIBUTE;
 @end

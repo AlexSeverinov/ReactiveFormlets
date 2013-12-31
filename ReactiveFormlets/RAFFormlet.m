@@ -78,12 +78,6 @@
 	return self.totalDataSignal.first;
 }
 
-#pragma mark - NSCopying
-
-- (id)copyWithZone:(NSZone *)zone {
-	return [[self.class alloc] initWithValidator:_validator];
-}
-
 @end
 
 @interface RAFCompoundFormlet ()
@@ -147,18 +141,6 @@
 
 - (id)raf_cast {
 	return self.totalDataSignal.first;
-}
-
-#pragma mark - NSCopying
-
-- (id)copyWithZone:(NSZone *)zone {
-	return [self deepCopyWithZone:zone];
-}
-
-- (instancetype)deepCopyWithZone:(NSZone *)zone {
-	RAFCompoundFormlet *copy = [super deepCopyWithZone:zone];
-	copy.editable = self.editable;
-	return copy;
 }
 
 #pragma mark - Channels

@@ -62,9 +62,6 @@ typedef void (^RAFOrderedDictionaryModifyBlock)(id<RAFMutableOrderedDictionary> 
 // Initializes with an existing ordered dictionary.
 - (id)initWithOrderedDictionary:(RAFOrderedDictionary *)dictionary;
 
-// Returns a copy of the dictionary by copying each of its objects.
-- (instancetype)deepCopyWithZone:(NSZone *)zone;
-
 // Returns a sequence of (key,value) RACTuples.
 - (RACSequence *)sequence;
 @end

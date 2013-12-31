@@ -51,20 +51,6 @@
 	return self;
 }
 
-- (id)copyWithZone:(NSZone *)zone {
-	RAFTableSection *copy = [super copyWithZone:zone];
-	copy.headerTitle = [_headerTitle copy];
-	copy.footerTitle = [_footerTitle copy];
-	copy.rows = [_rows copy];
-	return copy;
-}
-
-- (instancetype)modifySection:(RAFTableSectionModifyBlock)block {
-	RAFTableSection *copy = [self mutableCopy];
-	block(copy);
-	return copy;
-}
-
 - (NSUInteger)hash {
 	return self.uniqueIdentifier ? self.uniqueIdentifier.hash : super.hash;
 }
