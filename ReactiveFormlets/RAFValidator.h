@@ -30,4 +30,7 @@
 ///
 /// | instancetype A
 + (instancetype)identityValidator;
+
+/// Combine two validators.
+- (instancetype)and:(RAFValidator *)validator;
 @end

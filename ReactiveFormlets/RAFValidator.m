@@ -34,5 +34,25 @@
 	}];
 }
 
+- (instancetype)and:(RAFValidator *)validator {
+	return [[self.class alloc] initWithSignalBlock:^RACSignal *(id input) {
+		return [RACSignal combineLatest:@[ [self execute:input], [validator execute:input] ] reduce:^(RAFValidation *first, RAFValidation *second) {
+			return [first caseSuccess:^(id _) {
+				return [second caseSuccess:^(id _) {
+					return [RAFValidation success:input];
+				} failure:^(NSArray *errors) {
+					return [RAFValidation failure:errors];
+				}];
+			} failure:^(NSArray *firstErrors) {
+				return [second caseSuccess:^(id _) {
+					return [RAFValidation failure:firstErrors];
+				} failure:^(NSArray *secondErrors) {
+					return [RAFValidation failure:[firstErrors arrayByAddingObjectsFromArray:secondErrors]];
+				}];
+			}];
+		}];
+	}];
+}
+
 @end
 
