@@ -73,24 +73,23 @@
 		@weakify(self);
 		[[self.tableViewUpdatesSignal deliverOn:RACScheduler.mainThreadScheduler] subscribeNext:^(RACTuple *tuple) {
 			@strongify(self);
-//			RACTupleUnpack(RAFTableFormMoment *controller, NSIndexSet *sectionsToDelete, NSIndexSet *sectionsToInsert, NSArray *rowsToDelete, NSArray *rowsToInsert, NSArray *rowsToMove) = tuple;
-//
-//			[self.tableView beginUpdates];
-//
-//			[self.tableView deleteSections:sectionsToDelete withRowAnimation:UITableViewRowAnimationAutomatic];
-//			[self.tableView insertSections:sectionsToInsert withRowAnimation:UITableViewRowAnimationAutomatic];
-//			[self.tableView deleteRowsAtIndexPaths:rowsToDelete withRowAnimation:UITableViewRowAnimationAutomatic];
-//			[self.tableView insertRowsAtIndexPaths:rowsToInsert withRowAnimation:UITableViewRowAnimationAutomatic];
-//
-//			for (RACTuple *move in rowsToMove) {
-//				[self.tableView moveRowAtIndexPath:move.first toIndexPath:move.second];
-//			}
+			RACTupleUnpack(RAFTableFormMoment *controller, NSIndexSet *sectionsToDelete, NSIndexSet *sectionsToInsert, NSArray *rowsToDelete, NSArray *rowsToInsert, NSArray *rowsToMove) = tuple;
 
-			self.tableView.dataSource = tuple.first;
-			self.tableView.delegate = tuple.first;
-			[self.tableView reloadData];
-			
-//			[self.tableView endUpdates];
+			[self.tableView beginUpdates];
+
+			[self.tableView deleteSections:sectionsToDelete withRowAnimation:UITableViewRowAnimationAutomatic];
+			[self.tableView insertSections:sectionsToInsert withRowAnimation:UITableViewRowAnimationAutomatic];
+			[self.tableView deleteRowsAtIndexPaths:rowsToDelete withRowAnimation:UITableViewRowAnimationAutomatic];
+			[self.tableView insertRowsAtIndexPaths:rowsToInsert withRowAnimation:UITableViewRowAnimationAutomatic];
+
+			for (RACTuple *move in rowsToMove) {
+				[self.tableView moveRowAtIndexPath:move.first toIndexPath:move.second];
+			}
+
+			self.tableView.dataSource = controller;
+			self.tableView.delegate = controller;
+
+			[self.tableView endUpdates];
 		}];
 	}
 
@@ -119,7 +118,7 @@
 		NSMutableArray *rowsToMove = [NSMutableArray array];
 
 		[oldSections enumerateObjectsUsingBlock:^(RAFTableSection *oldSection, NSUInteger sectionIndex, BOOL *stop) {
-			BOOL sectionIsDeleted = ![newController.sectionMoments containsObject:oldSections];
+			BOOL sectionIsDeleted = ![newController.sectionMoments containsObject:oldSection];
 			if (sectionIsDeleted) [sectionsToDelete addIndex:sectionIndex];
 
 			[oldSection.rows enumerateObjectsUsingBlock:^(RAFTableRow *row, NSUInteger rowIndex, BOOL *stop) {
@@ -131,13 +130,13 @@
 
 		[newSections enumerateObjectsUsingBlock:^(RAFTableSection *newSection, NSUInteger sectionIndex, BOOL *stop) {
 			BOOL sectionIsInserted = ![oldController.sectionMoments containsObject:newSection];
-			if (sectionIsInserted) [sectionsToInsert addIndex:sectionIndex];
+			if (sectionIsInserted && (oldSections.count > 0 || sectionIndex > 0)) [sectionsToInsert addIndex:sectionIndex];
 
 			[newSection.rows enumerateObjectsUsingBlock:^(RAFTableRow *row, NSUInteger rowIndex, BOOL *stop) {
 				NSIndexPath *newIndexPath = [NSIndexPath indexPathForRow:rowIndex inSection:sectionIndex];
 				NSIndexPath *oldIndexPath = [oldController indexPathForRow:row];
 
-				if (oldIndexPath) {
+				if (oldIndexPath && ![sectionsToDelete containsIndex:oldIndexPath.section]) {
 					[rowsToMove addObject:RACTuplePack(oldIndexPath, newIndexPath)];
 				} else {
 					[rowsToInsert addObject:newIndexPath];
