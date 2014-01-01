@@ -29,7 +29,6 @@
 
 @implementation RAFTextFieldInputRow {
 	RACSubject *_fieldDidFinishEditingSignal;
-	RACChannel *_channel;
 }
 
 @synthesize textField = _textField;
@@ -69,18 +68,18 @@
 	return _textField;
 }
 
-- (RACChannel *)channel {
-	if (!_channel) {
-		_channel = [RACChannel new];
-		[[[self.textField.rac_newTextChannel map:^id(id value) {
-			return [self.valueTransformer transformedValue:value];
-		}] startWith:nil] subscribe:_channel.leadingTerminal];
+- (RACChannel *)buildChannel {
+	RACChannel *channel = [RACChannel new];
 
-		[[[_channel.leadingTerminal map:^id(id value) {
-			return [self.valueTransformer reverseTransformedValue:value];
-		}] startWith:nil] subscribe:self.textField.rac_newTextChannel];
-	}
-	return _channel;
+	[[[self.textField.rac_newTextChannel map:^id(id value) {
+		return [self.valueTransformer transformedValue:value];
+	}] startWith:nil] subscribe:channel.leadingTerminal];
+
+	[[[channel.leadingTerminal map:^id(id value) {
+		return [self.valueTransformer reverseTransformedValue:value];
+	}] startWith:nil] subscribe:self.textField.rac_newTextChannel];
+
+	return channel;
 }
 
 - (RACSignal *)fieldDidFinishEditingSignal {

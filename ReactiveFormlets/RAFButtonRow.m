@@ -9,9 +9,7 @@
 #import "RAFButtonRow.h"
 #import "EXTScope.h"
 
-@implementation RAFButtonRow {
-	RACChannel *_channel;
-}
+@implementation RAFButtonRow
 
 - (id)initWithValidator:(RAFValidator *)validator {
 	if (self = [super initWithValidator:validator]) {
@@ -22,20 +20,20 @@
 	return self;
 }
 
-- (RACChannel *)channel {
-	if (!_channel) {
-		_channel = [RACChannel new];
-		[[RACObserve(self, command) map:^id(RACCommand *command) {
-			return [command.executionSignals mapReplace:RACUnit.defaultUnit];
-		}].switchToLatest subscribe:_channel.leadingTerminal];
+- (RACChannel *)buildChannel
+{
+	RACChannel *channel = [RACChannel new];
+	[[RACObserve(self, command) map:^(RACCommand *command) {
+		return [command.executionSignals mapReplace:RACUnit.defaultUnit];
+	}].switchToLatest subscribe:channel.leadingTerminal];
 
-		@weakify(self);
-		[_channel.leadingTerminal subscribeNext:^(id value) {
-			@strongify(self);
-			[self.command execute:value];
-		}];
-	}
-	return _channel;
+	@weakify(self);
+	[channel.leadingTerminal subscribeNext:^(id value) {
+		@strongify(self);
+		[self.command execute:value];
+	}];
+
+	return channel;
 }
 
 - (void)rowWasSelected {
