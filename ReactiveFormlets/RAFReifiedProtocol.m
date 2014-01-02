@@ -64,7 +64,7 @@ static void *kModelAssociatedObjectKey = &kModelAssociatedObjectKey;
 - (void)forwardInvocation:(NSInvocation *)anInvocation {
 	NSString *key = NSStringFromSelector(anInvocation.selector);
 	anInvocation.returnValue = &(__unsafe_unretained id){
-		self[key]
+		[self[key] isKindOfClass:[NSNull class]] ? nil : self[key]
 	};
 }
 
