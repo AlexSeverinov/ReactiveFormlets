@@ -73,12 +73,13 @@
 		@weakify(self);
 		[[self.tableViewUpdatesSignal deliverOn:RACScheduler.mainThreadScheduler] subscribeNext:^(RACTuple *tuple) {
 			@strongify(self);
-			RACTupleUnpack(RAFTableFormMoment *controller, NSIndexSet *sectionsToDelete, NSIndexSet *sectionsToInsert, NSArray *rowsToDelete, NSArray *rowsToInsert, NSArray *rowsToMove) = tuple;
+			RACTupleUnpack(RAFTableFormMoment *controller, NSIndexSet *sectionsToDelete, NSIndexSet *sectionsToInsert, NSIndexSet *sectionsToReload, NSArray *rowsToDelete, NSArray *rowsToInsert, NSArray *rowsToMove) = tuple;
 
 			[self.tableView beginUpdates];
 
 			[self.tableView deleteSections:sectionsToDelete withRowAnimation:UITableViewRowAnimationAutomatic];
 			[self.tableView insertSections:sectionsToInsert withRowAnimation:UITableViewRowAnimationAutomatic];
+			[self.tableView reloadSections:sectionsToReload withRowAnimation:UITableViewRowAnimationNone];
 			[self.tableView deleteRowsAtIndexPaths:rowsToDelete withRowAnimation:UITableViewRowAnimationAutomatic];
 			[self.tableView insertRowsAtIndexPaths:rowsToInsert withRowAnimation:UITableViewRowAnimationAutomatic];
 
@@ -113,6 +114,7 @@
 
 		NSMutableIndexSet *sectionsToDelete = [NSMutableIndexSet indexSet];
 		NSMutableIndexSet *sectionsToInsert = [NSMutableIndexSet indexSet];
+		NSMutableIndexSet *sectionsToReload = [NSMutableIndexSet indexSet];
 		NSMutableArray *rowsToInsert = [NSMutableArray array];
 		NSMutableArray *rowsToDelete = [NSMutableArray array];
 		NSMutableArray *rowsToMove = [NSMutableArray array];
@@ -129,8 +131,17 @@
 		}];
 
 		[newSections enumerateObjectsUsingBlock:^(RAFTableSection *newSection, NSUInteger sectionIndex, BOOL *stop) {
-			BOOL sectionIsInserted = ![oldController.sectionMoments containsObject:newSection];
+			BOOL sectionIsInserted = ![oldSections containsObject:newSection];
 			if (sectionIsInserted && (oldSections.count > 0 || sectionIndex > 0)) [sectionsToInsert addIndex:sectionIndex];
+
+			if ([oldSections containsObject:newSections])
+			{
+				RAFTableSection *oldSection = oldSections[[oldSections indexOfObject:newSection]];
+				if (![oldSection.headerTitle isEqualToString:newSection.headerTitle] || ![oldSection.footerTitle isEqualToString:newSection.footerTitle] || ![oldSection.headerView isEqual:newSection.headerView] || ![oldSection.footerView isEqual:newSection.footerView])
+				{
+					[sectionsToReload addIndex:sectionIndex];
+				}
+			}
 
 			[newSection.rows enumerateObjectsUsingBlock:^(RAFTableRow *row, NSUInteger rowIndex, BOOL *stop) {
 				NSIndexPath *newIndexPath = [NSIndexPath indexPathForRow:rowIndex inSection:sectionIndex];
@@ -144,9 +155,8 @@
 			}];
 		}];
 
-		return RACTuplePack(newController, [sectionsToDelete copy], [sectionsToInsert copy], [rowsToDelete copy], [rowsToInsert copy], [rowsToMove copy]);
+		return RACTuplePack(newController, [sectionsToDelete copy], [sectionsToInsert copy], [sectionsToReload copy], [rowsToDelete copy], [rowsToInsert copy], [rowsToMove copy]);
 	}];
 }
 
 @end
-

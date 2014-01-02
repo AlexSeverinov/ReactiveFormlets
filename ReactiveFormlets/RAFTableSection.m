@@ -15,7 +15,7 @@
 
 - (id)initWithUniqueIdentifier:(NSString *)identifier rows:(NSArray *)rows headerTitle:(NSString *)headerTitle footerTitle:(NSString *)footerTitle headerView:(UIView *)headerView footerView:(UIView *)footerView {
 	if (self = [super init]) {
-		self.uniqueIdentifier = identifier;
+		self.uniqueIdentifier = identifier ?: [self.class generateUniqueIdentifier];
 		self.rows = rows;
 		self.headerTitle = headerTitle;
 		self.footerTitle = footerTitle;
@@ -36,14 +36,19 @@
 
 - (id)initWithOrderedDictionary:(RAFOrderedDictionary *)dictionary {
 	if (self = [super initWithOrderedDictionary:dictionary]) {
+		self.uniqueIdentifier = [self.class generateUniqueIdentifier];
 		self.rows = self.allValues;
 	}
 
 	return self;
 }
 
++ (NSString *)generateUniqueIdentifier {
+	return [NSString stringWithFormat:@"%@_%@", NSStringFromClass(self), [[NSUUID UUID] UUIDString]];
+}
+
 - (NSUInteger)hash {
-	return self.uniqueIdentifier ? self.uniqueIdentifier.hash : super.hash;
+	return self.uniqueIdentifier.hash;
 }
 
 - (BOOL)isEqual:(RAFTableSection *)section {
