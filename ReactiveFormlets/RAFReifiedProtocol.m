@@ -51,7 +51,14 @@ static void *kModelAssociatedObjectKey = &kModelAssociatedObjectKey;
 + (void)forwardInvocation:(NSInvocation *)invocation {
 	[invocation retainArguments];
 
-	RAFOrderedDictionary *arguments = invocation.raf_argumentDictionary;
+	RAFOrderedDictionary *arguments = [invocation.raf_argumentDictionary modify:^(id<RAFMutableOrderedDictionary> dict) {
+		for (NSString *key in dict.allKeys)
+		{
+			if ([dict[key] isKindOfClass:[NSNull class]])
+				dict[key] = nil;
+		}
+	}];
+
 	invocation.returnValue = &(__unsafe_unretained id){
 		[[self alloc] initWithOrderedDictionary:arguments]
 	};
@@ -64,7 +71,7 @@ static void *kModelAssociatedObjectKey = &kModelAssociatedObjectKey;
 - (void)forwardInvocation:(NSInvocation *)anInvocation {
 	NSString *key = NSStringFromSelector(anInvocation.selector);
 	anInvocation.returnValue = &(__unsafe_unretained id){
-		[self[key] isKindOfClass:[NSNull class]] ? nil : self[key]
+		self[key]
 	};
 }
 
