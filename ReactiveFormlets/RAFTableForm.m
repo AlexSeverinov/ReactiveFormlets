@@ -70,10 +70,14 @@
 			[row beginEditing];
 		}];
 
+		__block RAFTableFormMoment *currentController = nil;
+
 		@weakify(self);
 		[[self.tableViewUpdatesSignal deliverOn:RACScheduler.mainThreadScheduler] subscribeNext:^(RACTuple *tuple) {
 			@strongify(self);
 			RACTupleUnpack(RAFTableFormMoment *controller, NSIndexSet *sectionsToDelete, NSIndexSet *sectionsToInsert, NSIndexSet *sectionsToReload, NSArray *rowsToDelete, NSArray *rowsToInsert, NSArray *rowsToMove) = tuple;
+
+			currentController = controller;
 
 			[self.tableView beginUpdates];
 
@@ -87,8 +91,8 @@
 				[self.tableView moveRowAtIndexPath:move.first toIndexPath:move.second];
 			}
 
-			self.tableView.dataSource = controller;
-			self.tableView.delegate = controller;
+			self.tableView.dataSource = currentController;
+			self.tableView.delegate = currentController;
 
 			[self.tableView endUpdates];
 		}];
