@@ -81,11 +81,11 @@
 
 			[self.tableView beginUpdates];
 
-			[self.tableView deleteSections:sectionsToDelete withRowAnimation:UITableViewRowAnimationAutomatic];
-			[self.tableView insertSections:sectionsToInsert withRowAnimation:UITableViewRowAnimationAutomatic];
+			[self.tableView deleteSections:sectionsToDelete withRowAnimation:UITableViewRowAnimationFade];
+			[self.tableView insertSections:sectionsToInsert withRowAnimation:UITableViewRowAnimationFade];
 			[self.tableView reloadSections:sectionsToReload withRowAnimation:UITableViewRowAnimationNone];
-			[self.tableView deleteRowsAtIndexPaths:rowsToDelete withRowAnimation:UITableViewRowAnimationAutomatic];
-			[self.tableView insertRowsAtIndexPaths:rowsToInsert withRowAnimation:UITableViewRowAnimationAutomatic];
+			[self.tableView deleteRowsAtIndexPaths:rowsToDelete withRowAnimation:UITableViewRowAnimationFade];
+			[self.tableView insertRowsAtIndexPaths:rowsToInsert withRowAnimation:UITableViewRowAnimationFade];
 
 			for (RACTuple *move in rowsToMove) {
 				[self.tableView moveRowAtIndexPath:move.first toIndexPath:move.second];
