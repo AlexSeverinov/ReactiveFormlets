@@ -104,16 +104,19 @@
 - (id)initWithOrderedDictionary:(RAFOrderedDictionary *)dictionary {
 	if (self = [super initWithOrderedDictionary:dictionary]) {
 		self.editable = YES;
-		_totalDataSignal = [RACSignal merge:@[ self.channel.followingTerminal, self.channel.leadingTerminal ]].replayLast;
 
-		RACSequence *signals = [self.allValues.rac_sequence map:^id(id<RAFFormlet> subform) {
+		RACSequence *totalDataSignals = [self.allValues.rac_sequence map:^id(id<RAFFormlet> subform) {
+			return subform.totalDataSignal;
+		}];
+
+		RACSequence *validationSignals = [self.allValues.rac_sequence map:^id(id<RAFFormlet> subform) {
 			return subform.validationSignal;
 		}];
 
 		Class Model = [RAFReifiedProtocol model:self.class.model];
 		NSArray *allKeys = self.allKeys;
 
-		_validationSignal = [[RACSignal combineLatest:signals] map:^id(RACTuple *tuple) {
+		_validationSignal = [[RACSignal combineLatest:validationSignals] map:^id(RACTuple *tuple) {
 			NSMutableArray *errorSequences = [NSMutableArray array];
 			id dict = [[Model new] modify:^(id<RAFMutableOrderedDictionary> dict) {
 				[allKeys enumerateObjectsUsingBlock:^(id key, NSUInteger idx, BOOL *stop) {
@@ -130,6 +133,13 @@
 			return errorSequences.count ? [RAFValidation failure:errorSequences.rac_sequence.flatten.array] : [RAFValidation success:dict];
 		}].replayLast;
 
+		_totalDataSignal = [[RACSignal combineLatest:totalDataSignals] map:^id(RACTuple *tuple) {
+			return [[Model new] modify:^(id<RAFMutableOrderedDictionary> dict) {
+				[allKeys enumerateObjectsUsingBlock:^(id key, NSUInteger idx, BOOL *stop) {
+					dict[key] = tuple[idx];
+				}];
+			}];
+		}].replayLast;
 	}
 
 	return self;
