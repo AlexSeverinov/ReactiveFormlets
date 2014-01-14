@@ -37,6 +37,8 @@
 		_validationSignal = [RACSignal createSignal:^RACDisposable *(id<RACSubscriber> subscriber) {
 			__block RACDisposable *innerDisposable = nil;
 			RACDisposable *outerDisposable = [[totalDataSignal startWith:nil] subscribeNext:^(id value) {
+					[innerDisposable dispose];
+
 				innerDisposable = [[validator execute:value] subscribeNext:^(id x) {
 					[subscriber sendNext:x];
 				} error:^(NSError *error) {
