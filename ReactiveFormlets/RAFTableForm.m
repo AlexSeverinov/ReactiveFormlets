@@ -83,13 +83,14 @@
 
 			[self.tableView deleteSections:sectionsToDelete withRowAnimation:UITableViewRowAnimationFade];
 			[self.tableView insertSections:sectionsToInsert withRowAnimation:UITableViewRowAnimationFade];
-			[self.tableView reloadSections:sectionsToReload withRowAnimation:UITableViewRowAnimationNone];
 			[self.tableView deleteRowsAtIndexPaths:rowsToDelete withRowAnimation:UITableViewRowAnimationFade];
 			[self.tableView insertRowsAtIndexPaths:rowsToInsert withRowAnimation:UITableViewRowAnimationFade];
-
 			for (RACTuple *move in rowsToMove) {
-				[self.tableView moveRowAtIndexPath:move.first toIndexPath:move.second];
+				[self.tableView deleteRowsAtIndexPaths:@[ move.first ] withRowAnimation:UITableViewRowAnimationFade];
+				[self.tableView insertRowsAtIndexPaths:@[ move.second ] withRowAnimation:UITableViewRowAnimationFade];
 			}
+
+			[self.tableView reloadSections:sectionsToReload withRowAnimation:UITableViewRowAnimationNone];
 
 			self.tableView.dataSource = currentController;
 			self.tableView.delegate = currentController;
@@ -138,7 +139,7 @@
 			BOOL sectionIsInserted = ![oldSections containsObject:newSection];
 			if (sectionIsInserted && (oldSections.count > 0 || sectionIndex > 0)) [sectionsToInsert addIndex:sectionIndex];
 
-			if ([oldSections containsObject:newSections])
+			if (!sectionIsInserted && sectionIndex == [oldSections indexOfObject:newSection])
 			{
 				RAFTableSection *oldSection = oldSections[[oldSections indexOfObject:newSection]];
 				if (![oldSection.headerTitle isEqualToString:newSection.headerTitle] || ![oldSection.footerTitle isEqualToString:newSection.footerTitle] || ![oldSection.headerView isEqual:newSection.headerView] || ![oldSection.footerView isEqual:newSection.footerView])
@@ -153,7 +154,7 @@
 
 				if (oldIndexPath && ![sectionsToDelete containsIndex:oldIndexPath.section]) {
 					[rowsToMove addObject:RACTuplePack(oldIndexPath, newIndexPath)];
-				} else {
+				} else if (!oldIndexPath) {
 					[rowsToInsert addObject:newIndexPath];
 				}
 			}];
